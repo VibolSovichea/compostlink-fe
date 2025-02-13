@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   return (
-    <Base insideClassName="items-center gap-half">
+    <Base insideClassName="items-center gap-half" hideNavigation={true}>
       <div className="text-title text-black flex flex-col items-center py-double mt-16">
         <div className="text-center">
           Welcome to <span className="font-bold text-primary">compy</span>
