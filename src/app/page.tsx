@@ -4,8 +4,10 @@ import Base from "@/components/shared/base-layout";
 import Image from "next/image";
 import logo from "@/../public/assets/compostlink.png";
 import MButton from "@/components/m-ui/m-button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <Base insideClassName="items-center gap-half">
       <div className="text-title text-black flex flex-col items-center py-double mt-16">
@@ -30,10 +32,12 @@ export default function Home() {
         <MButton
           variant="primary"
           full
+          onClick={() => router.push("/signup")}
         >join compy</MButton>
         <MButton
           variant="secondary"
           full
+          onClick={() => router.push("/signin")}
         >already a comper</MButton>
       </div>
     </Base>
