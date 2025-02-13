@@ -34,14 +34,14 @@ export default function SignUpPage () {
         <MButton
           variant="primary"
           full
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/signin")}
         >
           Sign Up
         </MButton>
       </div>
 
       <div className="text-center mt-4">
-        Already a member? <a href="/signin" className="text-blue-500">Sign In</a>
+        <a href="/signin" className="text-blue-500">Already a member?</a>
       </div>
     </Base>
   );

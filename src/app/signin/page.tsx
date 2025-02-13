@@ -30,14 +30,14 @@ export default function SignInPage() {
         <MButton
           variant="primary"
           full
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/roleselection")}
         >
           Sign In
         </MButton>
       </div>
 
       <div className="text-center mt-4">
-        Not yet a member? <a href="/signup" className="text-blue-500">Sign Up</a>
+        <a href="/signup" className="text-blue-500">Not yet a member?</a>
       </div>
     </Base>
   );
