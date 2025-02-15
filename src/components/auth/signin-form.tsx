@@ -11,89 +11,55 @@ import { Stack } from "@chakra-ui/react";
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters."
-  }).max(50, {
-    message: "Username must be less than 50 characters."
   }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters."
-  }).max(50, {
-    message: "Password must be less than 50 characters."
   }),
-  confirmPassword: z.string().min(8, {
-    message: "Password must be at least 8 characters."
-  })
-}).refine(({ password, confirmPassword }) => password === confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"]
-});
+})
 
 type FormValues = z.infer<typeof formSchema>;
 
-const SignUpForm = () => {
-
+const SignInForm = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
       password: "",
-      confirmPassword: "",
-    },
-  });
+    }
+  })
 
   const {
     register,
     handleSubmit,
-    formState: {
-      errors,
-    },
+    formState: { errors }
   } = form;
 
-  const onSubmit = async (data: FormValues) => {
-    try {
-      if (data.password !== data.confirmPassword) {
-        throw new Error("Passwords do not match");
-      }
-
-      console.log("Form data:", data);
-
-    } catch (error) {
-      console.error("Submission error:", error);
-    }
-  };
-
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+  }
   return (
     <FormProvider {...form}>
       <form className="flex flex-col gap-half" onSubmit={handleSubmit(onSubmit)}>
         <Stack>
+
           <MFormInput
             label="Username / Phone Number / Email"
             placeholder="Username / Phone Number / Email"
-            required
+            required={true}
             {...register("username")}
           />
           {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
         </Stack>
-
+        
         <Stack>
           <MFormInput
             label="Password"
             placeholder="Password"
-            required
             password
+            required={true}
             {...register("password")}
           />
           {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-        </Stack>
-
-        <Stack>
-          <MFormInput
-            label="Confirm Password"
-            placeholder="Confirm Password"
-            required
-            password
-            {...register("confirmPassword")}
-          />
-          {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
         </Stack>
 
         <MButton
@@ -101,11 +67,11 @@ const SignUpForm = () => {
           type="submit"
           full
         >
-          Sign Up
+          Sign In
         </MButton>
       </form>
     </FormProvider>
   )
 }
 
-export default SignUpForm;
+export default SignInForm;
