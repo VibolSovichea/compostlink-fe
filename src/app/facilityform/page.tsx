@@ -13,7 +13,7 @@ export default function FacilityFormPage() {
         <div className="text-center">Compost Facility</div>
       </div>
 
-      <div className="flex flex-col gap-medium w-full max-w-md">
+      <div className="flex flex-col gap-6 w-full max-w-md">
         <input
           type="text"
           placeholder="Name?"
@@ -31,6 +31,8 @@ export default function FacilityFormPage() {
         />
       </div>
 
+      <div className="flex-grow"></div>
+ 
       <div className="flex flex-col gap-medium w-full max-w-md">
         <MButton
           variant="primary"

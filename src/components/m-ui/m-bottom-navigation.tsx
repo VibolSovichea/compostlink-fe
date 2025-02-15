@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { Home, Search, Plus, MessageCircle, User } from "lucide-react";
+import { Home, Award, SendHorizontal, MapPin, User } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
 const MBottomNavigation = () => {
@@ -13,19 +13,19 @@ const MBottomNavigation = () => {
       path: "/",
     },
     {
-      icon: Search,
-      label: "Search",
-      path: "/search",
+      icon: Award,
+      label: "Reward",
+      path: "/reward",
     },
     {
-      icon: Plus,
-      label: "Add",
-      path: "/add",
+      icon: SendHorizontal,
+      label: "Request",
+      path: "/request",
     },
     {
-      icon: MessageCircle,
-      label: "Messages",
-      path: "/messages",
+      icon: MapPin,
+      label: "Location",
+      path: "/location",
     },
     {
       icon: User,
@@ -43,8 +43,9 @@ const MBottomNavigation = () => {
       bg="white"
       borderTop="1px"
       borderColor="gray.200"
+      zIndex={50}
     >
-      <Flex justify="space-around" py={2}>
+      <Flex justify="space-around" py={3}>
         {navigationItems.map((item) => (
           <Flex
             key={item.label}
@@ -53,6 +54,7 @@ const MBottomNavigation = () => {
             onClick={() => router.push(item.path)}
             cursor="pointer"
             color={pathname === item.path ? "primary" : "gray.500"}
+            className="transition-colors duration-200 hover:text-primary"
           >
             <item.icon size={24} />
             <Box fontSize="xs" mt={1}>

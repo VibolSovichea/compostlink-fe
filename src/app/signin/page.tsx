@@ -13,7 +13,7 @@ export default function SignInPage() {
         <div className="text-center">Welcome Back</div>
       </div>
 
-      <div className="flex flex-col gap-medium w-full max-w-md">
+      <div className="flex flex-col gap-6 w-full max-w-md">
         <input
           type="text"
           placeholder="Username / Phone Number / Email"
@@ -26,18 +26,20 @@ export default function SignInPage() {
         />
       </div>
 
-      <div className="flex flex-col gap-medium w-full max-w-md">
-        <MButton
-          variant="primary"
-          full
-          onClick={() => router.push("/roleselection")}
-        >
-          Sign In
-        </MButton>
-      </div>
-
-      <div className="text-center mt-4">
-        <a href="/signup" className="text-blue-500">Not yet a member?</a>
+      <div className="flex-grow"></div>
+      <div className="w-full">
+        <div className="flex flex-col gap-medium w-full max-w-md">
+          <MButton
+            variant="primary"
+            full
+            onClick={() => router.push("/roleselection")}
+          >
+            Sign In
+          </MButton>
+        </div>
+        <div className="text-center mt-4">
+          <a href="/signup" className="text-blue-500">Not yet a member?</a>
+        </div>
       </div>
     </Base>
   );
