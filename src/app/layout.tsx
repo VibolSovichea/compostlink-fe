@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Provider as ChakraProvider } from "@/components/ui/provider";
+import { AuthProvider } from "@/provider/authProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ChakraProvider>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </ChakraProvider>
       </body>
     </html>

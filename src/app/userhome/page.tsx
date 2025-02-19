@@ -2,8 +2,10 @@
 
 import Base from "@/components/shared/base-layout";
 import MButton from "@/components/m-ui/m-button";
+import { useAuth } from "@/provider/authProvider";
 
 export default function UserHomePage() {
+  const { logout } = useAuth();
   return (
     <Base insideClassName="items-center gap-half">
       <div className="text-title text-black flex flex-col items-center py-double mt-16">
@@ -37,6 +39,12 @@ export default function UserHomePage() {
         </MButton>
         <MButton variant="secondary" full onClick={() => alert("Profile")}>
           Profile
+        </MButton>
+        <MButton variant="secondary" full onClick={() => {
+          alert("Logout");
+          logout();
+        }}>
+          Logout
         </MButton>
       </div>
     </Base>

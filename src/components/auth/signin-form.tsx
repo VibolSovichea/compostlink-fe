@@ -3,6 +3,7 @@
 import { z } from "zod"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useAuth } from "@/provider/authProvider";
 
 import MButton from "@/components/m-ui/m-button";
 import MFormInput from "../m-ui/m-input";
@@ -20,6 +21,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const SignInForm = () => {
+  const { login } = useAuth();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,8 +36,28 @@ const SignInForm = () => {
     formState: { errors }
   } = form;
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     console.log(data);
+
+    try{
+      const result = await fetch("http://localhost:5550/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.username,
+          password: data.password,
+        }),
+      })
+
+      const resultData = await result.json();
+      console.log(resultData);
+      login(resultData.token, resultData.role);
+
+    } catch (error) {
+      console.error("Submission error:", error);
+    }
   }
   return (
     <FormProvider {...form}>
