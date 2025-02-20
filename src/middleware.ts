@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const publicRoutes = ['/', '/signin', '/signup'];
+const publicRoutes = ['/', '/signin', '/signup', '/about'];
+const postSignupRoutes = ['/roleselection', '/facilityform', '/congratulations'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -14,19 +15,23 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (publicRoutes.includes(pathname)) {
-    const token = request.cookies.get('token')?.value;
-    const role = request.cookies.get('role')?.value;
+  const token = request.cookies.get('token')?.value;
+  const role = request.cookies.get('role')?.value;
 
-    if (token && role) {
+  if (publicRoutes.includes(pathname)) {
+    if (token && role && role !== 'User') {
       const homePath = role === 'User' ? '/userhome' : '/facilityhome';
       return NextResponse.redirect(new URL(homePath, request.url));
     }
     return NextResponse.next();
   }
 
-  const token = request.cookies.get('token')?.value;
-  const role = request.cookies.get('role')?.value;
+  if (postSignupRoutes.includes(pathname)) {
+    if (!token) {
+      return NextResponse.redirect(new URL('/signin', request.url));
+    }
+    return NextResponse.next();
+  }
 
   if (!token || !role) {
     return NextResponse.redirect(new URL('/', request.url));

@@ -55,13 +55,7 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      if (data.password !== data.confirmPassword) {
-        throw new Error("Passwords do not match");
-      }
-
-      console.log("Form data:", data);
-
-      const result = await fetch("http://localhost:5550/auth/signup", {
+      const response = await fetch("http://localhost:5550/users/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,15 +64,17 @@ const SignUpForm = () => {
           name: data.username,
           email: data.email,
           password: data.password,
-          role: "User",
+          role: "User"
         }),
-      })
+      });
 
-      const resultData = await result.json();
-      console.log(resultData);
-      login(resultData.token, resultData.user);
+      if (!response.ok) {
+        throw new Error('Signup failed');
+      }
 
-      console.log("Registration successful:", result);
+      const resultData = await response.json();
+      login(resultData.token, resultData.user, true);
+
     } catch (error) {
       console.error("Submission error:", error);
     }

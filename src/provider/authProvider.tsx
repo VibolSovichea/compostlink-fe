@@ -18,7 +18,8 @@ interface User {
 interface AuthContextType {
   user: User | null;
   token: string | null;
-  login: (token: string, user: User) => void;
+  login: (token: string, userData: User, isSignUp?: boolean) => void;
+  updateRole: (newRole: UserRole) => void;
   logout: () => void;
   isLoading: boolean;
 }
@@ -31,23 +32,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check both localStorage and cookies
-    const savedToken = localStorage.getItem('token') || Cookies.get('token');
-    const savedUser = localStorage.getItem('user') || Cookies.get('user');
-    
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(typeof savedUser === 'string' ? JSON.parse(savedUser) : savedUser);
+    try {
+      const savedToken = Cookies.get('token');
+      const savedUserStr = Cookies.get('user');
+      
+      if (savedToken && savedUserStr) {
+        setToken(savedToken);
+        setUser(JSON.parse(savedUserStr));
+      }
+    } catch (error) {
+      console.error('Error loading auth state:', error);
+      // Clear potentially corrupted cookies
+      Cookies.remove('token');
+      Cookies.remove('user');
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
-  const login = (newToken: string, userData: User) => {
+  const login = (newToken: string, userData: User, isSignUp: boolean = false) => {
     setToken(newToken);
     setUser(userData);
-    
-    localStorage.setItem('token', newToken);
-    localStorage.setItem('user', JSON.stringify(userData));
     
     Cookies.set('token', newToken, { 
       secure: true,
@@ -59,25 +64,64 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       sameSite: 'strict',
       expires: 7
     });
-    
-    const redirectPath = userData.role === 'User' ? '/userhome' : '/facilityhome';
-    window.location.href = redirectPath;
+
+    // For new signups, go to role selection
+    if (isSignUp) {
+      window.location.href = '/roleselection';
+    } else {
+      // For regular login, go to appropriate home
+      const homePath = userData.role === 'User' ? '/userhome' : '/facilityhome';
+      window.location.href = homePath;
+    }
+  };
+
+  const updateRole = async (newRole: UserRole) => {
+    if (!user?.id || !token) return;
+
+    try {
+      const response = await fetch(`http://localhost:5550/users/${user.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ role: newRole })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update role');
+      }
+
+      const updatedUser = { ...user, role: newRole };
+      setUser(updatedUser);
+      Cookies.set('user', JSON.stringify(updatedUser), {
+        secure: true,
+        sameSite: 'strict',
+        expires: 7
+      });
+
+      // Redirect based on role choice
+      if (newRole === 'Facility') {
+        window.location.href = '/facilityform';
+      } else {
+        window.location.href = '/congratulations';
+      }
+    } catch (error) {
+      console.error('Error updating role:', error);
+      throw error;
+    }
   };
 
   const logout = () => {
     setToken(null);
     setUser(null);
-    
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
     Cookies.remove('token');
     Cookies.remove('user');
-    
-    window.location.href = '/login';
+    window.location.href = '/signin';
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, token, login, updateRole, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
