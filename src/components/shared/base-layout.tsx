@@ -17,23 +17,21 @@ const Base: React.FC<BaseProps> = ({
   hideNavigation = false,
 }) => {
   return (
-    <div>
+    <div
+      className={clsx(
+        { "flex justify-center bg-secondary": isDefault },
+        outsideClassName
+      )}
+    >
       <div
         className={clsx(
-          { "flex justify-center bg-secondary": isDefault },
-          outsideClassName
+          { "flex flex-col w-[430px] bg-secondary px-base py-half shadow-black shadow-lg min-h-screen relative": isDefault },
+          insideClassName
         )}
       >
-        <div
-          className={clsx(
-            { "flex flex-col w-[430px] bg-secondary px-base py-half shadow-black shadow-lg min-h-screen": isDefault },
-            insideClassName
-          )}
-        >
-          {children}
-        </div>
+        {children}
+        {!hideNavigation && <MBottomNavigation />}
       </div>
-      {!hideNavigation && <MBottomNavigation />}
     </div>
   );
 };

@@ -2,13 +2,12 @@
 
 import Base from "@/components/shared/base-layout";
 import MButton from "@/components/m-ui/m-button";
-import { useRouter } from "next/navigation";
+import FacilityForm from "@/components/auth/facility-form";
+import router from "next/router";
 
 export default function FacilityFormPage() {
-  const router = useRouter();
-
   return (
-    <Base insideClassName="items-center gap-half" hideNavigation={true}>
+    <Base insideClassName="gap-base" hideNavigation={true}>
       <div className="text-title text-black flex flex-col items-center py-double mt-16">
         <div className="text-center">Compost Facility</div>
       </div>
@@ -42,6 +41,7 @@ export default function FacilityFormPage() {
           Confirm
         </MButton>
       </div>
+      <FacilityForm />
     </Base>
   );
 }
