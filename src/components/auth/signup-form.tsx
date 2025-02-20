@@ -3,6 +3,7 @@
 import { z } from "zod"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useAuth } from "@/provider/authProvider";
 
 import MButton from "@/components/m-ui/m-button";
 import MFormInput from "../m-ui/m-input";
@@ -13,6 +14,9 @@ const formSchema = z.object({
     message: "Username must be at least 2 characters."
   }).max(50, {
     message: "Username must be less than 50 characters."
+  }),
+  email: z.string().email({
+    message: "Invalid email address."
   }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters."
@@ -30,11 +34,12 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const SignUpForm = () => {
-
+  const { login } = useAuth();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      email: "",
       password: "",
       confirmPassword: "",
     },
@@ -50,11 +55,25 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      if (data.password !== data.confirmPassword) {
-        throw new Error("Passwords do not match");
+      const response = await fetch("http://localhost:5550/users/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.username,
+          email: data.email,
+          password: data.password,
+          role: "User"
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Signup failed');
       }
 
-      console.log("Form data:", data);
+      const resultData = await response.json();
+      login(resultData.token, resultData.user, true);
 
     } catch (error) {
       console.error("Submission error:", error);
@@ -72,6 +91,16 @@ const SignUpForm = () => {
             {...register("username")}
           />
           {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
+        </Stack>
+
+        <Stack>
+          <MFormInput
+            label="Email"
+            placeholder="Email"
+            required
+            {...register("email")}
+          />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
         </Stack>
 
         <Stack>
