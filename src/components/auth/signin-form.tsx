@@ -40,16 +40,21 @@ const SignInForm = () => {
     console.log(data);
 
     try{
-      const result = await fetch("http://localhost:5550/auth/signin", {
+      const result = await fetch("http://localhost:8000/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           email: data.username,
           password: data.password,
         }),
       })
+
+      if (!result.ok) {
+        throw new Error("Failed to sign in");
+      }
 
       const resultData = await result.json();
       console.log(resultData);
