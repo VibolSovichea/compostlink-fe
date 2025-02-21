@@ -4,10 +4,14 @@ import { z } from "zod"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAuth } from "@/provider/authProvider";
+import { useState } from "react";
+import { useToast as useChakraToast } from "@chakra-ui/toast";
 
 import MButton from "@/components/m-ui/m-button";
 import MFormInput from "../m-ui/m-input";
 import { Stack } from "@chakra-ui/react";
+
+// const toast = useChakraToast();
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -22,6 +26,8 @@ type FormValues = z.infer<typeof formSchema>;
 
 const SignInForm = () => {
   const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useChakraToast();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,10 +43,10 @@ const SignInForm = () => {
   } = form;
 
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
-
-    try{
-      const result = await fetch("http://localhost:8000/auth/signin", {
+    setIsLoading(true);
+    
+    try {
+      const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,18 +56,34 @@ const SignInForm = () => {
           email: data.username,
           password: data.password,
         }),
-      })
+      });
 
       if (!result.ok) {
-        throw new Error("Failed to sign in");
+        const errorData = await result.json();
+        throw new Error(errorData.message || "Failed to sign in");
       }
 
       const resultData = await result.json();
-      console.log(resultData);
-      login(resultData.token, resultData.user, false,);
+      login(resultData.token, resultData.user, false);
+      
+      toast({
+        title: "Success",
+        description: "Successfully signed in!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
 
     } catch (error) {
-      console.error("Submission error:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to sign in",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoading(false);
     }
   }
   return (
@@ -93,6 +115,8 @@ const SignInForm = () => {
           variant="primary"
           type="submit"
           full
+          loading={isLoading}
+          disabled={isLoading}
         >
           Sign In
         </MButton>

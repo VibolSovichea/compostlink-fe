@@ -5,6 +5,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAuth } from "@/provider/authProvider";
 import { useState } from "react";
+import { useToast } from "@chakra-ui/toast";
 
 import MButton from "@/components/m-ui/m-button";
 import MFormInput from "../m-ui/m-input";
@@ -35,11 +36,9 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const SignUpForm = () => {
+  const toast = useToast();
   const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -61,10 +60,9 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
-    setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/auth/signup", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,14 +77,31 @@ const SignUpForm = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Signup failed');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Signup failed');
       }
 
       const resultData = await response.json();
       login(resultData.token, resultData.user, true);
+      
+      toast({
+        title: "Success",
+        description: "Successfully signed up!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
 
     } catch (error) {
-      console.error("Submission error:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to sign up",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -139,6 +154,8 @@ const SignUpForm = () => {
           variant="primary"
           type="submit"
           full
+          loading={isLoading}
+          disabled={isLoading}
         >
           Sign Up
         </MButton>
