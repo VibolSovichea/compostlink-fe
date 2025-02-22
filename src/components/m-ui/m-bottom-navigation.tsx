@@ -35,33 +35,26 @@ const MBottomNavigation = () => {
   ];
 
   return (
-    <Box
-      position="fixed"
-      bottom={0}
-      left={0}
-      right={0}
-      bg="white"
-      borderTop="1px"
-      borderColor="gray.200"
+    <div
+      className="fixed sm:absolute bottom-0 left-0 right-0 bg-primary h-14"
     >
-      <Flex justify="space-around" py={2}>
+      <div className="flex items-center h-full">
         {navigationItems.map((item) => (
-          <Flex
-            key={item.label}
-            direction="column"
-            align="center"
-            onClick={() => router.push(item.path)}
-            cursor="pointer"
-            color={pathname === item.path ? "primary" : "gray.500"}
-          >
-            <item.icon size={24} />
-            <Box fontSize="xs" mt={1}>
-              {item.label}
-            </Box>
-          </Flex>
+          <div className="w-full cursor-pointer" key={item.label}>
+            {item.label === "Add" ? (
+              <div className="flex justify-center items-center">
+                <item.icon size={72} className="bg-white rounded-full p-2 mt-[-40px] text-primary shadow-xl"/>
+              </div>
+            ) : (
+              <div className="flex-1 flex flex-col items-center gap-1">
+                <item.icon size={24} />
+                <p className="text-xs">{item.label}</p>
+              </div>
+            )}
+          </div>
         ))}
-      </Flex>
-    </Box>
+      </div>
+    </div>
   );
 };
 
