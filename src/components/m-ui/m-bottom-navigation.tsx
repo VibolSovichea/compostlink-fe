@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { Home, Search, Plus, MessageCircle, User } from "lucide-react";
+import { Home, Award, SendHorizontal, MapPin, User } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
 const MBottomNavigation = () => {
@@ -13,19 +13,19 @@ const MBottomNavigation = () => {
       path: "/",
     },
     {
-      icon: Search,
-      label: "Search",
-      path: "/search",
+      icon: Award,
+      label: "Reward",
+      path: "/reward",
     },
     {
-      icon: Plus,
-      label: "Add",
-      path: "/add",
+      icon: SendHorizontal,
+      label: "Request",
+      path: "/request",
     },
     {
-      icon: MessageCircle,
-      label: "Messages",
-      path: "/messages",
+      icon: MapPin,
+      label: "Location",
+      path: "/location",
     },
     {
       icon: User,
