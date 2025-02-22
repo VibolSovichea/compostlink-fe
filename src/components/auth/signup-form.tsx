@@ -4,11 +4,11 @@ import { z } from "zod"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAuth } from "@/provider/authProvider";
-import { useState } from "react";
 
 import MButton from "@/components/m-ui/m-button";
 import MFormInput from "../m-ui/m-input";
 import { Stack } from "@chakra-ui/react";
+import { BACKEND_URL } from "@/utils/env";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -36,11 +36,6 @@ type FormValues = z.infer<typeof formSchema>;
 
 const SignUpForm = () => {
   const { login } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-
-
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,16 +55,12 @@ const SignUpForm = () => {
   } = form;
 
   const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
-    setError("");
-
     try {
-      const response = await fetch("http://localhost:8000/auth/signup", {
+      const response = await fetch(`${BACKEND_URL}/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify({
           name: data.username,
           email: data.email,
@@ -83,7 +74,7 @@ const SignUpForm = () => {
       }
 
       const resultData = await response.json();
-      login(resultData.token, resultData.user, true);
+      login(resultData?.access_token, resultData.role, true);
 
     } catch (error) {
       console.error("Submission error:", error);

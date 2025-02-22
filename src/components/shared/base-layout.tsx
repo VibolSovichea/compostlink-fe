@@ -19,13 +19,13 @@ const Base: React.FC<BaseProps> = ({
   return (
     <div
       className={clsx(
-        { "flex justify-center bg-secondary": isDefault },
+        { "flex justify-center bg-secondary h-full max-h-screen": isDefault },
         outsideClassName
       )}
     >
       <div
         className={clsx(
-          { "flex flex-col w-[430px] bg-secondary px-base py-half shadow-black shadow-lg min-h-screen relative": isDefault },
+          { "flex flex-col w-full max-w-[430px] bg-secondary px-base py-half shadow-black shadow-lg h-full min-h-screen max-h-screen relative ": isDefault },
           insideClassName
         )}
       >

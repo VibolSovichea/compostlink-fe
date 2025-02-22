@@ -32,12 +32,12 @@ export default function Home() {
         <MButton
           variant="primary"
           full
-          onClick={() => router.push("/signup")}
+          onClick={() => router.push("/auth/signup")}
         >join compy</MButton>
         <MButton
           variant="secondary"
           full
-          onClick={() => router.push("/signin")}
+          onClick={() => router.push("/auth/signin")}
         >already a comper</MButton>
       </div>
     </Base>
