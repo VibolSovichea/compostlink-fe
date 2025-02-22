@@ -18,7 +18,7 @@ export default function SignInPage() {
       <AuthCTA
         title="Not yet a member?"
         label="Sign Up"
-        onClick={() => router.push("/signup")}
+        onClick={() => router.push("/auth/signup")}
       />
     </Base>
   );

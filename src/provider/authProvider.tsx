@@ -1,3 +1,5 @@
+// TODO : redo the whole thing
+
 "use client";
 
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -16,112 +18,70 @@ interface User {
 }
 
 interface AuthContextType {
-  user: User | null;
   token: string | null;
-  login: (token: string, userData: User, isSignUp?: boolean) => void;
-  updateRole: (newRole: UserRole) => void;
+  login: (token: string, userRole: UserRole, isNewUser: boolean) => void;
   logout: () => void;
+  userRole: UserRole | null;
   isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     try {
-      const savedToken = Cookies.get('token');
-      const savedUserStr = Cookies.get('user');
-      
-      if (savedToken && savedUserStr) {
+      const savedUserRole = Cookies.get('user_role');
+      const savedToken = Cookies.get('access_token');
+      if (savedToken) {
         setToken(savedToken);
-        setUser(JSON.parse(savedUserStr));
       }
+
+      if (savedUserRole) {
+        setUserRole(savedUserRole as UserRole);
+      }
+
     } catch (error) {
       console.error('Error loading auth state:', error);
-      // Clear potentially corrupted cookies
-      Cookies.remove('token');
-      Cookies.remove('user');
+      Cookies.remove('access_token');
+      Cookies.remove('user_role');
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [token, isLoading]);
 
-  const login = (newToken: string, userData: User, isSignUp: boolean = false) => {
+  const login = (newToken: string, userRole: UserRole, isNewUser: boolean = false) => {
     setToken(newToken);
-    setUser(userData);
+    setUserRole(userRole);
     
-    Cookies.set('token', newToken, { 
-      secure: true,
-      sameSite: 'strict',
-      expires: 7
-    });
-    Cookies.set('user', JSON.stringify(userData), {
+    Cookies.set('access_token', newToken, { 
       secure: true,
       sameSite: 'strict',
       expires: 7
     });
 
-    // For new signups, go to role selection
-    if (isSignUp) {
-      window.location.href = '/roleselection';
-    } else {
-      // For regular login, go to appropriate home
-      const homePath = userData.role === 'User' ? '/userhome' : '/facilityhome';
-      window.location.href = homePath;
-    }
-  };
+    Cookies.set('user_role', userRole as UserRole, {
+      secure: true,
+      sameSite: 'strict',
+      expires: 7
+    });
 
-  const updateRole = async (newRole: UserRole) => {
-    if (!user?.id || !token) return;
-
-    try {
-      const response = await fetch(`http://localhost:5550/users/${user.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ role: newRole })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update role');
-      }
-
-      const updatedUser = { ...user, role: newRole };
-      setUser(updatedUser);
-      Cookies.set('user', JSON.stringify(updatedUser), {
-        secure: true,
-        sameSite: 'strict',
-        expires: 7
-      });
-
-      // Redirect based on role choice
-      if (newRole === 'Facility') {
-        window.location.href = '/facilityform';
-      } else {
-        window.location.href = '/congratulations';
-      }
-    } catch (error) {
-      console.error('Error updating role:', error);
-      throw error;
-    }
-  };
+    const redirectPath = isNewUser ? '/auth/congratulations' : userRole === 'User' ? '/userhome' : '/facilityhome';
+    window.location.href = redirectPath;
+  };  
 
   const logout = () => {
     setToken(null);
-    setUser(null);
-    Cookies.remove('token');
-    Cookies.remove('user');
-    window.location.href = '/signin';
+    Cookies.remove('access_token');
+    Cookies.remove('user_role');
+    window.location.href = '/';
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, updateRole, logout, isLoading }}>
+    <AuthContext.Provider value={{ token, login, logout, isLoading, userRole }}>
       {children}
     </AuthContext.Provider>
   );
