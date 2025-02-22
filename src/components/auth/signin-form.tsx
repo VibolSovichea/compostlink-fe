@@ -8,6 +8,7 @@ import { useAuth } from "@/provider/authProvider";
 import MButton from "@/components/m-ui/m-button";
 import MFormInput from "../m-ui/m-input";
 import { Stack } from "@chakra-ui/react";
+import { BACKEND_URL } from "@/utils/env";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -40,21 +41,16 @@ const SignInForm = () => {
     console.log(data);
 
     try{
-      const result = await fetch("http://localhost:8000/auth/signin", {
+      const result = await fetch(`${BACKEND_URL}/auth/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify({
           email: data.username,
           password: data.password,
         }),
       })
-
-      if (!result.ok) {
-        throw new Error("Failed to sign in");
-      }
 
       const resultData = await result.json();
       console.log(resultData);
