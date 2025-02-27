@@ -14,6 +14,8 @@ const ProfilePreviewCard = ({ userId }: ProfilePreviewCardProps) => {
   const content = useMemo(() => {
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading profile</div>;
+
+    console.log(error);
     
     return (
       <Card.Root className="w-full bg-white shadow-xl h-32">

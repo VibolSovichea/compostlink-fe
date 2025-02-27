@@ -11,6 +11,8 @@ export default function UserHomePage() {
   const { logout } = useAuth();
   const userId = Cookies.get('user_id');
 
+  console.log(userId);
+
   return (
     <Base insideClassName="flex flex-col gap-6">
       <ProfilePreviewCard userId={userId || ""} />

@@ -58,30 +58,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [token, isLoading]);
 
-  const login = (newToken: string, userRole: User, isNewUser: boolean = false) => {
+  const login = (newToken: string, userData: User, isNewUser: boolean = false) => {
     setToken(newToken);
-    setUserRole(userRole.role);
-    setUserId(userRole.id);
+    setUserRole(userData.role);
+    setUserId(userData.id);
+
+    console.log(userData);
+
     Cookies.set('access_token', newToken, { 
       secure: true,
       sameSite: 'strict',
       expires: 7
     });
 
-    Cookies.set('user_role', userRole.role, {
+    Cookies.set('user_id', userData.id, {
       secure: true,
       sameSite: 'strict',
       expires: 7
     });
 
-    Cookies.set('user_id', userRole.id, {
+    Cookies.set('user_role', userData.role, {
       secure: true,
       sameSite: 'strict',
       expires: 7
     });
 
-    const redirectPath = isNewUser ? '/auth/congratulations' : userRole.role === 'User' ? '/userhome' : '/facilityhome';
-    window.location.href = redirectPath;
+    if(isNewUser) {
+      window.location.href = "/auth/congratulations";
+    }
+    else {
+      if(userData.role === 'User') {
+        window.location.href = "/userhome";
+      } else {
+        window.location.href = "/facilityhome";
+      }
+    }
   };  
 
   const logout = () => {

@@ -26,7 +26,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-
   if (postSignupRoutes.includes(pathname)) {
     if (!token) {
       return NextResponse.redirect(new URL('/', request.url));
@@ -38,12 +37,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  if (pathname.startsWith('/userhome') && role !== 'User') { // this is logic seems wrong
-    return NextResponse.redirect(new URL('/facilityhome', request.url));
+  if (role === 'User' && !pathname.startsWith('/userhome')) {
+    return NextResponse.redirect(new URL('/userhome', request.url));
   }
 
-  if (pathname.startsWith('/facilityhome') && role !== 'Facility') { // this is logic seems wrong
-    return NextResponse.redirect(new URL('/userhome', request.url));
+  if (role === 'Facility' && !pathname.startsWith('/facilityhome')) {
+    return NextResponse.redirect(new URL('/facilityhome', request.url));
   }
 
   return NextResponse.next();

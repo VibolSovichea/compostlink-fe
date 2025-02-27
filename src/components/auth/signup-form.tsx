@@ -74,6 +74,7 @@ const SignUpForm = () => {
       }
 
       const resultData = await response.json();
+      console.log(resultData);
       login(resultData?.access_token, resultData?.user, true);
 
     } catch (error) {
