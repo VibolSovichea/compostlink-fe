@@ -18,6 +18,11 @@ interface User {
 }
 
 interface AuthContextType {
+  user: {
+    name?: string;
+    points?: number;
+    role?: string;
+  } | null;
   token: string | null;
   login: (token: string, userRole: UserRole, isNewUser: boolean) => void;
   logout: () => void;
@@ -31,6 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<AuthContextType['user']>(null);
 
   useEffect(() => {
     try {
@@ -81,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, isLoading, userRole }}>
+    <AuthContext.Provider value={{ token, login, logout, isLoading, userRole, user: null }}>
       {children}
     </AuthContext.Provider>
   );

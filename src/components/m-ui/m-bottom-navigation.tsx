@@ -1,55 +1,40 @@
-import { Box, Flex } from "@chakra-ui/react";
-import { Home, Award, SendHorizontal, MapPin, User } from "lucide-react";
+"use client";
+
 import { useRouter, usePathname } from "next/navigation";
+import { FiHome, FiGift, FiPlus, FiMapPin, FiUser } from "react-icons/fi";
 
 const MBottomNavigation = () => {
   const router = useRouter();
   const pathname = usePathname();
 
   const navigationItems = [
-    {
-      icon: Home,
-      label: "Home",
-      path: "/",
-    },
-    {
-      icon: Award,
-      label: "Reward",
-      path: "/reward",
-    },
-    {
-      icon: SendHorizontal,
-      label: "Request",
-      path: "/request",
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      path: "/location",
-    },
-    {
-      icon: User,
-      label: "Profile",
-      path: "/profile",
-    },
+    { icon: FiHome, label: "Home", path: "/userhome" },
+    { icon: FiGift, label: "Rewards", path: "/reward" },
+    { icon: FiPlus, label: "", path: "/request" },
+    { icon: FiMapPin, label: "Location", path: "/location" },
+    { icon: FiUser, label: "Profile", path: "/profile" },
   ];
 
   return (
-    <div
-      className="fixed sm:absolute bottom-0 left-0 right-0 bg-primary h-14"
-    >
-      <div className="flex items-center h-full">
-        {navigationItems.map((item) => (
-          <div className="w-full cursor-pointer" key={item.label}>
-            {item.label === "Add" ? (
-              <div className="flex justify-center items-center">
-                <item.icon size={72} className="bg-white rounded-full p-2 mt-[-40px] text-primary shadow-xl"/>
+    <div className="fixed bottom-0 left-0 right-0 bg-green-400 py-3 px-6">
+      <div className="flex justify-between items-center text-white">
+        {navigationItems.map((item, index) => (
+          <div
+            key={index}
+            className={`flex flex-col items-center cursor-pointer ${
+              item.icon === FiPlus ? "-mt-8" : ""
+            }`}
+            onClick={() => router.push(item.path)}
+          >
+            {item.icon === FiPlus ? (
+              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center">
+                <item.icon className="text-3xl text-green-400" />
               </div>
             ) : (
-              <div className="flex-1 flex flex-col items-center gap-1">
-                <item.icon size={24} />
-                <p className="text-xs">{item.label}</p>
-              </div>
+              <>
+                <item.icon className="text-2xl" />
+                <span className="text-sm">{item.label}</span>
+              </>
             )}
           </div>
         ))}
