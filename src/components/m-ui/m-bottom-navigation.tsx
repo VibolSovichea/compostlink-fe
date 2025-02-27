@@ -41,9 +41,9 @@ const MBottomNavigation = () => {
       <div className="flex items-center h-full">
         {navigationItems.map((item) => (
           <div className="w-full cursor-pointer" key={item.label}>
-            {item.label === "Add" ? (
+            {item.label === "Request" ? (
               <div className="flex justify-center items-center">
-                <item.icon size={72} className="bg-white rounded-full p-2 mt-[-40px] text-primary shadow-xl"/>
+                <item.icon size={64} className="bg-white rounded-full p-4 mt-[-40px] text-primary shadow-xl"/>
               </div>
             ) : (
               <div className="flex-1 flex flex-col items-center gap-1">
