@@ -74,7 +74,7 @@ const SignUpForm = () => {
       }
 
       const resultData = await response.json();
-      login(resultData?.access_token, resultData.role, true);
+      login(resultData?.access_token, resultData?.user, true);
 
     } catch (error) {
       console.error("Submission error:", error);

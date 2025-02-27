@@ -54,7 +54,7 @@ const SignInForm = () => {
 
       const resultData = await result.json();
       console.log(resultData);
-      login(resultData?.access_token, resultData?.user.role, false);
+      login(resultData?.access_token, resultData?.user, false);
 
     } catch (error) {
       console.error("Submission error:", error);
