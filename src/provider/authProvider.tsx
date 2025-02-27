@@ -4,16 +4,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-
-interface User {
-  id: string;
-  name: string;
-  role: UserRole;
-  email: string;
-  totalPoint: number;
-}
-
-export type UserRole = 'User' | 'Facility';
+import { User, UserRole } from '@/redux/slices/data.types';
 
 interface AuthContextType {
   token: string | null;

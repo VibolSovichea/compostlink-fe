@@ -1,13 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQuery from "../middleware/baseQuery";
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  totalPoint: number;
-  // add other user fields as needed
-}
+import { User } from "./data.types";
 
 const dataSlice = createApi({
   reducerPath: "data",
