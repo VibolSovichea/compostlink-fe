@@ -16,19 +16,15 @@ const MBottomNavigation = () => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-green-400 py-3 px-6">
-      <div className="flex justify-between items-center text-white">
-        {navigationItems.map((item, index) => (
-          <div
-            key={index}
-            className={`flex flex-col items-center cursor-pointer ${
-              item.icon === FiPlus ? "-mt-8" : ""
-            }`}
-            onClick={() => router.push(item.path)}
-          >
-            {item.icon === FiPlus ? (
-              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center">
-                <item.icon className="text-3xl text-green-400" />
+    <div
+      className="fixed sm:absolute bottom-0 left-0 right-0 bg-primary h-14"
+    >
+      <div className="flex items-center h-full">
+        {navigationItems.map((item) => (
+          <div className="w-full cursor-pointer" key={item.label}>
+            {item.label === "Request" ? (
+              <div className="flex justify-center items-center">
+                <item.icon size={64} className="bg-white rounded-full p-4 mt-[-40px] text-primary shadow-xl"/>
               </div>
             ) : (
               <>
