@@ -1,5 +1,3 @@
-// TODO : redo the whole thing
-
 "use client";
 
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -58,29 +56,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [token, isLoading]);
 
-  const login = (newToken: string, userRole: User, isNewUser: boolean = false) => {
+  const login = (newToken: string, userData: User, isNewUser: boolean = false) => {
     setToken(newToken);
-    setUserRole(userRole.role);
-    setUserId(userRole.id);
+    setUserRole(userData.role);
+    setUserId(userData.id);
     Cookies.set('access_token', newToken, { 
       secure: true,
       sameSite: 'strict',
       expires: 7
     });
 
-    Cookies.set('user_role', userRole.role, {
+    Cookies.set('user_role', userData.role, {
       secure: true,
       sameSite: 'strict',
       expires: 7
     });
 
-    Cookies.set('user_id', userRole.id, {
+    Cookies.set('user_id', userData.id, {
       secure: true,
       sameSite: 'strict',
       expires: 7
     });
 
-    const redirectPath = isNewUser ? '/auth/congratulations' : userRole.role === 'User' ? '/userhome' : '/facilityhome';
+    const redirectPath = isNewUser ? "/auth/congratulations" : "/home";
     window.location.href = redirectPath;
   };  
 

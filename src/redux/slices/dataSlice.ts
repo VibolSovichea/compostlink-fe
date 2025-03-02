@@ -1,13 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import baseQuery from "../middleware/baseQuery";
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  totalPoint: number;
-  // add other user fields as needed
-}
+import baseQuery from "@/redux/middleware/baseQuery";
+import { User } from "@/redux/slices/data.types";
 
 const dataSlice = createApi({
   reducerPath: "data",
@@ -20,7 +13,7 @@ const dataSlice = createApi({
         method: "GET",
       }),
       providesTags: ["Profile"],
-    }),
+    })
   }),
 });
 
