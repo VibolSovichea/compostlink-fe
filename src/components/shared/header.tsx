@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const Header = () => {
   return (
-    <div className="flex h-14 bg-inherit justify-between items-center">
-      <p className="text-primary text-sm">Compy</p>
+    <div className="flex h-14 bg-inherit justify-between items-center mx-base">
+      <p className="text-primary text-sm">Back</p>
       <Image
         src={Logo}
         alt=""

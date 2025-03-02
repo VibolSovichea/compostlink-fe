@@ -44,7 +44,7 @@ const WasteDonationForm = () => {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-half">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-base">
 
         <div className="text-center text-primary ">
           <p>Reward Points</p>

@@ -38,8 +38,6 @@ const SignInForm = () => {
   } = form;
 
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
-
     try{
       const result = await fetch(`${BACKEND_URL}/auth/signin`, {
         method: "POST",
@@ -53,16 +51,14 @@ const SignInForm = () => {
       })
 
       const resultData = await result.json();
-      console.log(resultData);
       login(resultData?.access_token, resultData?.user, false);
-
     } catch (error) {
       console.error("Submission error:", error);
     }
   }
   return (
     <FormProvider {...form}>
-      <form className="flex flex-col gap-half" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-base" onSubmit={handleSubmit(onSubmit)}>
         <Stack>
 
           <MFormInput

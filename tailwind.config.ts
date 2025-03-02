@@ -24,12 +24,9 @@ export default {
 				'2xl': '40px',
 				'3xl': '48px',
 
-        "small": "0.5rem",
-				"quarter": "0.75rem",
-        "medium": "1rem",
-				"half": "1.5rem",
-        "large": "2rem",
-				"base": "3rem",
+        "half" : "0.5rem",
+        "base" : "1rem",
+        "large" : "2rem"
 			},
       fontSize: {
         "title" : "36px",

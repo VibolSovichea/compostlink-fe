@@ -74,6 +74,7 @@ const SignUpForm = () => {
       }
 
       const resultData = await response.json();
+      console.log(resultData);
       login(resultData?.access_token, resultData?.user, true);
 
     } catch (error) {
@@ -83,7 +84,7 @@ const SignUpForm = () => {
 
   return (
     <FormProvider {...form}>
-      <form className="flex flex-col gap-half" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-base" onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           <MFormInput
             label="Username / Phone Number / Email"
