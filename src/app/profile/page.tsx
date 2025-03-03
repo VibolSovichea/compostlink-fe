@@ -4,8 +4,26 @@ import Base from "@/components/shared/base-layout";
 import { useAuth } from "@/provider/authProvider";
 import Link from "next/link";
 import { FiChevronRight } from "react-icons/fi";
+import Image from "next/image";
+import Compost from "@/../public/assets/images/compost.png";
+import Logo from "@/../public/assets/compostlink.png";
+import Notification from "@/../public/assets/images/bell.png";
+import { useState, useEffect } from "react";
+
 
 export default function ProfilePage() {
+  const [showBackground, setShowBackground] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackground(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const { user, logout } = useAuth();
 
   const menuItems = [
@@ -24,27 +42,49 @@ export default function ProfilePage() {
   ];
 
   return (
-    <Base>
-      <div className="h-screen overflow-y-auto pb-20">
-        {/* Profile Card */}
-        <div className="bg-white rounded-xl shadow-sm m-4 p-6">
-          <h2 className="text-2xl text-black">Hello, {user?.name || "User"}</h2>
-          <p className="text-xl font-bold my-2 text-black">Your Point: {user?.points || 0}</p>
-          
-          <div className="my-4">
-            {/* Custom Progress Bar */}
-            <div className="relative h-2 bg-gray-200 rounded-full">
-              <div 
-                className="absolute left-0 h-full bg-green-400 rounded-full"
-                style={{ width: '50%' }}
+    <Base insideClassName="items-center gap-half" hideNavigation={false}>
+      {/* Sticky Header */}
+      <div
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          showBackground ? "bg-white shadow-md" : "bg-white"
+        }`}
+      >
+        <div className="flex justify-between items-center px-4 py-2 w-80 mx-auto">
+          <Image src={Logo} alt="Logo" width={70} height={70} />
+          <Image src={Notification} alt="Notification" width={30} height={25} />
+        </div>
+      </div>
+
+      {/* Content Wrapper */}
+      <div className="flex-grow flex flex-col items-center p-4 pt-20"> {/* Adjusted padding */}
+        {/* User Info Card */}
+        <div className="bg-white text-black p-4 rounded-2xl shadow-md w-80 max-w-80">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm">Hello, John</p>
+              <p className="font-bold">Your Point: 0</p>
+            </div>
+            {/* Profile Image */}
+            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
+              <img
+                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" // Replace with actual image URL
+                alt="Profile"
+                className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-right mt-1 text-sm text-black">5/10 Kg</p>
+          </div>
+          <div className="relative mt-2">
+            <div className="w-full bg-gray-300 h-2 rounded-full"></div>
+            <div
+              className="absolute top-0 left-0 bg-green-500 h-2 rounded-full"
+              style={{ width: "50%" }}
+            ></div>
+            <p className="text-xs text-center mt-1">5/10 Kg</p>
           </div>
         </div>
 
-        {/* Menu Items */}
-        <div className="flex flex-col gap-4 p-4">
+        {/* Add margin to reduce gap between user info card and menu items */}
+        <div className="flex flex-col gap-4 p-4 mt-6"> {/* Adjusted margin */}
           {menuItems.map((item, index) => (
             <div key={index}>
               {item.onClick ? (
@@ -57,7 +97,7 @@ export default function ProfilePage() {
                 </button>
               ) : (
                 <Link href={item.href}>
-                  <div className="w-full py-4 flex justify-between items-center border-b border-gray-100">
+                  <div className="w-80 py-4 flex justify-between items-center border-b border-gray-100">
                     <span className="text-lg text-black">{item.title}</span>
                     <FiChevronRight className="w-6 h-6 text-gray-400" />
                   </div>
@@ -68,5 +108,6 @@ export default function ProfilePage() {
         </div>
       </div>
     </Base>
+
   );
 }
