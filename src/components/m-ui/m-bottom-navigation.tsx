@@ -1,5 +1,6 @@
 import { Home, Award, SendHorizontal, MapPin, User } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
+import { FiHome, FiGift, FiPlus, FiMapPin, FiUser } from "react-icons/fi";
 
 const MBottomNavigation = () => {
   const router = useRouter();
