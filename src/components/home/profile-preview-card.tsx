@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@chakra-ui/react"
-import { useProfileQuery, useUpdateProfileNameMutation } from "@/redux/slices/dataSlice";
+import { useProfileQuery } from "@/redux/slices/dataSlice";
 import { useMemo } from "react";
 import { User } from "@/redux/slices/data.types";
 
@@ -11,19 +11,6 @@ interface ProfilePreviewCardProps {
 
 const ProfilePreviewCard = ({ userId }: ProfilePreviewCardProps) => {
   const { data, isLoading, error } = useProfileQuery(userId);
-  const [updateName, {isLoading: isUpdating}] = useUpdateProfileNameMutation();
-
-  // example only
-  const handleUpdateName = async (name: string) => {
-    try {
-      const result = await updateName({
-        id: userId,
-        name: name
-      }).unwrap(); // unwrap is used to get the data from the response
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const content = useMemo(() => {
     if (isLoading) return <div>Loading...</div>;

@@ -54,7 +54,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [token, isLoading]);
 
   const login = (newToken: string, userData: User, isNewUser: boolean = false) => {
-  const login = (newToken: string, userData: User, isNewUser: boolean = false) => {
     setToken(newToken);
     setUserRole(userData.role);
     setUserId(userData.id);

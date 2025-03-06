@@ -9,7 +9,7 @@ interface BaseProps {
   hideNavigation?: boolean;
   outsideClassName?: React.ComponentProps<"div">["className"];
   insideClassName?: React.ComponentProps<"div">["className"];
-  hideHeader?: boolean;
+  header?: boolean;
 }
 
 const getDefaultOuterClasses = () => "flex justify-center bg-slate-300 min-h-screen";
@@ -21,7 +21,7 @@ const Base: React.FC<BaseProps> = ({
   insideClassName,
   Default: isDefault = true,
   hideNavigation = false,
-  hideHeader = false
+  header = false
 }) => {
   const containerClasses = clsx(
     { [getDefaultOuterClasses()]: isDefault },
@@ -36,7 +36,7 @@ const Base: React.FC<BaseProps> = ({
   return (
     <div className={containerClasses}>
       <div className="w-full max-w-[430px] bg-secondary shadow-lg relative h-screen flex flex-col">
-        {hideHeader && <Header/>}
+        {header && <Header/>}
         <div className="flex-1 overflow-y-auto">
           <div className={contentWrapperClasses}>
             {children}

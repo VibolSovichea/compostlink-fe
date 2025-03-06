@@ -31,7 +31,7 @@ export default function CongratulationsPage() {
         <MButton
           variant="primary"
           full
-          onClick={() => router.push("/userhome")}
+          onClick={() => router.push("/home")}
         >
           Home
         </MButton>
