@@ -7,6 +7,13 @@ import { z } from "zod";
 import MFormInput from "../m-ui/m-input";
 import MButton from "../m-ui/m-button";
 import { useMemo } from "react";
+import { useWasteDonationMutation } from "@/redux/slices/dataSlice";
+import toast from "react-hot-toast";
+
+interface WasteDonationFormProps {
+  facilityId: string;
+  generatorId: string;
+}
 
 const formSchema = z.object({
   wasteType: z.string().min(1, {
@@ -17,16 +24,19 @@ const formSchema = z.object({
   }).regex(/^\d+$/, {
     message: "Weight must be a number",
   }),
+  rewardPoints: z.number()
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-const WasteDonationForm = () => {
+const WasteDonationForm = ({facilityId, generatorId}: WasteDonationFormProps) => {
+  const [wasteDonation, {isLoading: isWasteDonationLoading}] = useWasteDonationMutation();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       wasteType: "",
       weight: "",
+      rewardPoints: 0
     }
   })
 
@@ -38,8 +48,35 @@ const WasteDonationForm = () => {
     },
   } = form;
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+  const onSubmit = async (data: FormValues) => {
+    const rewardPoints = Number(data.weight)/10 * 1;
+    await form.setValue("rewardPoints", rewardPoints);
+    
+    const updatedData = {
+      wasteType: data.wasteType,
+      weight: data.weight,
+      rewardPoints: rewardPoints
+    };
+
+    try {
+      const result = await wasteDonation({
+        facilityId: Number(facilityId),
+        userId: Number(generatorId),
+        wasteType: updatedData.wasteType,
+        weight: Number(updatedData.weight),
+        pointsAwarded: updatedData.rewardPoints
+      }).unwrap();
+
+      toast.success("Waste donation successful");
+      window.location.href = "/home";
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+    
+    console.log(updatedData);
+    console.log(facilityId, generatorId);
   };
 
   return (
@@ -48,7 +85,7 @@ const WasteDonationForm = () => {
 
         <div className="text-center text-primary ">
           <p>Reward Points</p>
-          <p className="text-4xl font-bold">{Number(form.watch("weight")) * 1}</p>
+          <p className="text-[500%] font-bold">{Number(form.watch("weight"))/10 * 1}</p>
         </div>
 
         <Stack>
@@ -63,7 +100,7 @@ const WasteDonationForm = () => {
         <Stack>
           <MFormInput
             label="Weight"
-            placeholder="Weight"
+            placeholder="Weight (grams)"
             type="number"
             required
             {...register("weight")}

@@ -1,28 +1,12 @@
-import MButton from "../m-ui/m-button";
-
-// const ScanQRButton = () => {
-
-//   const onClick = () => {
-//     alert("Scan QR");
-//   }
-//   return (
-//     <MButton className="bg-primary h-12 rounded-2xl shadow-lg" onClick={onClick}>
-//         Scan QR
-//     </MButton>
-//   )
-// }
-
-// export default ScanQRButton;
-
+import MButton from "@/components/m-ui/m-button";
 import { useState } from "react";
-import QRScannerComponent from '../../app/scanform/page';
+import QRScannerComponent from "@/app/scanform/page";
 
 const ScanQRButton = () => {
   const [isScanning, setIsScanning] = useState(false);
 
   const handleScanResult = (result: string) => {
-    console.log('QR Code result:', result);
-    // Handle the QR code result here
+    window.location.href = result;
   }
 
   const handleScanError = (error: Error) => {

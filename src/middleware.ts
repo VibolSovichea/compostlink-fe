@@ -32,6 +32,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (pathname.match(/^\/wastedonation\/\d+/)) {
+    if (role !== "Facility") {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+  }
+
   if (!token || !role) {
     return NextResponse.redirect(new URL('/', request.url));
   }

@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQuery from "@/redux/middleware/baseQuery";
-import { User } from "@/redux/slices/data.types";
+import { User, WasteDonation } from "@/redux/slices/data.types";
 
 const dataSlice = createApi({
   reducerPath: "data",
@@ -14,16 +14,13 @@ const dataSlice = createApi({
       }),
       providesTags: ["Profile"],
     }),
-    // example only
-    updateProfileName: builder.mutation<User, { id: string, name: string }>({ // the User is the response type and next to it is the argument type or body type
+    wasteDonation: builder.mutation<any, WasteDonation>({
       query: (body) => ({
-        url: `/users/${body.id}`,
+        url: "/waste-donations",
         method: "POST",
-        body: {
-          name: body.name,
-        }
+        body,
       }),
-      invalidatesTags: ["Profile"],
+      invalidatesTags: ["wasteDonation"],
     })
   }),
 });
@@ -33,6 +30,5 @@ export default dataSlice;
 export const {
   useProfileQuery,
   useLazyProfileQuery,
-  
-  useUpdateProfileNameMutation,
+  useWasteDonationMutation,
 } = dataSlice;
