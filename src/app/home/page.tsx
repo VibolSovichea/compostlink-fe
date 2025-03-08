@@ -1,13 +1,19 @@
 "use client";
 
 import Base from "@/components/shared/base-layout";
+import { useAuth } from "@/provider/authProvider";
+import UserHomePage from "@/components/home/user/user-home-page";
+import FacilityHomePage from "@/components/home/facility/facility-home-page";
 
 export default function HomePage() {
+  const { userRole } = useAuth();
   return (
-    <Base insideClassName="items-center gap-half" hideNavigation={true}>
-      <div className="text-title text-black flex flex-col items-center py-double mt-16">
-        <div className="text-center">Welcome to CompostLink</div>
-      </div>
+    <Base  hideNavigation={userRole === "User" ? false : true}>
+      {userRole === "User" ? (
+        <UserHomePage />
+      ) : (
+        <FacilityHomePage />
+      )}
     </Base>
   );
 }

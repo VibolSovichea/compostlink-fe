@@ -43,7 +43,7 @@ const FacilityForm = () => {
 
   return (
     <FormProvider {...form}>
-      <form className="flex flex-col gap-half" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-base" onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           <MFormInput
             label="Name"

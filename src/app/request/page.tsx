@@ -49,6 +49,7 @@ export default function RewardPage() {
   ];
 
   return (
+<<<<<<< HEAD
     <Base insideClassName="items-center min-h-screen overflow-y-auto" hideNavigation={false}>
         {/* Sticky Header */}
         <div
@@ -124,6 +125,12 @@ export default function RewardPage() {
         </div>
         {/* Bottom Navigation */}
         <MBottomNavigation />
+=======
+    <Base insideClassName="items-center gap-base" hideNavigation={true}>
+      <div className="text-title text-black flex flex-col items-center py-double mt-16">
+        <div className="text-center">Request</div>
+      </div>
+>>>>>>> origin/feat/authToHome
     </Base>
   );
 }

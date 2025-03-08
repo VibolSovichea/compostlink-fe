@@ -36,7 +36,6 @@ export default function ProfilePage() {
       href: "#",
       onClick: () => {
         logout();
-        window.location.href = "/auth/signin";
       }
     },
   ];

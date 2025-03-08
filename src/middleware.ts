@@ -20,12 +20,10 @@ export function middleware(request: NextRequest) {
 
   if (publicRoutes.includes(pathname)) {
     if (token && role) {
-      const homePath = role === 'User' ? '/userhome' : '/facilityhome';
-      return NextResponse.redirect(new URL(homePath, request.url));
+      return NextResponse.redirect(new URL('/home', request.url));
     }
     return NextResponse.next();
   }
-
 
   if (postSignupRoutes.includes(pathname)) {
     if (!token) {
@@ -34,16 +32,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (pathname.match(/^\/wastedonation\/\d+/)) {
+    if (role !== "Facility") {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+  }
+
   if (!token || !role) {
     return NextResponse.redirect(new URL('/', request.url));
-  }
-
-  if (pathname.startsWith('/userhome') && role !== 'User') { // this is logic seems wrong
-    return NextResponse.redirect(new URL('/facilityhome', request.url));
-  }
-
-  if (pathname.startsWith('/facilityhome') && role !== 'Facility') { // this is logic seems wrong
-    return NextResponse.redirect(new URL('/userhome', request.url));
   }
 
   return NextResponse.next();

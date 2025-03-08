@@ -10,15 +10,20 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   return (
+<<<<<<< HEAD
     <Base insideClassName="items-center gap-half" font-lato hideNavigation={true}>
       <div className="text-title text-black flex flex-col items-center py-double mt-16">
+=======
+    <Base hideNavigation={true}>
+      <div className="text-title text-black flex flex-col items-center mt-16">
+>>>>>>> origin/feat/authToHome
         <div className="text-center">
           Welcome to <span className="font-bold text-primary">compy</span>
         </div>
         <p className="text-body text-black">Connecting Compost to the Future</p>
       </div>
 
-      <div className="flex-1 flex items-center">
+      <div className="flex items-center justify-center mt-20">
         <Image
           src={logo}
           alt="CompostLink Logo"
@@ -29,7 +34,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="flex flex-col gap-medium w-full">
+      <div className="flex flex-col gap-base w-full absolute bottom-base right-0 left-0 px-base">
         <MButton
           variant="primary"
           full
