@@ -26,8 +26,9 @@ const ScanQRButton = () => {
   return (
     <>
       <MButton
+        variant="primary"
         onClick={() => setIsScanning(true)}
-        className="bg-green-500 text-white px-4 py-2 rounded-lg"
+        className="text-white"
       >
         Scan QR Code
       </MButton>

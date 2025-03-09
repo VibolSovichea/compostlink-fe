@@ -1,40 +1,42 @@
 "use client";
 
+import Image from "next/image";
+import Logo from "@/../public/assets/compostlink.png";
 import { Card } from "@chakra-ui/react"
-import { useProfileQuery } from "@/redux/slices/dataSlice";
-import { useMemo } from "react";
-import { User } from "@/redux/slices/data.types";
+import clsx from "clsx";
 
 interface ProfilePreviewCardProps {
-  userId: User["id"];
+  points: number;
+  sticky?: boolean;
+  variant?: "user" | "facility";
 }
 
-const ProfilePreviewCard = ({ userId }: ProfilePreviewCardProps) => {
-  const { data, isLoading, error } = useProfileQuery(userId);
+const ProfilePreviewCard = ({ points, sticky = false, variant = "user" }: ProfilePreviewCardProps) => {
 
-  const content = useMemo(() => {
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading profile</div>;
-
-    console.log(error);
-    
-    return (
-      <Card.Root className="w-full bg-white shadow-xl h-32">
-        <Card.Body className="flex flex-col gap-6">
-          <div className="flex">
-            <div className="flex flex-col flex-1">
-              <div className="text-md text-black capitalize">{`Hello ${data?.name}`}</div>
-              <div className="text-black font-bold">{`Your total points : ${data?.totalPoint}`}</div>
-            </div>
-            <div className="bg-primary rounded-full w-12 h-12"></div>
+  return (
+    <Card.Root className={clsx("w-full bg-primary shadow-xl h-32", { "sticky top-0": sticky })}>
+      <Card.Body className="flex flex-col gap-6 py-base">
+        <div className="flex">
+          <div className="flex flex-1 flex-col gap-2">
+            <div className="text-sm text-black capitalize">Main balance</div>
+            <div className="text-secondary font-bold text-2xl">{`${points} pts`}</div>
+            {variant === "user" ? (
+              <div className="text-xs text-black">use these points to redeem rewards</div>
+            ) : (
+              <div className="text-xs text-black">rewards points to our generators</div>
+            )}
           </div>
-          <div className="w-full h-4 bg-primary rounded-full flex justify-center items-center text-xs">progress bar</div>
-        </Card.Body>
-      </Card.Root>
-    );
-  }, [data, isLoading, error]);
-
-  return content;
+          <Image
+            src={Logo}
+            alt=""
+            width={100}
+            height={100}
+            className="size-20"
+          />
+        </div>
+      </Card.Body>
+    </Card.Root>
+  );
 }
 
 export default ProfilePreviewCard;

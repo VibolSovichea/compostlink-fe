@@ -1,29 +1,21 @@
-import Cookies from "js-cookie";
-import toast from "react-hot-toast";
-
-import MButton from "@/components/m-ui/m-button";
-import { useAuth } from "@/provider/authProvider";
 import ProfilePreviewCard from "@/components/home/profile-preview-card";
 import NewsCard from "@/components/home/news-card";
+import { User } from "@/redux/slices/data.types";
 
-const UserHomePage = () => {
-  const { logout } = useAuth();
-  const userId = Cookies.get('user_id');
+interface UserHomePageProps {
+  userData: User
+}
 
-  console.log(userId);
+const UserHomePage = ({ userData }: UserHomePageProps) => {
 
   return (
     <>
-      <ProfilePreviewCard userId={userId || ""} />
+      <ProfilePreviewCard points={userData.totalPoint} />
       <NewsCard />
-      <MButton variant="secondary" full onClick={() => {
-        toast.success("Logout successful");
-        setTimeout(() => {
-          logout();
-        }, 2500);
-      }}>
-        Logout
-      </MButton>
+      <NewsCard />
+      <NewsCard />
+      <NewsCard />
+      <NewsCard />
     </>
   )
 }

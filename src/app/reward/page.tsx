@@ -4,6 +4,8 @@ import ProfilePreviewCard from "@/components/home/profile-preview-card";
 import Base from "@/components/shared/base-layout";
 import Cookies from "js-cookie";
 import CategorySlider from "@/components/shared/category-slider";
+import { useProfileQuery } from "@/redux/slices/dataSlice";
+import { useEffect, useState } from "react";
 
 interface RewardContentProps {
   data: any
@@ -30,7 +32,31 @@ const mockData = [
     name: "Reward 4",
     description: "Reward 4 description",
   },
-
+  {
+    id: 5,
+    name: "Reward 5",
+    description: "Reward 5 description",
+  },
+  {
+    id: 6,
+    name: "Reward 6",
+    description: "Reward 6 description",
+  },
+  {
+    id: 7,
+    name: "Reward 7",
+    description: "Reward 7 description",
+  },
+  {
+    id: 8,
+    name: "Reward 8",
+    description: "Reward 8 description",
+  },
+  {
+    id: 9,
+    name: "Reward 9",
+    description: "Reward 9 description",
+  },
 ]
 
 const RewardContent = ({ data }: RewardContentProps) => {
@@ -48,11 +74,19 @@ const RewardContent = ({ data }: RewardContentProps) => {
 
 const RewardPage = () => {
   const userId = Cookies.get('user_id');
+  const { data } = useProfileQuery(userId || "");
+  const [points, setPoints] = useState(0);
+
+  useEffect(() => {
+    data && setPoints(data.totalPoint);
+  }, [data]);
 
   return (
-    <Base insideClassName="flex flex-col gap-base">
-      <ProfilePreviewCard userId={userId || ""} />
-      <CategorySlider categories={["All", "Food", "Entertainment", "Travel", "Other"]} />
+    <Base insideClassName="gap-0">
+      <div className="flex flex-col gap-base sticky top-base bg-secondary z-10 pb-base">
+        <ProfilePreviewCard points={points} />
+        <CategorySlider categories={["All", "Food", "Entertainment", "Travel", "Other"]} />
+      </div>
       <RewardContent data={mockData} />
     </Base>
   )

@@ -53,11 +53,11 @@ const MFormInput = React.forwardRef<HTMLInputElement, MFormInputProp>((props, re
             />
             {
               showPassword ? (
-                <div className="absolute top-[36px] right-2 text-gray-500" onClick={() => setShowPassword(!showPassword)}>
+                <div className="absolute top-[36px] right-2 text-black" onClick={() => setShowPassword(!showPassword)}>
                   <Eye size={20} />
                 </div>
               ) : (
-                <div className="absolute top-[36px] right-2 text-gray-500" onClick={() => setShowPassword(!showPassword)}>
+                <div className="absolute top-[36px] right-2 text-black" onClick={() => setShowPassword(!showPassword)}>
                   <EyeOff size={20} />
                 </div>
               )
@@ -77,7 +77,7 @@ const MFormInput = React.forwardRef<HTMLInputElement, MFormInputProp>((props, re
       }
       {
         helperText && (
-          <Field.HelperText className="text-sm text-gray-500">{helperText}</Field.HelperText>
+          <Field.HelperText className="text-sm text-black">{helperText}</Field.HelperText>
         )
       }
     </Field.Root>
