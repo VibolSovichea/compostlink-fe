@@ -48,16 +48,16 @@ const MFormInput = React.forwardRef<HTMLInputElement, MFormInputProp>((props, re
               ref={ref}
               placeholder={placeholder}
               type={showPassword ? "text" : "password"}
-              className={clsx("border-2 border-gray-300 rounded-md p-2 bg-white text-black active:bg-white", className)}
+              className={clsx("rounded-md p-2 bg-background text-black active:bg-white h-12", className)}
               onChange={onChange}
             />
             {
               showPassword ? (
-                <div className="absolute top-[36px] right-2 text-black" onClick={() => setShowPassword(!showPassword)}>
+                <div className="absolute top-[40px] right-2 text-black" onClick={() => setShowPassword(!showPassword)}>
                   <Eye size={20} />
                 </div>
               ) : (
-                <div className="absolute top-[36px] right-2 text-black" onClick={() => setShowPassword(!showPassword)}>
+                <div className="absolute top-[40px] right-2 text-black" onClick={() => setShowPassword(!showPassword)}>
                   <EyeOff size={20} />
                 </div>
               )
@@ -70,7 +70,7 @@ const MFormInput = React.forwardRef<HTMLInputElement, MFormInputProp>((props, re
             ref={ref}
             placeholder={placeholder}
             type={type}
-            className={clsx("border-2 border-gray-300 rounded-md p-2 bg-white text-black active:bg-white", className)}
+            className={clsx("rounded-md p-2 bg-background text-black active:bg-white h-12", className)}
             onChange={onChange}
           />
         )

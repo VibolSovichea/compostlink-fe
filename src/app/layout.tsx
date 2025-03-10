@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "CompostLink",
   description: "Save the planet, compost your food waste",
+  icons: {
+    icon: "/assets/favicon.ico",
+  }
 };
 
 export default function RootLayout({

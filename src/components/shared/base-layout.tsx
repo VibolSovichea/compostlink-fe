@@ -19,7 +19,7 @@ interface BaseProps {
 }
 
 const getDefaultOuterClasses = () => "flex justify-center bg-slate-300 min-h-screen";
-const getDefaultInnerClasses = () => "flex flex-col w-full p-base gap-base pb-16 bg-secondary";
+const getDefaultInnerClasses = () => "flex flex-col w-full px-base gap-base pb-16 bg-secondary";
 
 const Base: React.FC<BaseProps> = ({
   children,
