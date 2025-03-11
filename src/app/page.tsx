@@ -6,17 +6,11 @@ import logo from "@/../public/assets/compostlink.png";
 import MButton from "@/components/m-ui/m-button";
 import { useRouter } from "next/navigation";
 
-
 export default function Home() {
   const router = useRouter();
   return (
-<<<<<<< HEAD
-    <Base insideClassName="items-center gap-half" font-lato hideNavigation={true}>
-      <div className="text-title text-black flex flex-col items-center py-double mt-16">
-=======
     <Base hideNavigation={true}>
       <div className="text-title text-black flex flex-col items-center mt-16">
->>>>>>> origin/feat/authToHome
         <div className="text-center">
           Welcome to <span className="font-bold text-primary">compy</span>
         </div>
@@ -39,13 +33,17 @@ export default function Home() {
           variant="primary"
           full
           onClick={() => router.push("/auth/signup")}
-        >join compy</MButton>
+        >
+          join compy
+        </MButton>
         <MButton
           variant="secondary"
           full
           onClick={() => router.push("/auth/signin")}
-        >already a comper</MButton>
+        >
+          already a comper
+        </MButton>
       </div>
     </Base>
-  )
+  );
 }
