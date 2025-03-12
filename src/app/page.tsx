@@ -33,13 +33,17 @@ export default function Home() {
           variant="primary"
           full
           onClick={() => router.push("/auth/signup")}
-        >join compy</MButton>
+        >
+          join compy
+        </MButton>
         <MButton
           variant="secondary"
           full
           onClick={() => router.push("/auth/signin")}
-        >already a comper</MButton>
+        >
+          already a comper
+        </MButton>
       </div>
     </Base>
-  )
+  );
 }

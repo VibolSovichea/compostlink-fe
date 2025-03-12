@@ -8,7 +8,7 @@ import { useProfileQuery } from "@/redux/slices/dataSlice";
 import { useEffect, useState } from "react";
 
 interface RewardContentProps {
-  data: any
+  data: any;
 }
 
 const mockData = [
@@ -63,14 +63,17 @@ const RewardContent = ({ data }: RewardContentProps) => {
   return (
     <div className="flex flex-col gap-base">
       {data.map((item: any) => (
-        <div key={item.id} className="bg-primary rounded-lg p-4 flex flex-col gap-2">
+        <div
+          key={item.id}
+          className="bg-primary rounded-lg p-4 flex flex-col gap-2"
+        >
           <h1>{item.name}</h1>
           <p>{item.description}</p>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
 const RewardPage = () => {
   const userId = Cookies.get('user_id');
@@ -89,7 +92,7 @@ const RewardPage = () => {
       </div>
       <RewardContent data={mockData} />
     </Base>
-  )
-}
+  );
+};
 
 export default RewardPage;

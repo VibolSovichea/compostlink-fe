@@ -1,42 +1,21 @@
 import { Home, Award, SendHorizontal, MapPin, User } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { FiHome, FiGift, FiPlus, FiMapPin, FiUser } from "react-icons/fi";
+import { useState } from "react";
 
 const MBottomNavigation = () => {
   const router = useRouter();
   const pathname = usePathname();
 
+  // State to keep track of the active icon
+  const [activePath, setActivePath] = useState(pathname);
+
   const navigationItems = [
-    {
-      icon: Home,
-      isActive: pathname === "/home",
-      label: "Home",
-      path: "/home",
-    },
-    {
-      icon: Award,
-      isActive: pathname === "/reward",
-      label: "Reward",
-      path: "/reward",
-    },
-    {
-      icon: SendHorizontal,
-      isActive: pathname === "/request",
-      label: "Request",
-      path: "/request",
-    },
-    {
-      icon: MapPin,
-      isActive: pathname === "/location",
-      label: "Location",
-      path: "/location",
-    },
-    {
-      icon: User,
-      isActive: pathname === "/profile",
-      label: "Profile",
-      path: "/profile",
-    },
+    { icon: Home, label: "Home", path: "/home" },
+    { icon: Award, label: "Reward", path: "/reward" },
+    { icon: SendHorizontal, label: "Request", path: "/request" },
+    { icon: MapPin, label: "Location", path: "/location" },
+    { icon: User, label: "Profile", path: "/profile" },
   ];
 
   return (
@@ -46,9 +25,9 @@ const MBottomNavigation = () => {
       <div className="flex items-center h-full">
         {navigationItems.map((item) => (
           <div 
-          className="w-full cursor-pointer" 
-          key={item.label}
-          onClick={() => router.push(item.path)}
+            className="w-full cursor-pointer" 
+            key={item.label}
+            onClick={() => router.push(item.path)}
           >
             {item.label === "Request" ? (
               <div className="flex justify-center items-center">
@@ -56,7 +35,7 @@ const MBottomNavigation = () => {
               </div>
             ) : (
               <div className="flex-1 flex flex-col items-center gap-1">
-                <item.icon size={24} className={`${item.isActive ? "fill-white text-transparent" : "text-white"}`}/>
+                <item.icon size={24} className="text-white"/>
                 <p className="text-xs">{item.label}</p>
               </div>
             )}

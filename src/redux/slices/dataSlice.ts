@@ -1,11 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQuery from "@/redux/middleware/baseQuery";
-import { User, WasteDonation } from "@/redux/slices/data.types";
+import { Location, User, WasteDonation } from "@/redux/slices/data.types";
 
 const dataSlice = createApi({
   reducerPath: "data",
   baseQuery: baseQuery,
-  tagTypes: ["Profile", "wasteDonation"],
+  tagTypes: ["Profile", "wasteDonation", "dropOffLocation"],
   endpoints: (builder) => ({
     profile: builder.query<User, string>({
       query: (id) => ({
@@ -21,7 +21,14 @@ const dataSlice = createApi({
         body,
       }),
       invalidatesTags: ["wasteDonation"],
-    })
+    }),
+    dropOffLocation: builder.query<Location[], void>({
+      query: () => ({
+        url: `/drop-off-locations`,
+        method: "GET",
+      }),
+      providesTags: ["dropOffLocation"],
+    }),
   }),
 });
 
@@ -31,4 +38,5 @@ export const {
   useProfileQuery,
   useLazyProfileQuery,
   useWasteDonationMutation,
+  useDropOffLocationQuery,
 } = dataSlice;
