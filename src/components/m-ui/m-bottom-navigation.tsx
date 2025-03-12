@@ -11,7 +11,7 @@ const MBottomNavigation = () => {
   const [activePath, setActivePath] = useState(pathname);
 
   const navigationItems = [
-    { icon: Home, label: "Home", path: "/home" },
+    { icon: Home, label: "Home", path: "/userhome" },
     { icon: Award, label: "Reward", path: "/reward" },
     { icon: SendHorizontal, label: "Request", path: "/request" },
     { icon: MapPin, label: "Location", path: "/location" },

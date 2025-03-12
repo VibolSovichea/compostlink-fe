@@ -66,7 +66,7 @@ export default function ProfilePage() {
             {/* Profile Image */}
             <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
               <img
-                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" // Replace with actual image URL
+                src="https://w0.peakpx.com/wallpaper/109/769/HD-wallpaper-anime-profile-monkey-d-luffy-luffy-portrait-thumbnail.jpg" // Replace with actual image URL
                 alt="Profile"
                 className="w-full h-full object-cover"
               />

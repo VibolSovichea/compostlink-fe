@@ -7,6 +7,8 @@ import Image from "next/image";
 import Logo from "@/../public/assets/compostlink.png";
 import Compost from "@/../public/assets/images/compost.png";
 import Notification from "@/../public/assets/images/bell.png";
+import { FaArrowRight } from "react-icons/fa";
+import router from "next/router";
 import { useAuth } from "@/provider/authProvider";
 
 export default function UserHomePage() {
@@ -62,7 +64,7 @@ export default function UserHomePage() {
             {/* Profile Image */}
             <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
               <img
-                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                src="https://w0.peakpx.com/wallpaper/109/769/HD-wallpaper-anime-profile-monkey-d-luffy-luffy-portrait-thumbnail.jpg"
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
@@ -83,14 +85,15 @@ export default function UserHomePage() {
           <MButton
             variant="primary"
             full
-            onClick={() => alert("Scan QR To Get Point")}
-            className="flex items-center justify-between px-6 py-4 rounded-full bg-green-400 text-white"
+            onClick={() => router.push("/qrcode")}
+            className="flex items-center justify-between px-6 py-4 rounded-xl bg-green-500 text-white shadow-lg"
           >
-            <span className="text-lg">Scan QR To Get Point</span>
-            {/* <span className="text-xl">➡️</span> */}
+            <span className="text-lg font-medium">Open QR Code </span>
+            <span className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+              < FaArrowRight className="text-green-500 w-5 h-5" />
+            </span>
           </MButton>
         </div>
-
         {/* News Section */}
         <div className="px-1 mt-6 w-80">
           <h2 className="text-xl font-semibold mb-4 text-black">News</h2>
