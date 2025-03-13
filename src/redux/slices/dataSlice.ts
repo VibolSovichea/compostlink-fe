@@ -29,6 +29,15 @@ const dataSlice = createApi({
       }),
       providesTags: ["dropOffLocation"],
     }),
+
+    registerLocation: builder.mutation<any, Location>({
+      query: (body) => ({
+        url: "/drop-off-locations",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["dropOffLocation"],
+    }),
   }),
 });
 
@@ -39,4 +48,5 @@ export const {
   useLazyProfileQuery,
   useWasteDonationMutation,
   useDropOffLocationQuery,
+  useRegisterLocationMutation,
 } = dataSlice;
