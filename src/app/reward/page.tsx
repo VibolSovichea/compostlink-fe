@@ -5,70 +5,39 @@ import Base from "@/components/shared/base-layout";
 import Cookies from "js-cookie";
 import CategorySlider from "@/components/shared/category-slider";
 import { useProfileQuery } from "@/redux/slices/dataSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import MButton from "@/components/m-ui/m-button";
+import { useRouter } from "next/navigation";
+import { rewardData } from "@/utils/mockData";
+import RewardModal from "@/components/reward/reward-modal";
 
 interface RewardContentProps {
   data: any;
+  onRedeem: (id: number) => void;
 }
 
-const mockData = [
-  {
-    id: 1,
-    name: "Reward 1",
-    description: "Reward 1 description",
-  },
-  {
-    id: 2,
-    name: "Reward 2",
-    description: "Reward 2 description",
-  },
-  {
-    id: 3,
-    name: "Reward 3",
-    description: "Reward 3 description",
-  },
-  {
-    id: 4,
-    name: "Reward 4",
-    description: "Reward 4 description",
-  },
-  {
-    id: 5,
-    name: "Reward 5",
-    description: "Reward 5 description",
-  },
-  {
-    id: 6,
-    name: "Reward 6",
-    description: "Reward 6 description",
-  },
-  {
-    id: 7,
-    name: "Reward 7",
-    description: "Reward 7 description",
-  },
-  {
-    id: 8,
-    name: "Reward 8",
-    description: "Reward 8 description",
-  },
-  {
-    id: 9,
-    name: "Reward 9",
-    description: "Reward 9 description",
-  },
-]
+const RewardContent = ({ data, onRedeem }: RewardContentProps) => {
+  const router = useRouter();
 
-const RewardContent = ({ data }: RewardContentProps) => {
   return (
     <div className="flex flex-col gap-base">
       {data.map((item: any) => (
-        <div
-          key={item.id}
-          className="bg-primary rounded-lg p-4 flex flex-col gap-2"
-        >
-          <h1>{item.name}</h1>
-          <p>{item.description}</p>
+        <div key={item.id} className="rounded-lg p-base w-full h-24 flex gap-base shadow-lg border border-gray-100 items-center">
+          <div className="aspect-square size-16">
+            <div className="bg-primary size-full rounded-lg"></div>
+          </div>
+          <div className="flex flex-col gap-1 flex-1">
+            <p className="text-md font-bold text-black">{item.name}</p>
+            <p className="text-sm font-bold text-primary">{item.points} points</p>
+          </div>
+
+          <MButton
+            variant="primary"
+            className="text-sm w-20 text-white font-normal h-10"
+            onClick={() => onRedeem(item.id)}
+          >
+            Redeem
+          </MButton>
         </div>
       ))}
     </div>
@@ -79,20 +48,45 @@ const RewardPage = () => {
   const userId = Cookies.get('user_id');
   const { data } = useProfileQuery(userId || "");
   const [points, setPoints] = useState(0);
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const [selectedReward, setSelectedReward] = useState<number>(0);
 
   useEffect(() => {
     data && setPoints(data.totalPoint);
   }, [data]);
 
-  return (
-    <Base insideClassName="gap-0">
-      <div className="flex flex-col gap-base sticky top-base bg-secondary z-10 pb-base">
-        <ProfilePreviewCard points={points} />
-        <CategorySlider categories={["All", "Food", "Entertainment", "Travel", "Other"]} />
-      </div>
-      <RewardContent data={mockData} />
-    </Base>
-  );
-};
+  const handleRedeem = (id: number) => {
+    console.log(id);
+    setOpen(true);
+    setSelectedReward(id);
+  }
+
+  const handleSuccess = () => {
+    router.push(`/reward/${selectedReward}`);
+    setOpen(false);
+  }
+
+  return useMemo(() => (
+    points ? (
+      <Base insideClassName="gap">
+        <div className="flex flex-col gap-base sticky top-0 bg-transparent z-10 pt-base">
+          <ProfilePreviewCard points={points} />
+          <CategorySlider categories={["All", "Food", "Entertainment", "Travel", "Other"]} />
+        </div>
+        <RewardContent data={rewardData} onRedeem={handleRedeem} />
+        <RewardModal
+          rewardId={selectedReward}
+          open={open}
+          onOpenChange={setOpen}
+          onSuccess={handleSuccess} />
+      </Base>
+    ) : (
+      <Base>
+        <div></div>
+      </Base>
+    )
+  ), [points, open])
+}
 
 export default RewardPage;

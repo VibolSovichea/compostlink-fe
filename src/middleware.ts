@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 
 const publicRoutes = ['/', '/auth/signin', '/auth/signup'];
 const postSignupRoutes = ['/auth/congratulations'];
+const facilityRoutes = ['/location/register'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -35,6 +36,12 @@ export function middleware(request: NextRequest) {
   if (pathname.match(/^\/wastedonation\/\d+/)) {
     if (role !== "Facility") {
       return NextResponse.redirect(new URL('/', request.url));
+    }
+  }
+
+  if (facilityRoutes.includes(pathname)) {
+    if (role !== "Facility") {
+      return NextResponse.redirect(new URL('/location', request.url));
     }
   }
 

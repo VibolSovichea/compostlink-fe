@@ -84,7 +84,7 @@ const SignUpForm = () => {
 
   return (
     <FormProvider {...form}>
-      <form className="flex flex-col gap-base" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-base p-base" onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           <MFormInput
             label="Username / Phone Number / Email"
