@@ -107,7 +107,7 @@ const WasteDonationForm = ({facilityId, generatorId}: WasteDonationFormProps) =>
           />
         </Stack>
 
-        <MButton variant="primary" type="submit" className="w-full">
+        <MButton variant="primary" type="submit" className="w-full" >
           Confirm
         </MButton>
       </form>

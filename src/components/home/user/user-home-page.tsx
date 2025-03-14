@@ -20,7 +20,7 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
         className="text-white mt-4"
         onClick={() => setOpen(true)}
       >
-        Redeem Reward
+        Share your QR
       </MButton>
       <NewsCard />
       <NewsCard />

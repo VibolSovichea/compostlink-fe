@@ -20,6 +20,8 @@ const FacilityHomePage = ({ userData }: FacilityHomePageProps) => {
       <NewsCard />
       <div className="flex flex-col gap-base absolute bottom-base right-0 left-0 px-base">
         <ScanQRButton />
+        <MButton variant="primary" full onClick={() => { window.location.href = "http://localhost:4000/location/register";}}>Add Drop-off Location</MButton>
+
         <MButton
           variant="secondary"
           full

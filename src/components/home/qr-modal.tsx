@@ -30,7 +30,7 @@ const QrModal = ({ open, onOpenChange, userId }: QrModalProp) => {
           </DrawerHeader>
 
           <DrawerBody className="p-0 h-screen">
-            <QRGenerator data={`http://localhost:4000/wastedonation?userId=${userId}`} />
+            <QRGenerator data={`http://localhost:4000/wastedonation/${userId}`} />
           </DrawerBody>
 
           <DrawerFooter className="px-0 mt-base">

@@ -68,7 +68,7 @@ const RewardPage = () => {
   }
 
   return useMemo(() => (
-    points ? (
+    
       <Base insideClassName="gap">
         <div className="flex flex-col gap-base sticky top-0 bg-transparent z-10 pt-base">
           <ProfilePreviewCard points={points} />
@@ -81,11 +81,6 @@ const RewardPage = () => {
           onOpenChange={setOpen}
           onSuccess={handleSuccess} />
       </Base>
-    ) : (
-      <Base>
-        <div></div>
-      </Base>
-    )
   ), [points, open])
 }
 
