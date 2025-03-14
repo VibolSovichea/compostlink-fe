@@ -16,9 +16,9 @@ export interface WasteDonation {
 }
 
 export interface Location {
-  id?: string;
+  id: string;
   latitude: number;
   longitude: number;
-  address: string;
-  facilityId: number;
+  address?: string;
+  facilityId?: number;
 }

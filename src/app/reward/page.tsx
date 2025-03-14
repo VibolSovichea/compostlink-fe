@@ -67,21 +67,20 @@ const RewardPage = () => {
     setOpen(false);
   }
 
-  return useMemo(() => (
-    
-      <Base insideClassName="gap">
-        <div className="flex flex-col gap-base sticky top-0 bg-transparent z-10 pt-base">
-          <ProfilePreviewCard points={points} />
-          <CategorySlider categories={["All", "Food", "Entertainment", "Travel", "Other"]} />
-        </div>
-        <RewardContent data={rewardData} onRedeem={handleRedeem} />
-        <RewardModal
-          rewardId={selectedReward}
-          open={open}
-          onOpenChange={setOpen}
-          onSuccess={handleSuccess} />
-      </Base>
-  ), [points, open])
+  return (
+    <Base insideClassName="gap">
+      <div className="flex flex-col gap-base sticky top-0 bg-white z-10 pt-base">
+        <ProfilePreviewCard points={points} />
+        <CategorySlider categories={["All", "Food", "Entertainment", "Travel", "Other"]} />
+      </div>
+      <RewardContent data={rewardData} onRedeem={handleRedeem} />
+      <RewardModal
+        rewardId={selectedReward}
+        open={open}
+        onOpenChange={setOpen}
+        onSuccess={handleSuccess} />
+    </Base>
+  )
 }
 
 export default RewardPage;

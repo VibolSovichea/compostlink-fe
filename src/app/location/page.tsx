@@ -1,52 +1,70 @@
 "use client";
 
+import LocationList from "@/components/location/location-list";
+import MButton from "@/components/m-ui/m-button";
+import MDialog from "@/components/m-ui/m-dailog";
 import Base from "@/components/shared/base-layout";
-import Header from "@/components/shared/header";
-import { useDropOffLocationQuery } from "@/redux/slices/dataSlice";
-export default function LocationPage() {
-  const { data: locations, error, isLoading } = useDropOffLocationQuery();
+import { useDropOffLocationQuery, useProfileQuery } from "@/redux/slices/dataSlice";
+import { Location } from "@/redux/slices/data.types";
+import { useEffect, useMemo, useState } from "react";
+import { Loader2 } from "lucide-react";
+import ProfilePreviewCard from "@/components/home/profile-preview-card";
+import Cookies from "js-cookie";
+import NewsCard from "@/components/home/news-card";
 
-  const handleClick = (latitude: number, longitude: number) => {
+export default function LocationPage() {
+  const userId = Cookies.get("user_id");
+  const { data: userData } = useProfileQuery(userId || "");
+  const { data: locations } = useDropOffLocationQuery();
+  const [open, setOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+
+  const onChooseLocation = () => {
     window.open(
-      `https://www.google.com/maps?q=${latitude},${longitude}`,
+      `https://www.google.com/maps?q=${selectedLocation?.latitude},${selectedLocation?.longitude}`,
       "_blank"
     );
   };
 
-  if (isLoading) return <p>Loading drop-off locations...</p>;
-  if (error) return <p>Error fetching drop-off locations</p>;
-  return (
-    <Base insideClassName="items-center gap-base">
-      <div className="flex flex-col gap-base">
-        <h2>Drop-Off Locations</h2>
-        <div className="w-80 max-w-md space-y-4">
-          {locations &&
-            locations.map((location) => (
-              <div
-                key={location.id}
-                onClick={() =>
-                  handleClick(location.latitude, location.longitude)
-                }
-                className="bg-white p-4 rounded-2xl shadow-md flex items-center gap-4"
-              >
-                {/* Image */}
-                <div className="w-16 h-16 bg-gray-300 rounded-lg flex items-center justify-center"></div>
-
-                {/* Content (Title, Description, Date) */}
-                <div className="flex-1">
-                  <p className="text-lg text-black font-semibold">
-                    {location.address}
-                  </p>
-
-                  <ul className="text-sm text-gray-600">
-                    <li>{location.latitude}</li>
-                    <li>{location.longitude}</li>
-                  </ul>
-                </div>
-              </div>
-            ))}
+  return useMemo(() => (
+    <Base insideClassName="flex" headerVariant="default" headerContent={{ username: userData?.name }}>
+      {locations ? (
+        <>
+          <div className="sticky top-0 z-10">
+            <ProfilePreviewCard points={userData?.totalPoint || 0} />
+          </div>
+          <LocationList locations={locations} onSelect={(id, latitude, longitude) => setSelectedLocation({ id, latitude, longitude })} />
+        </>
+      ) : (
+        <div className="h-[80vh] flex flex-col items-center justify-center">
+          <Loader2 className="size-10 animate-spin text-primary" />
         </div>
-      </div>
+      )}
+      {selectedLocation && (
+        <MDialog
+          open={open}
+          onOpenChange={(prev) => setOpen(!prev)}
+          header={{
+            title: "Facility Name",
+            description: "Facility Address",
+          }}
+          content={
+            <div className="aspect-video size-full bg-gray-300/70 rounded-lg">
+              <iframe
+                src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d${selectedLocation?.longitude}!3d${selectedLocation?.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s${selectedLocation?.latitude}%2C${selectedLocation?.longitude}!2s${selectedLocation?.latitude}%2C${selectedLocation?.longitude}!5e0!3m2!1sen!2s!4v1`}
+                referrerPolicy="no-referrer-when-downgrade"
+                loading="lazy"
+                className="size-full rounded-lg"
+              />
+            </div>
+          }
+          footer={
+            <MButton variant="primary" full onClick={onChooseLocation}>
+              Choose Location
+            </MButton>
+          }
+        />
+      )}
     </Base>
-  );
+  ), [locations, selectedLocation, userData]);
 }
