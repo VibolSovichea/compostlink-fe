@@ -87,8 +87,8 @@ const SignUpForm = () => {
       <form className="flex flex-col gap-base p-base" onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           <MFormInput
-            label="Username / Phone Number / Email"
-            placeholder="Username / Phone Number / Email"
+            label="Username"
+            placeholder="Username"
             required
             {...register("username")}
           />

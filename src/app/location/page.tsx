@@ -14,7 +14,7 @@ import Cookies from "js-cookie";
 export default function LocationPage() {
   const userId = Cookies.get("user_id");
   const { data: userData } = useProfileQuery(userId || "");
-  const { data: locations } = useDropOffLocationQuery();
+  const { data: locations, isLoading } = useDropOffLocationQuery();
   const [open, setOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
 
@@ -39,9 +39,13 @@ export default function LocationPage() {
           </div>
           <LocationList locations={locations} onSelect={handleLocationSelect} />
         </>
-      ) : (
+      ) : isLoading ? (
         <div className="h-[80vh] flex flex-col items-center justify-center">
           <Loader2 className="size-10 animate-spin text-primary" />
+        </div>
+      ) : (
+        <div className="h-[80vh] flex flex-col items-center justify-center">
+          <p className="text-primary text-sm">No locations found</p>
         </div>
       )}
       {selectedLocation && (

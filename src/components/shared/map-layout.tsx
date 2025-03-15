@@ -2,82 +2,114 @@
 import { useState, useEffect } from "react";
 import {
   MapContainer,
-  TileLayer,
-  Marker,
   Popup,
+  TileLayer,
+  useMap,
   useMapEvents,
 } from "react-leaflet";
-import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import MButton from "../m-ui/m-button";
-import { getFullAddressFromCoords } from "@/utils/getAddress"; // Import address fetching function
+import { getFullAddressFromCoords } from "@/utils/getAddress";
+import { X } from "lucide-react";
 
-const customIcon = L.icon({
-  iconUrl: "/assets/pin.png",
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -40],
-});
+// Custom component to track center position
+function CenterPositionTracker({ setPosition }: { setPosition: (position: [number, number]) => void }) {
+  const map = useMap();
+
+  useMapEvents({
+    moveend: () => {
+      const center = map.getCenter();
+      setPosition([center.lat, center.lng]);
+    },
+    zoomend: () => {
+      const center = map.getCenter();
+      setPosition([center.lat, center.lng]);
+    }
+  });
+
+  return null;
+}
 
 export default function CompostLinkMap({
   onConfirm,
 }: {
   onConfirm: (lat: number, lng: number, address: string) => void;
 }) {
-  const [markerPosition, setMarkerPosition] = useState<[number, number]>([
+  const [position, setPosition] = useState<[number, number]>([
     11.5564, 104.9282,
   ]); // Default: Phnom Penh
   const [address, setAddress] = useState<string>("Fetching address...");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  // Fetch address when marker moves
+  // Fetch address when position changes
   useEffect(() => {
     async function fetchAddress() {
       const fetchedAddress = await getFullAddressFromCoords(
-        markerPosition[0],
-        markerPosition[1]
+        position[0],
+        position[1]
       );
       setAddress(fetchedAddress);
     }
     fetchAddress();
-  }, [markerPosition]);
-
-  // Event handler to update marker position when map is dragged
-  const MapEventHandler = () => {
-    useMapEvents({
-      moveend: (event) => {
-        const newCenter = event.target.getCenter();
-        setMarkerPosition([newCenter.lat, newCenter.lng]);
-      },
-    });
-    return null;
-  };
+  }, [position]);
 
   return (
-    <div className="relative aspect-square flex flex-col gap-base">
-      <MapContainer
-        center={markerPosition}
-        zoom={12}
-        className="size-full rounded-lg shadow-md"
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <MapEventHandler />
-        <Marker 
-          position={markerPosition} 
-          icon={customIcon}
+    <div className="flex flex-col gap-base w-full">
+      <div className="relative aspect-square w-full">
+        <div className="absolute inset-0">
+          <MapContainer
+            center={position}
+            zoom={12}
+            className="h-full w-full rounded-lg shadow-md"
+            style={{ zIndex: 1 }}
+          >
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <CenterPositionTracker setPosition={setPosition} />
+          </MapContainer>
+        </div>
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-full cursor-pointer"
+          style={{ zIndex: 1000 }}
+          onClick={() => setIsPopupOpen(!isPopupOpen)}
         >
-          <img src="/assets/pin.png" alt="" className="w-10 h-10 absolute " />
-          <Popup>
-            📍 <strong>Lat:</strong> {markerPosition[0]} <br />
-            📍 <strong>Lng:</strong> {markerPosition[1]} <br />
-            📍 <strong>Address:</strong> {address}
-          </Popup>
-        </Marker>
-      </MapContainer>
+          <img
+            src="/assets/pin.png"
+            alt="Location Pin"
+            width="40"
+            height="40"
+            style={{ display: "block" }}
+          />
+        </div>
+
+        {isPopupOpen && (
+          <div
+            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white p-3 rounded-lg shadow-lg max-w-xs w-4/5"
+            style={{ zIndex: 1000 }}
+          >
+            <button
+              className="absolute top-1 right-1 text-gray-500 hover:text-gray-700"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsPopupOpen(false);
+              }}
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <div className="text-sm text-black">
+              <p>
+                📍 <strong>Lat:</strong> {position[0]} <br />
+                📍 <strong>Lng:</strong> {position[1]} <br />
+                📍 <strong>Address:</strong> {address}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
 
       <MButton
         variant="primary"
         full
-        onClick={() => onConfirm(markerPosition[0], markerPosition[1], address)}
+        onClick={() => onConfirm(position[0], position[1], address)}
       >
         Confirm Location
       </MButton>
