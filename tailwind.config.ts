@@ -14,6 +14,7 @@ export default {
         muted: "#D9D9D9",
         dark: "#1A1A1A",
         light: "#F2F2F2",
+        background: "#F5F5F5",
       },
       spacing: {
 				'xs': '4px',

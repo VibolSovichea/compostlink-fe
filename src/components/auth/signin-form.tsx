@@ -58,7 +58,7 @@ const SignInForm = () => {
   }
   return (
     <FormProvider {...form}>
-      <form className="flex flex-col gap-base" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-base p-base" onSubmit={handleSubmit(onSubmit)}>
         <Stack>
 
           <MFormInput

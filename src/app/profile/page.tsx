@@ -4,35 +4,27 @@ import Base from "@/components/shared/base-layout";
 import { useAuth } from "@/provider/authProvider";
 import Link from "next/link";
 import { FiChevronRight } from "react-icons/fi";
+import UserIcon from "@/../public/assets/icons/avatar-icon.svg";
 import Image from "next/image";
-import Compost from "@/../public/assets/images/compost.png";
-import Logo from "@/../public/assets/compostlink.png";
-import Notification from "@/../public/assets/images/bell.png";
-import { useState, useEffect } from "react";
-
+import { useProfileQuery } from "@/redux/slices/dataSlice";
+import Cookies from "js-cookie";
+import { useEffect, useMemo, useState } from "react";
+import { User } from "@/redux/slices/data.types";
+import { Loader2 } from "lucide-react";
 
 export default function ProfilePage() {
-  const [showBackground, setShowBackground] = useState(false);
+  const userId = Cookies.get("user_id");
+  const { data } = useProfileQuery(userId || "");
+  const [profile, setProfile] = useState<User | null>(null);
+  const { logout } = useAuth();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackground(window.scrollY > 0);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-  const { user, logout } = useAuth();
 
   const menuItems = [
     { title: "Edit Profile", href: "/profile/edit" },
     { title: "Point History", href: "/profile/points" },
-    { title: "Legal Policy", href: "/legal" },
     { title: "Language", href: "/language" },
-    { 
-      title: "Log Out", 
+    {
+      title: "Log Out",
       href: "#",
       onClick: () => {
         logout();
@@ -40,20 +32,11 @@ export default function ProfilePage() {
     },
   ];
 
-  return (
-    <Base insideClassName="items-center gap-half" hideNavigation={false}>
-      {/* Sticky Header */}
-      <div
-        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          showBackground ? "bg-white shadow-md" : "bg-white"
-        }`}
-      >
-        <div className="flex justify-between items-center px-4 py-2 w-80 mx-auto">
-          <Image src={Logo} alt="Logo" width={70} height={70} />
-          <Image src={Notification} alt="Notification" width={30} height={25} />
-        </div>
-      </div>
+  useEffect(() => {
+    data && setProfile(data);
+  }, [data]);
 
+<<<<<<< HEAD
       {/* Content Wrapper */}
       <div className="flex-grow flex flex-col items-center p-4 pt-20"> {/* Adjusted padding */}
         {/* User Info Card */}
@@ -79,11 +62,25 @@ export default function ProfilePage() {
               style={{ width: "50%" }}
             ></div>
             <p className="text-xs text-center mt-1">5/10 Kg</p>
+=======
+  // TODO: Fix UI here
+  return useMemo(() => (
+    profile ? (
+      <Base hideNavigation={profile?.role === "Facility"} headerVariant={profile?.role === "Facility" ? "return-button" : undefined} headerContent={{pageTitle: "Profile"}}>
+        <div className="flex justify-center my-10 flex-col items-center gap-base">
+          <div className="aspect-square size-20">
+            <Image
+              src={UserIcon}
+              alt=""
+              width={100}
+              height={100}
+              className="size-full"
+            />
+>>>>>>> b2d8332293f54de6660db2830715b133ba9d42be
           </div>
+          <p className="text-lg text-black">{profile?.name}</p>
         </div>
-
-        {/* Add margin to reduce gap between user info card and menu items */}
-        <div className="flex flex-col gap-4 p-4 mt-6"> {/* Adjusted margin */}
+        <div className="flex flex-col gap-4 p-4">
           {menuItems.map((item, index) => (
             <div key={index}>
               {item.onClick ? (
@@ -91,13 +88,13 @@ export default function ProfilePage() {
                   className="w-full py-4 flex justify-between items-center border-b border-gray-100"
                   onClick={item.onClick}
                 >
-                  <span className="text-lg text-black">{item.title}</span>
+                  <span className="text-black">{item.title}</span>
                   <FiChevronRight className="w-6 h-6 text-gray-400" />
                 </button>
               ) : (
                 <Link href={item.href}>
-                  <div className="w-80 py-4 flex justify-between items-center border-b border-gray-100">
-                    <span className="text-lg text-black">{item.title}</span>
+                  <div className="w-full py-4 flex justify-between items-center border-b border-gray-100">
+                    <span className="text-black">{item.title}</span>
                     <FiChevronRight className="w-6 h-6 text-gray-400" />
                   </div>
                 </Link>
@@ -105,8 +102,13 @@ export default function ProfilePage() {
             </div>
           ))}
         </div>
-      </div>
-    </Base>
-
-  );
+      </Base>
+    ) : (
+      <Base hideNavigation={true}>
+        <div className="h-[80vh] flex flex-col items-center justify-center">
+          <Loader2 className="size-10 animate-spin text-primary" />
+        </div>
+      </Base>
+    )
+  ), [profile]);
 }

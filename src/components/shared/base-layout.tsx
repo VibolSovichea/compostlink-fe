@@ -10,10 +10,16 @@ interface BaseProps {
   outsideClassName?: React.ComponentProps<"div">["className"];
   insideClassName?: React.ComponentProps<"div">["className"];
   header?: boolean;
+  username?: string;
+  headerVariant?: "default" | "return-button" | undefined;
+  headerContent?: {
+    username?: string;
+    pageTitle?: string;
+  }
 }
 
 const getDefaultOuterClasses = () => "flex justify-center bg-slate-300 min-h-screen";
-const getDefaultInnerClasses = () => "flex flex-col w-full p-base gap-base pb-16";
+const getDefaultInnerClasses = () => "flex flex-col w-full px-base gap-base pb-16 bg-secondary";
 
 const Base: React.FC<BaseProps> = ({
   children,
@@ -21,7 +27,8 @@ const Base: React.FC<BaseProps> = ({
   insideClassName,
   Default: isDefault = true,
   hideNavigation = false,
-  header = false
+  headerVariant = undefined,
+  headerContent
 }) => {
   const containerClasses = clsx(
     { [getDefaultOuterClasses()]: isDefault },
@@ -33,10 +40,21 @@ const Base: React.FC<BaseProps> = ({
     insideClassName
   );
 
+  const handleHeaderClick = () => {
+    window.location.href = "/profile";
+  }
+
   return (
     <div className={containerClasses}>
       <div className="w-full max-w-[430px] bg-secondary shadow-lg relative h-screen flex flex-col">
-        {header && <Header/>}
+        {headerVariant && 
+          <Header 
+            variant={headerVariant} 
+            username={headerContent?.username} 
+            pageTitle={headerContent?.pageTitle} 
+            onClick={handleHeaderClick}
+          />
+        }
         <div className="flex-1 overflow-y-auto">
           <div className={contentWrapperClasses}>
             {children}

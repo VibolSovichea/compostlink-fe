@@ -1,29 +1,30 @@
-import Cookies from "js-cookie";
-import toast from "react-hot-toast";
-
-import MButton from "@/components/m-ui/m-button";
-import { useAuth } from "@/provider/authProvider";
 import ProfilePreviewCard from "@/components/home/profile-preview-card";
 import NewsCard from "@/components/home/news-card";
+import { User } from "@/redux/slices/data.types";
+import MButton from "@/components/m-ui/m-button";
+import QrModal from "../qr-modal";
+import { useState } from "react";
 
-const UserHomePage = () => {
-  const { logout } = useAuth();
-  const userId = Cookies.get('user_id');
+interface UserHomePageProps {
+  userData: User
+}
 
-  console.log(userId);
-
+const UserHomePage = ({ userData }: UserHomePageProps) => {
+  const [open, setOpen] = useState(false);  
   return (
     <>
-      <ProfilePreviewCard userId={userId || ""} />
-      <NewsCard />
-      <MButton variant="secondary" full onClick={() => {
-        toast.success("Logout successful");
-        setTimeout(() => {
-          logout();
-        }, 2500);
-      }}>
-        Logout
+      <ProfilePreviewCard points={userData.totalPoint} />
+      <MButton
+        variant="primary"
+        full
+        className="text-white mt-4"
+        onClick={() => setOpen(true)}
+      >
+        Share your QR
       </MButton>
+      <NewsCard />
+      <NewsCard />
+      <QrModal open={open} onOpenChange={setOpen} userId={userData.id} />
     </>
   )
 }

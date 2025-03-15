@@ -1,14 +1,15 @@
 "use client";
 
+import { z } from "zod";
+import toast from "react-hot-toast";
 import { Stack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
-import MFormInput from "../m-ui/m-input";
-import MButton from "../m-ui/m-button";
-import { useMemo } from "react";
+
+import MButton from "@/components/m-ui/m-button";
+import MSelect from "@/components/m-ui/m-select";
+import MFormInput from "@/components/m-ui/m-input";
 import { useWasteDonationMutation } from "@/redux/slices/dataSlice";
-import toast from "react-hot-toast";
 
 interface WasteDonationFormProps {
   facilityId: string;
@@ -89,11 +90,10 @@ const WasteDonationForm = ({facilityId, generatorId}: WasteDonationFormProps) =>
         </div>
 
         <Stack>
-          <MFormInput
-            label="Waste Type"
-            placeholder="Waste Type"
-            required
-            {...register("wasteType")}
+          <MSelect
+            options={["Mixed Waste", "Agricultural Waste", "Food Waste"]}
+            placeholder="Select Waste Type"
+            onChange={(value) => form.setValue("wasteType", value)}
           />
         </Stack>
 
@@ -107,7 +107,7 @@ const WasteDonationForm = ({facilityId, generatorId}: WasteDonationFormProps) =>
           />
         </Stack>
 
-        <MButton variant="primary" type="submit" className="w-full">
+        <MButton variant="primary" type="submit" className="w-full" >
           Confirm
         </MButton>
       </form>

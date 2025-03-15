@@ -1,33 +1,21 @@
-import Cookies from "js-cookie";
-import toast from "react-hot-toast";
-
+import { User } from "@/redux/slices/data.types";
 import MButton from "@/components/m-ui/m-button";
-import { useAuth } from "@/provider/authProvider";
-import ProfilePreviewCard from "@/components/home/profile-preview-card";
-import ScanQRButton from "@/components/shared/scan-qr-button";
 import NewsCard from "@/components/home/news-card";
+import ScanQRButton from "@/components/shared/scan-qr-button";
+import ProfilePreviewCard from "@/components/home/profile-preview-card";
 
-const FacilityHomePage = () => {
-  const { logout } = useAuth();
-  const userId = Cookies.get('user_id');
+interface FacilityHomePageProps {
+  userData: User
+}
 
+const FacilityHomePage = ({ userData }: FacilityHomePageProps) => {
   return (
     <>
-      <ProfilePreviewCard userId={userId || ""} />
-      <ScanQRButton />
+      <ProfilePreviewCard points={userData.totalPoint} variant="facility" />
       <NewsCard />
-      <div className="flex absolute bottom-base right-0 left-0 px-base">
-        <MButton
-          variant="secondary"
-          full
-          onClick={() => {
-            toast.success("Logout successful");
-            setTimeout(() => {
-              logout();
-            }, 2500);
-          }}>
-          Logout
-        </MButton>
+      <div className="flex flex-col gap-base absolute bottom-base right-0 left-0 px-base">
+        <MButton variant="primary" className="text-white" full onClick={() => { window.location.href = "http://localhost:4000/location/register"; }}>Add Drop-off Location</MButton>
+        <ScanQRButton />
       </div >
     </>
   )
