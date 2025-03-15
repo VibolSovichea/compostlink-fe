@@ -36,33 +36,6 @@ export default function ProfilePage() {
     data && setProfile(data);
   }, [data]);
 
-<<<<<<< HEAD
-      {/* Content Wrapper */}
-      <div className="flex-grow flex flex-col items-center p-4 pt-20"> {/* Adjusted padding */}
-        {/* User Info Card */}
-        <div className="bg-white text-black p-4 rounded-2xl shadow-md w-80 max-w-80">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm">Hello, John</p>
-              <p className="font-bold">Your Point: 0</p>
-            </div>
-            {/* Profile Image */}
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
-              <img
-                src="https://w0.peakpx.com/wallpaper/109/769/HD-wallpaper-anime-profile-monkey-d-luffy-luffy-portrait-thumbnail.jpg" // Replace with actual image URL
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-          <div className="relative mt-2">
-            <div className="w-full bg-gray-300 h-2 rounded-full"></div>
-            <div
-              className="absolute top-0 left-0 bg-green-500 h-2 rounded-full"
-              style={{ width: "50%" }}
-            ></div>
-            <p className="text-xs text-center mt-1">5/10 Kg</p>
-=======
   // TODO: Fix UI here
   return useMemo(() => (
     profile ? (
@@ -76,7 +49,6 @@ export default function ProfilePage() {
               height={100}
               className="size-full"
             />
->>>>>>> b2d8332293f54de6660db2830715b133ba9d42be
           </div>
           <p className="text-lg text-black">{profile?.name}</p>
         </div>

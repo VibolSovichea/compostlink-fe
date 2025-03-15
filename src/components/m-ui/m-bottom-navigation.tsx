@@ -6,13 +6,6 @@ const MBottomNavigation = () => {
   const pathname = usePathname();
 
   const navigationItems = [
-<<<<<<< HEAD
-    { icon: Home, label: "Home", path: "/userhome" },
-    { icon: Award, label: "Reward", path: "/reward" },
-    { icon: SendHorizontal, label: "Request", path: "/request" },
-    { icon: MapPin, label: "Location", path: "/location" },
-    { icon: User, label: "Profile", path: "/profile" },
-=======
     {
       icon: Home,
       isActive: pathname === "/home",
@@ -43,7 +36,6 @@ const MBottomNavigation = () => {
       label: "Profile",
       path: "/profile",
     },
->>>>>>> b2d8332293f54de6660db2830715b133ba9d42be
   ];
 
   return (

@@ -30,16 +30,9 @@ const ScanQRButton = () => {
       <MButton
         variant="primary"
         onClick={() => setIsScanning(true)}
-<<<<<<< HEAD
-        className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded-xl"
-=======
         className="text-white"
->>>>>>> b2d8332293f54de6660db2830715b133ba9d42be
       >
-        <span className="text-lg font-medium">Scan QR Code</span>
-        <span className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-          <FaArrowRight className="text-green-500 w-5 h-5" />
-        </span>
+        Scan QR Code
       </MButton>
 
       <QRScannerComponent
