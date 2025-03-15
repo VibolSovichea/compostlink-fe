@@ -10,7 +10,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import ProfilePreviewCard from "@/components/home/profile-preview-card";
 import Cookies from "js-cookie";
-import NewsCard from "@/components/home/news-card";
 
 export default function LocationPage() {
   const userId = Cookies.get("user_id");
@@ -25,6 +24,11 @@ export default function LocationPage() {
       "_blank"
     );
   };
+  
+  const handleLocationSelect = (id: string, latitude: number, longitude: number) => {
+    setSelectedLocation({ id, latitude, longitude });
+    setOpen(true);
+  };
 
   return useMemo(() => (
     <Base insideClassName="flex" headerVariant="default" headerContent={{ username: userData?.name }}>
@@ -33,7 +37,7 @@ export default function LocationPage() {
           <div className="sticky top-0 z-10">
             <ProfilePreviewCard points={userData?.totalPoint || 0} />
           </div>
-          <LocationList locations={locations} onSelect={(id, latitude, longitude) => setSelectedLocation({ id, latitude, longitude })} />
+          <LocationList locations={locations} onSelect={handleLocationSelect} />
         </>
       ) : (
         <div className="h-[80vh] flex flex-col items-center justify-center">
@@ -43,7 +47,10 @@ export default function LocationPage() {
       {selectedLocation && (
         <MDialog
           open={open}
-          onOpenChange={(prev) => setOpen(!prev)}
+          onOpenChange={(prev) => {
+            setOpen(!prev);
+            setSelectedLocation(null);
+          }}
           header={{
             title: "Facility Name",
             description: "Facility Address",

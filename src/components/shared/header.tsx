@@ -7,6 +7,7 @@ interface HeaderProps {
   username?: string;
   pageTitle?: string;
   variant?: "default" | "return-button";
+  onClick?: () => void;
 }
 
 const ReturnButton = ({ pageTitle }: HeaderProps) => {
@@ -24,13 +25,15 @@ const ReturnButton = ({ pageTitle }: HeaderProps) => {
   )
 }
 
-const Header = ({ username, pageTitle, variant = "default" }: HeaderProps) => {
+const Header = ({ username, pageTitle, variant = "default", onClick }: HeaderProps) => {
   return (
     <>
       {variant === "return-button" ? (
         <ReturnButton pageTitle={pageTitle} />
       ) : (
-        <div className="flex h-14 bg-inherit items-center sticky top-0 z-10 bg-secondary gap-base px-base">
+        <div className="flex h-14 bg-inherit items-center sticky top-0 z-10 bg-secondary gap-base px-base"
+          onClick={onClick}
+        >
           <Image
             src={UserIcon}
             alt=""

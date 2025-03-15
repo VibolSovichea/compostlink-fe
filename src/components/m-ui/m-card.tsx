@@ -7,7 +7,7 @@ interface MCardProps extends HTMLAttributes<HTMLDivElement> {
 
 const MCard = ({ children, className, ...props }: MCardProps) => {
   return (
-    <Card.Root className="w-full bg-secondary shadow-xl h-32" {...props}>
+    <Card.Root className="w-full bg-secondary shadow-xl h-32 cursor-pointer" {...props}>
       <Card.Body className={className}>
         {children}
       </Card.Body>

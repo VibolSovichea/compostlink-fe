@@ -40,10 +40,21 @@ const Base: React.FC<BaseProps> = ({
     insideClassName
   );
 
+  const handleHeaderClick = () => {
+    window.location.href = "/profile";
+  }
+
   return (
     <div className={containerClasses}>
       <div className="w-full max-w-[430px] bg-secondary shadow-lg relative h-screen flex flex-col">
-        {headerVariant  && <Header variant={headerVariant} username={headerContent?.username} pageTitle={headerContent?.pageTitle} />}
+        {headerVariant && 
+          <Header 
+            variant={headerVariant} 
+            username={headerContent?.username} 
+            pageTitle={headerContent?.pageTitle} 
+            onClick={handleHeaderClick}
+          />
+        }
         <div className="flex-1 overflow-y-auto">
           <div className={contentWrapperClasses}>
             {children}

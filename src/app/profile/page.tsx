@@ -10,6 +10,7 @@ import { useProfileQuery } from "@/redux/slices/dataSlice";
 import Cookies from "js-cookie";
 import { useEffect, useMemo, useState } from "react";
 import { User } from "@/redux/slices/data.types";
+import { Loader2 } from "lucide-react";
 
 export default function ProfilePage() {
   const userId = Cookies.get("user_id");
@@ -35,9 +36,10 @@ export default function ProfilePage() {
     data && setProfile(data);
   }, [data]);
 
+  // TODO: Fix UI here
   return useMemo(() => (
     profile ? (
-      <Base>
+      <Base hideNavigation={profile?.role === "Facility"} headerVariant={profile?.role === "Facility" ? "return-button" : undefined} headerContent={{pageTitle: "Profile"}}>
         <div className="flex justify-center my-10 flex-col items-center gap-base">
           <div className="aspect-square size-20">
             <Image
@@ -74,8 +76,10 @@ export default function ProfilePage() {
         </div>
       </Base>
     ) : (
-      <Base>
-        <div></div> // 
+      <Base hideNavigation={true}>
+        <div className="h-[80vh] flex flex-col items-center justify-center">
+          <Loader2 className="size-10 animate-spin text-primary" />
+        </div>
       </Base>
     )
   ), [profile]);

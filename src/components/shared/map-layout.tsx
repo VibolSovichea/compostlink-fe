@@ -53,15 +53,19 @@ export default function CompostLinkMap({
   };
 
   return (
-    <div className="relative">
+    <div className="relative aspect-square flex flex-col gap-base">
       <MapContainer
         center={markerPosition}
         zoom={12}
-        style={{ height: "400px", width: "350px" }}
+        className="size-full rounded-lg shadow-md"
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapEventHandler />
-        <Marker position={markerPosition} icon={customIcon}>
+        <Marker 
+          position={markerPosition} 
+          icon={customIcon}
+        >
+          <img src="/assets/pin.png" alt="" className="w-10 h-10 absolute " />
           <Popup>
             📍 <strong>Lat:</strong> {markerPosition[0]} <br />
             📍 <strong>Lng:</strong> {markerPosition[1]} <br />
