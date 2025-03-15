@@ -3,12 +3,10 @@
 import Base from "@/components/shared/base-layout";
 import MBottomNavigation from "@/components/m-ui/m-bottom-navigation";
 import Image from "next/image";
-import Compost from "@/../public/assets/images/compost.png";
 import Logo from "@/../public/assets/compostlink.png";
 import Notification from "@/../public/assets/images/bell.png";
-import { useAuth } from "@/provider/authProvider";
-
 import { useState, useEffect } from "react";
+import MapComponent from "@/components/shared/map";
 
 export default function RewardPage() {
   const [showBackground, setShowBackground] = useState(false);
@@ -23,30 +21,13 @@ export default function RewardPage() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  
-  const Rewards = [
-    {
-      id: 1,
-      title: "How to Compost at Home",
-      description: "Description0",
-      image: Compost,
-      date: "2021-09-01",
-    },
-    {
-      id: 2,
-      title: "Benefits of Composting",
-      description: "Description1",
-      image: Compost,
-      date: "2021-09-02",
-    },
-    {
-      id: 3,
-      title: "Community Composting Guide",
-      description: "Description2",
-      image: Compost,
-      date: "2021-09-03",
-    },
-  ];
+
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
+  const handleNext = () => {
+    console.log("Latitude:", latitude, "Longitude:", longitude);
+  };
 
   return (
 <Base insideClassName="items-center min-h-screen overflow-y-auto" hideNavigation={false}>
@@ -76,7 +57,7 @@ export default function RewardPage() {
               {/* Profile Image */}
               <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
                 <img
-                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                  src="https://w0.peakpx.com/wallpaper/109/769/HD-wallpaper-anime-profile-monkey-d-luffy-luffy-portrait-thumbnail.jpg"
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
@@ -92,38 +73,43 @@ export default function RewardPage() {
               <p className="text-xs text-center mt-1">5/10 Kg</p>
             </div>
           </div>
-          {/* Options */}
-          <div className="flex gap-2 w-full justify-center">
-            <button className="bg-green-500 text-white font-bold px-4 py-2 rounded-full">ALL</button>
-            <button className="bg-green-500 text-white font-bold px-4 py-2 rounded-full">NEWEST</button>
-            <button className="bg-green-500 text-white font-bold px-4 py-2 rounded-full">OLDEST</button>
+
+          <div className="flex flex-col items-center justify-center bg-cream p-4 rounded-xl w-80">
+        <div className="w-80 max-w-md text-black">
+          <label className="block text-sm font-medium text-gray-700">Latitude</label>
+          <input
+            type="text"
+            value={latitude}
+            onChange={(e) => setLatitude(e.target.value)}
+            className="w-full p-2 mt-1 border border-gray-300 rounded bg-gray-100"
+            placeholder="Enter latitude"
+          />
+          
+          <label className="block mt-4 text-sm font-medium text-gray-700">Longitude</label>
+          <input
+            type="text"
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
+            className="w-full p-2 mt-1 border border-gray-300 rounded bg-gray-100"
+            placeholder="Enter longitude"
+          />
+          
+          <div className="w-full h-64 mt-6 flex items-center justify-center text-gray-600">
+            <MapComponent />
           </div>
 
-          {/* Rewards List */}
-          <div className="w-80 max-w-md space-y-4">
-            {Rewards.map((rewards, index) => (
-              <div key={index} className="bg-white p-4 rounded-2xl shadow-md flex items-center gap-4">
-                {/* Image */}
-                <div className="w-16 h-16 bg-gray-300 rounded-lg flex items-center justify-center">
-                  <Image
-                    src={rewards.image}
-                    alt="Reward Image"
-                    className="w-full h-full rounded-lg object-cover"
-                  />
-                </div>
-
-                {/* Content (Title, Description, Date) */}
-                <div className="flex-1">
-                  <p className="text-lg text-black font-semibold">{rewards.title}</p>
-                  <p className="text-sm text-gray-600">{rewards.description}</p>
-                  <p className="text-xs text-gray-500 mt-1">Date: {rewards.date}</p>
-                </div>
-              </div>
-          ))}
+          
+          <button
+            onClick={handleNext}
+            className="w-full mt-8 p-3 bg-green-500 text-white font-semibold rounded-xl hover:bg-green-600"
+          >
+            Next
+          </button>
         </div>
-        </div>
-        {/* Bottom Navigation */}
-    <MBottomNavigation />
-</Base>
-  );
-}
+      </div>
+          </div>
+          {/* Bottom Navigation */}
+      <MBottomNavigation />
+  </Base>
+    );
+  }
