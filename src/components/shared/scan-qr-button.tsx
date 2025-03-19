@@ -1,6 +1,6 @@
 import MButton from "@/components/m-ui/m-button";
 import { useState } from "react";
-import QRScannerComponent from "@/app/scanform/page";
+import QRScannerComponent from "@/components/shared/qr-scanner";
 
 const ScanQRButton = () => {
   const [isScanning, setIsScanning] = useState(false);

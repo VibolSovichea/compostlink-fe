@@ -1,6 +1,7 @@
 import MCard from "@/components/m-ui/m-card";
 import { useEffect, useMemo, useState } from "react";
 import { Location } from "@/redux/slices/data.types";
+import { Building2 } from "lucide-react";
 
 interface LocationListProps {
   locations: Location[];
@@ -47,7 +48,7 @@ const LocationList = ({ locations, onSelect }: LocationListProps) => {
               }
             >
               <div className="aspect-square size-20">
-                <div className="bg-primary size-full rounded-lg"></div>
+                <Building2 className="size-full text-primary" />
               </div>
               <div className="flex flex-col justify-evenly">
                 <p className="text-sm text-black font-semibold">
