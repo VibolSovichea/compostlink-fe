@@ -39,16 +39,13 @@ const dataSlice = createApi({
       invalidatesTags: ["dropOffLocation"],
     }),
 
-    updateUser: builder.mutation<User, Partial<User> & { id: number }>({
-      query: ({ id, ...data }) => ({
+    updateUser: builder.mutation<any, { id: string, body: { name: string, email: string } }>({
+      query: ({ id, body }) => ({
         url: `/users/${id}`,
         method: 'PATCH',
-        body: data,
+        body,
       }),
-      invalidatesTags: (result, error, { id }) => [
-        { type: 'User', id },
-        'Profile'
-      ],
+      invalidatesTags: ["Profile"],
     }),
 
     getUserPointHistory: builder.query<PointHistory[], string>({
@@ -70,7 +67,7 @@ export const {
   useDropOffLocationQuery,
   useLazyDropOffLocationQuery,
   useRegisterLocationMutation,
-  useUpdateUserMutation, // Added this export
+  useUpdateUserMutation,
   useGetUserPointHistoryQuery,
   useLazyGetUserPointHistoryQuery,
 } = dataSlice;

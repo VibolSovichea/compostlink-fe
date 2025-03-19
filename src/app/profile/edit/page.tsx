@@ -1,132 +1,53 @@
-"use client"; 
+"use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // Ensure this matches your routing approach
-import { useProfileQuery, useUpdateUserMutation } from "@/redux/slices/dataSlice";
-import Cookies from "js-cookie";
+import ProfileEditForm from "@/components/profile/profile-edit-form";
 import Base from "@/components/shared/base-layout";
+import { useProfileQuery } from "@/redux/slices/dataSlice";
+import { Loader2 } from "lucide-react";
+import UserIcon from "@/../public/assets/icons/avatar-icon.svg";
+import Image from "next/image";
+import Cookies from "js-cookie";
+import { useEffect, useMemo, useState } from "react";
+import { User } from "@/redux/slices/data.types";
 
-export default function EditProfilePage() {
-  const router = useRouter();
+export default function ProfileEditPage() {
   const userId = Cookies.get("user_id");
-  
-  if (!userId) {
-    console.error("User ID not found in cookies");
-    return <Base headerVariant="default" headerTitle="Edit Profile">
-      <div className="p-4 text-center text-red-600">User not authenticated</div>
-    </Base>;
-  }
-
-  const { data: userData, isLoading } = useProfileQuery(userId);
-  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    role: "",
-  });
+  const { data: userData } = useProfileQuery(userId || "");
+  const [profile, setProfile] = useState<User | null>(null);
 
   useEffect(() => {
-    if (userData) {
-      setFormData({
-        name: userData.name || "",
-        email: userData.email || "",
-        role: userData.role || "",
-      });
-    }
+    userData && setProfile(userData);
   }, [userData]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!userId) {
-      console.error("User ID not found");
-      return;
-    }
-
-    try {
-      await updateUser({
-        id: Number(userId),
-        name: formData.name,
-        email: formData.email,
-        // role: formData.role,
-      }).unwrap();
-
-      router.push("/profile");
-    } catch (error) {
-      console.error("Failed to update profile:", error);
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <Base headerVariant="default" headerTitle="Edit Profile">
-        <div className="p-4 text-center">Loading profile data...</div>
-      </Base>
-    );
-  }
-
-  return (
-    <Base headerVariant="default" headerTitle="Edit Profile">
-      <form onSubmit={handleSubmit} className="p-4 flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="name" className="text-sm text-gray-600">
-            Full Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-md p-2"
-            required
-          />
+  return useMemo(() => (
+    <Base
+      headerVariant="return-button"
+      headerContent={{
+        pageTitle: "Edit Profile",
+      }}
+      hideNavigation
+    >
+      {profile ? (
+        <>
+          <div className="flex justify-center my-10 flex-col items-center gap-base">
+            <div className="aspect-square size-20">
+              <Image
+                src={UserIcon}
+                alt=""
+                width={100}
+                height={100}
+                className="size-full"
+              />
+            </div>
+            <p className="text-lg text-black">{profile?.name}</p>
+          </div>
+          <ProfileEditForm profile={profile} />
+        </>
+      ) : (
+        <div className="h-[80vh] flex flex-col items-center justify-center">
+          <Loader2 className="size-10 animate-spin text-primary" />
         </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="email" className="text-sm text-gray-600">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-md p-2"
-            required
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="role" className="text-sm text-gray-600">
-            Role
-          </label>
-          <input
-            type="text"
-            id="role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-md p-2"
-            readOnly
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={isUpdating}
-          className="bg-green-600 text-white py-3 rounded-md mt-4 hover:bg-green-700 disabled:bg-gray-400"
-        >
-          {isUpdating ? "Updating..." : "Save Changes"}
-        </button>
-      </form>
+      )}
     </Base>
-  );
+  ), [profile]);
 }
