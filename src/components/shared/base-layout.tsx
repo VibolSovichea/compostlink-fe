@@ -11,6 +11,7 @@ interface BaseProps {
   insideClassName?: React.ComponentProps<"div">["className"];
   header?: boolean;
   username?: string;
+  headerTitle?: string;
   headerVariant?: "default" | "return-button" | undefined;
   headerContent?: {
     username?: string;
@@ -28,6 +29,7 @@ const Base: React.FC<BaseProps> = ({
   Default: isDefault = true,
   hideNavigation = false,
   headerVariant = undefined,
+  headerTitle,
   headerContent
 }) => {
   const containerClasses = clsx(
