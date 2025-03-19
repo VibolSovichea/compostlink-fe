@@ -1,7 +1,11 @@
-import { Home, Award, SendHorizontal, MapPin, User, QrCode } from "lucide-react";
+import { Home, Award, MapPin, User, QrCode } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
-const MBottomNavigation = () => {
+interface MBottomNavigationProps {
+  onQrClick: () => void;
+}
+
+const MBottomNavigation = ({ onQrClick }: MBottomNavigationProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -20,9 +24,7 @@ const MBottomNavigation = () => {
     },
     {
       icon: QrCode,
-      isActive: pathname === "/request",
-      label: "Request",
-      path: "/request",
+      label: "Qr",
     },
     {
       icon: MapPin,
@@ -47,9 +49,15 @@ const MBottomNavigation = () => {
           <div 
           className="w-full cursor-pointer" 
           key={item.label}
-          onClick={() => router.push(item.path)}
+          onClick={() => {
+            if (item.label === "Qr") {
+              onQrClick();
+            } else {
+              router.push(item.path || "/home");
+            }
+          }}
           >
-            {item.label === "Request" ? (
+            {item.label === "Qr" ? (
               <div className="flex justify-center items-center">
                 <item.icon size={64} className="bg-white rounded-full p-3 mt-[-40px] text-primary shadow-xl"/>
               </div>

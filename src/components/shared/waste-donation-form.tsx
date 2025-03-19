@@ -94,6 +94,9 @@ const WasteDonationForm = ({facilityId, generatorId}: WasteDonationFormProps) =>
             options={["Mixed Waste", "Agricultural Waste", "Food Waste"]}
             placeholder="Select Waste Type"
             onChange={(value) => form.setValue("wasteType", value)}
+            label="Waste Type"
+            required
+            helperText={form.formState.errors["wasteType"] && ""}
           />
         </Stack>
 
