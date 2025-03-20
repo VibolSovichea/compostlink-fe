@@ -18,7 +18,6 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<User | null>(null);
   const { logout } = useAuth();
 
-
   const menuItems = [
     { title: "Edit Profile", href: "/profile/edit" },
     { title: "Point History", href: "/profile/points" },
@@ -26,9 +25,10 @@ export default function ProfilePage() {
     {
       title: "Log Out",
       href: "#",
+
       onClick: () => {
         logout();
-      }
+      },
     },
   ];
 

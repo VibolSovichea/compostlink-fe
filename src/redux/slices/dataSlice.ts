@@ -1,11 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQuery from "@/redux/middleware/baseQuery";
-import { Location, User, WasteDonation } from "@/redux/slices/data.types";
+import { Location, PointHistory, User, WasteDonation } from "@/redux/slices/data.types";
 
 const dataSlice = createApi({
   reducerPath: "data",
   baseQuery: baseQuery,
-  tagTypes: ["Profile", "wasteDonation", "dropOffLocation"],
+  tagTypes: ["Profile", "wasteDonation", "dropOffLocation", "pointHistory", "User"],
   endpoints: (builder) => ({
     profile: builder.query<User, string>({
       query: (id) => ({
@@ -38,6 +38,23 @@ const dataSlice = createApi({
       }),
       invalidatesTags: ["dropOffLocation"],
     }),
+
+    updateUser: builder.mutation<any, { id: string, body: { name: string, email: string } }>({
+      query: ({ id, body }) => ({
+        url: `/users/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ["Profile"],
+    }),
+
+    getUserPointHistory: builder.query<PointHistory[], string>({
+      query: (userId) => ({
+        url: `/users/${userId}/point-history`,
+        method: "GET",
+      }),
+      providesTags: ["pointHistory"],
+    }),
   }),
 });
 
@@ -50,4 +67,7 @@ export const {
   useDropOffLocationQuery,
   useLazyDropOffLocationQuery,
   useRegisterLocationMutation,
+  useUpdateUserMutation,
+  useGetUserPointHistoryQuery,
+  useLazyGetUserPointHistoryQuery,
 } = dataSlice;

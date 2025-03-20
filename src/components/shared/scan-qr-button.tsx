@@ -1,8 +1,6 @@
 import MButton from "@/components/m-ui/m-button";
 import { useState } from "react";
 import QRScannerComponent from "@/app/scanform/page";
-import { FaArrowRight } from "react-icons/fa";
- 
 
 const ScanQRButton = () => {
   const [isScanning, setIsScanning] = useState(false);

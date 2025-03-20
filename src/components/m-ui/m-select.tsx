@@ -1,4 +1,4 @@
-import { createListCollection } from "@chakra-ui/react";
+import { createListCollection, Field } from "@chakra-ui/react";
 import {
   SelectContent,
   SelectItem,
@@ -14,11 +14,13 @@ interface MSelectProps extends Omit<SelectRootProps, "collection" | "onValueChan
   options: string[];
   placeholder?: string;
   label?: string;
+  required?: boolean;
+  helperText?: string;
   onChange?: (value: string) => void;
 }
 
 const MSelect = forwardRef<HTMLDivElement, MSelectProps>(
-  ({ options, placeholder, label, value, onChange, ...props }, ref) => {
+  ({ options, placeholder, label, value, required, helperText, onChange, ...props }, ref) => {
     const collection = createListCollection({ items: options });
 
     return (
@@ -27,10 +29,11 @@ const MSelect = forwardRef<HTMLDivElement, MSelectProps>(
         value={value}
         onValueChange={(details) => onChange?.(details.value[0])}
         collection={collection}
+        required={required}
         {...props}
       >
-        {label && <SelectLabel>{label}</SelectLabel>}
-        <SelectTrigger>
+        {label && <SelectLabel className="text-black">{label}</SelectLabel>}
+        <SelectTrigger className="bg-background h-12 p-2 text-black">
           <SelectValueText placeholder={placeholder || options[0]} />
         </SelectTrigger>
         <SelectContent>
@@ -40,6 +43,9 @@ const MSelect = forwardRef<HTMLDivElement, MSelectProps>(
             </SelectItem>
           ))}
         </SelectContent>
+        <Field.Root>
+          <Field.HelperText className="text-sm text-black">{helperText}</Field.HelperText>
+        </Field.Root>
       </SelectRoot>
     );
   }
