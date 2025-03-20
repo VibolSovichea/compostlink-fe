@@ -3,7 +3,9 @@
 import Image from "next/image";
 import Logo from "@/../public/assets/compostlink.png";
 import { Card } from "@chakra-ui/react"
+
 import clsx from "clsx";
+import { CircularProgress } from '@chakra-ui/progress';
 
 interface ProfilePreviewCardProps {
   points: number;
@@ -21,18 +23,23 @@ const ProfilePreviewCard = ({ points, sticky = false, variant = "user" }: Profil
             <div className="text-sm text-black capitalize">Main balance</div>
             <div className="text-secondary font-bold text-2xl">{`${points} pts`}</div>
             {variant === "user" ? (
-              <div className="text-xs text-black">use these points to redeem rewards</div>
+              <div className="text-xs text-black ">USE THESE POINTS TO GET REWARDS</div>
             ) : (
               <div className="text-xs text-black">rewards points to our generators</div>
             )}
           </div>
-          <Image
-            src={Logo}
-            alt=""
-            width={100}
-            height={100}
-            className="size-20"
-          />
+          <div className="relative w-24 h-24 flex items-center justify-center">
+            <CircularProgress size="100px" thickness="6px" value={points} color="green.400" trackColor="white" />
+            
+            {/* Image in Center */}
+            <Image
+              src={Logo}
+              alt="Logo"
+              width={100}  // Adjust size
+              height={100} // Adjust size
+              className="absolute" // Centered inside circle
+            />
+          </div>
         </div>
       </Card.Body>
     </Card.Root>
