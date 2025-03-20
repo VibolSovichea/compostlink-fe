@@ -62,7 +62,7 @@ const SignInForm = () => {
         <Stack>
 
           <MFormInput
-            label="Username / Phone Number / Email"
+            label="Username"
             placeholder="Username / Phone Number / Email"
             required={true}
             {...register("username")}

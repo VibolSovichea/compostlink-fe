@@ -30,12 +30,12 @@ const RewardModal = ({ rewardId, onSuccess, open, onOpenChange }: RewardModalPro
     <Drawer.Root open={open} onOpenChange={(e) => onOpenChange(e.open)} placement="bottom">
       <Drawer.Backdrop />
       <Drawer.Positioner className="flex justify-center">
-        <Drawer.Content className="w-[430px] rounded-t-lg bg-secondary shadow-none p-base">
+        <Drawer.Content className="w-[430px] rounded-xl bg-secondary rounded-xl shadow-none p-base">
 
-          <DrawerBody className="p-0 h-full max-h-[80vh] overflow-y-auto">
+          <DrawerBody className="p-0 h-full max-h-[80vh] rounded-xl overflow-y-auto">
             <div className="flex flex-col gap-base h-full">
-              <div className="aspect-video bg-white w-full">
-                <div className="bg-primary size-full rounded-lg" />
+              <div className="aspect-video bg-white w-full rounded-t-xl">
+                <div className="bg-primary size-full rounded-xl" />
               </div>
 
               <div className="flex flex-col gap-base">
@@ -52,7 +52,7 @@ const RewardModal = ({ rewardId, onSuccess, open, onOpenChange }: RewardModalPro
             </div>
           </DrawerBody>
 
-          <DrawerFooter className="px-0 mt-base">
+          <DrawerFooter className="px-0 mt-base rounded-xl">
             <MButton variant="primary" full className="text-white" onClick={onSubmit}>
               Confirm Redemption
             </MButton>

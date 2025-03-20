@@ -20,11 +20,11 @@ const RewardContent = ({ data, onRedeem }: RewardContentProps) => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col gap-base">
+    <div className="flex flex-col gap-base ">
       {data.map((item: any) => (
-        <div key={item.id} className="rounded-lg p-base w-full h-24 flex gap-base shadow-lg border border-gray-100 items-center">
+        <div key={item.id} className="rounded-xl p-base w-94 h-24 flex gap-base shadow-lg border border-gray-100 items-center">
           <div className="aspect-square size-16">
-            <div className="bg-primary size-full rounded-lg"></div>
+            <div className="bg-primary size-full rounded-xl"></div>
           </div>
           <div className="flex flex-col gap-1 flex-1">
             <p className="text-md font-bold text-black">{item.name}</p>
@@ -69,9 +69,9 @@ const RewardPage = () => {
 
   return (
     <Base insideClassName="gap">
-      <div className="flex flex-col gap-base sticky top-0 bg-white z-10 pt-base">
+      <div className="flex flex-col w-full gap-base top-0 z-10 pt-base ">
         <ProfilePreviewCard points={points} />
-        <CategorySlider categories={["All", "Food", "Entertainment", "Travel", "Other"]} />
+        <CategorySlider categories={["All", "Voucher", "Gift Card", "Drink"]} />
       </div>
       <RewardContent data={rewardData} onRedeem={handleRedeem} />
       <RewardModal

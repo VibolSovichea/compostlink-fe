@@ -14,10 +14,10 @@ interface ProfilePreviewCardProps {
 const ProfilePreviewCard = ({ points, sticky = false, variant = "user" }: ProfilePreviewCardProps) => {
 
   return (
-    <Card.Root className={clsx("w-full bg-primary shadow-xl h-32", { "sticky top-0": sticky })}>
-      <Card.Body className="flex flex-col gap-6 py-base">
+    <Card.Root className={clsx("w-full rounded-xl bg-primary shadow-xl h-32", { "sticky top-0": sticky })}>
+      <Card.Body className="flex flex-col rounded-xl gap-6 py-base">
         <div className="flex">
-          <div className="flex flex-1 flex-col gap-2">
+          <div className="flex flex-1 flex-col gap-2 ">
             <div className="text-sm text-black capitalize">Main balance</div>
             <div className="text-secondary font-bold text-2xl">{`${points} pts`}</div>
             {variant === "user" ? (

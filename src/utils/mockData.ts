@@ -4,7 +4,7 @@ export const rewardData = [
     name: "Movie Ticket",
     description: "A free movie ticket to any cinema of your choice. Enjoy the latest blockbusters on the big screen with comfortable seating and premium sound quality for an immersive experience.",
     points: 150,
-    category: "entertainment"
+    category: "voucher"
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ export const rewardData = [
     name: "Concert Pass",
     description: "Get access to an exclusive live concert event. Experience the thrill of live music, amazing performances, and an electrifying atmosphere as your favorite artists take the stage.",
     points: 500,
-    category: "entertainment"
+    category: "voucher"
   },
   {
     id: 4,
@@ -32,14 +32,14 @@ export const rewardData = [
     name: "Gym Pass",
     description: "A one-day pass to a premium gym near you. Get access to top-notch workout equipment, group fitness classes, and professional trainers to help you stay fit and active.",
     points: 300,
-    category: "others"
+    category: "drinks"
   },
   {
     id: 6,
     name: "Streaming Subscription",
     description: "One-month free subscription to a popular streaming service. Watch thousands of movies, TV shows, and exclusive content from the comfort of your home or on the go.",
     points: 600,
-    category: "entertainment"
+    category: "voucher"
   },
   {
     id: 7,
@@ -53,14 +53,14 @@ export const rewardData = [
     name: "Gift Card",
     description: "A $10 gift card redeemable at select stores. Shop for your favorite products, from clothing and accessories to gadgets and essentials, at participating retailers.",
     points: 400,
-    category: "others"
+    category: "drinks"
   },
   {
     id: 9,
     name: "Board Game",
     description: "A fun board game to enjoy with friends and family. Spend quality time with loved ones while engaging in a classic strategy game or an exciting party game full of laughter and challenges.",
     points: 350,
-    category: "entertainment"
+    category: "voucher"
   },
   {
     id: 10,

@@ -3,6 +3,7 @@ import NewsCard from "@/components/home/news-card";
 import { User } from "@/redux/slices/data.types";
 import MButton from "@/components/m-ui/m-button";
 import QrModal from "../qr-modal";
+import { FaArrowRight } from "react-icons/fa";
 import { useState } from "react";
 
 interface UserHomePageProps {
@@ -17,10 +18,14 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
       <MButton
         variant="primary"
         full
-        className="text-white mt-4"
+        className="flex items-center w-48 justify-center py-2 rounded-xl bg-primary text-white shadow-lg mt-4"
         onClick={() => setOpen(true)}
       >
-        Share your QR
+        <span className="text-lg font-medium">Get QR Code </span>
+        <span className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+          < FaArrowRight className="text-green-500 w-5 h-5" />
+        </span>
+        
       </MButton>
       <NewsCard />
       <NewsCard />

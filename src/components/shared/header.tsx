@@ -16,7 +16,7 @@ const ReturnButton = ({ pageTitle }: HeaderProps) => {
   return (
     <div className="sticky top-0 h-14 bg-primary rounded-b-[2rem] shadow-lg">
       <div className="relative h-14 px-4 flex items-center">
-        <button className="text-white absolute left-base" onClick={() => router.back()}>
+        <button className="text-white absolute left-base" onClick={() => router.back()} title="Go back">
           <ArrowLeft />
         </button>
         <span className="text-white text-sm flex-1 text-center font-bold">{pageTitle}</span>
@@ -41,7 +41,7 @@ const Header = ({ username, pageTitle, variant = "default", onClick }: HeaderPro
             height={100}
             className="size-10"
           />
-          <p className="text-primary text-sm">Welcome, <span className="font-bold">{username}</span></p>
+          <p className="text-primary text-lg">Welcome, <span className="font-bold">{username}</span></p>
         </div>
       )}
     </>
