@@ -1,11 +1,23 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQuery from "@/redux/middleware/baseQuery";
-import { Location, User, WasteDonation } from "@/redux/slices/data.types";
+import {
+  Location,
+  Redemption,
+  Reward,
+  User,
+  WasteDonation,
+} from "@/redux/slices/data.types";
 
 const dataSlice = createApi({
   reducerPath: "data",
   baseQuery: baseQuery,
-  tagTypes: ["Profile", "wasteDonation", "dropOffLocation"],
+  tagTypes: [
+    "Profile",
+    "wasteDonation",
+    "dropOffLocation",
+    "reward",
+    "redemption",
+  ],
   endpoints: (builder) => ({
     profile: builder.query<User, string>({
       query: (id) => ({
@@ -38,6 +50,55 @@ const dataSlice = createApi({
       }),
       invalidatesTags: ["dropOffLocation"],
     }),
+
+    reward: builder.query<Reward[], void>({
+      query: () => ({
+        url: "/rewards",
+        method: "GET",
+      }),
+      providesTags: ["reward"],
+    }),
+
+    rewardById: builder.query<Reward, number>({
+      query: (id) => ({
+        url: `/rewards/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["reward"],
+    }),
+
+    rewardRedemption: builder.query<Redemption[], void>({
+      query: () => ({
+        url: "/redemptions",
+        method: "GET",
+      }),
+      providesTags: ["redemption"],
+    }),
+
+    rewardRedemptionById: builder.query<Redemption, number>({
+      query: (id) => ({
+        url: `/redemptions/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["redemption"],
+    }),
+
+    rewardRedeem: builder.mutation<any, Redemption>({
+      query: (body) => ({
+        url: "/redemptions",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["redemption"],
+    }),
+
+    redemptionInactivate: builder.mutation<any, number>({
+      query: (id) => ({
+        url: `/redemptions/inactivate/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["redemption"],
+    }),
   }),
 });
 
@@ -50,4 +111,10 @@ export const {
   useDropOffLocationQuery,
   useLazyDropOffLocationQuery,
   useRegisterLocationMutation,
+  useRewardQuery,
+  useRewardByIdQuery,
+  useRewardRedemptionQuery,
+  useRewardRedeemMutation,
+  useRewardRedemptionByIdQuery,
+  useRedemptionInactivateMutation,
 } = dataSlice;

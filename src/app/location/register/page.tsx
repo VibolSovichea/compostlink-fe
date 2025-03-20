@@ -22,9 +22,7 @@ export default function LocationRegisterPage() {
   const numericFacilityId = Number(facilityId);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [location, setLocation] = useState<Location | null>(null);
-  const [registerLocation] =
-    useRegisterLocationMutation();
-
+  const [registerLocation] = useRegisterLocationMutation();
 
   const onConfirmLocation = useCallback(async () => {
     if (!location) return;
@@ -49,47 +47,59 @@ export default function LocationRegisterPage() {
   }, [facilityId, numericFacilityId, registerLocation, location]);
 
   return (
-    <Base headerVariant="return-button" headerContent={{ pageTitle: "Location Register" }} hideNavigation>
+    <Base
+      headerVariant="return-button"
+      headerContent={{ pageTitle: "Location Register" }}
+      hideNavigation
+    >
       <div className="flex flex-col gap-4 mt-16">
         <div className="text-2xl font-bold text-black">Location Register</div>
-        <div className="text-sm text-gray-500">Please fill in the following details to register your location</div>
-        <CompostLinkMap onConfirm={(lat, lng, address) => {
-          setLocation({
-            latitude: lat,
-            longitude: lng,
-            address,
-            facilityId: numericFacilityId,
-          });
-          setIsPopupOpen(true);
-        }} />
+        <div className="text-sm text-gray-500">
+          Please fill in the following details to register your location
+        </div>
+        <CompostLinkMap
+          onConfirm={(lat, lng, address) => {
+            setLocation({
+              latitude: lat,
+              longitude: lng,
+              address,
+              facilityId: numericFacilityId,
+            });
+            setIsPopupOpen(true);
+          }}
+        />
       </div>
       <MDialog
         open={isPopupOpen}
         onOpenChange={() => setIsPopupOpen(false)}
         header={{
           title: "Confirm Location",
-          description: "Are you sure you want to confirm this location?"
+          description: "Are you sure you want to confirm this location?",
         }}
         content={
           <div className="flex flex-row gap-2 justify-end">
-            <MButton variant="destructive" onClick={() => {
-              setIsPopupOpen(false);
-            }}>
+            <MButton
+              variant="destructive"
+              onClick={() => {
+                setIsPopupOpen(false);
+              }}
+            >
               Cancel
             </MButton>
             <MButton
               className="text-white"
               variant="primary"
               onClick={() => {
-                console.log("Location", location)
+                console.log("Location", location);
                 onConfirmLocation();
                 setIsPopupOpen(false);
-              }}>
+              }}
+            >
               Confirm
             </MButton>
           </div>
         }
       />
     </Base>
-  )
+  );
 }

@@ -16,9 +16,29 @@ export interface WasteDonation {
 }
 
 export interface Location {
-  id: string;
+  id?: string;
   latitude: number;
   longitude: number;
   address?: string;
   facilityId?: number;
+}
+
+export type RewardStatus = "Active" | "Inactive" | "Out of Stock";
+export interface Reward {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  pointRequired: number;
+  stockQuantity: number;
+  status: RewardStatus;
+}
+
+export type RedemptionStatus = "Active" | "Inactive";
+export interface Redemption {
+  id?: number;
+  userId?: number;
+  rewardId?: number;
+  pointSpent: number;
+  status: RedemptionStatus;
 }
