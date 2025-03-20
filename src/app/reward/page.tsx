@@ -20,20 +20,20 @@ const RewardContent = ({ data, onRedeem }: RewardContentProps) => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col gap-base ">
+    <div className="flex flex-col gap-base">
       {data.map((item: any) => (
-        <div key={item.id} className="rounded-xl p-base w-94 h-24 flex gap-base shadow-lg border border-gray-100 items-center">
+        <div key={item.id} className="rounded-xl p-base w-94 h-24 flex gap-base shadow-lg border border-green-400 items-center">
           <div className="aspect-square size-16">
             <div className="bg-primary size-full rounded-xl"></div>
           </div>
           <div className="flex flex-col gap-1 flex-1">
             <p className="text-md font-bold text-black">{item.name}</p>
-            <p className="text-sm font-bold text-primary">{item.points} points</p>
+            <p className="text-sm font-bold text-yellow-400">{item.points} points</p>
           </div>
 
           <MButton
             variant="primary"
-            className="text-sm w-20 text-white font-normal h-10"
+            className="text-sm w-20 text-white font-normal h-10 rounded-xl"
             onClick={() => onRedeem(item.id)}
           >
             Redeem
