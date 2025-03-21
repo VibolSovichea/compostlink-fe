@@ -11,10 +11,10 @@ export default function Home() {
   return (
     <Base hideNavigation={true}>
       <div className="text-title text-black flex flex-col items-center mt-16">
-        <div className="text-center">
-          Welcome to <span className="font-bold text-primary">compy</span>
+        <div className="text-center leading-12">
+          Welcome to <br></br><span className="font-bold text-primary">CompostLink</span>
         </div>
-        <p className="text-body text-black">Connecting Compost to the Future</p>
+        <p className="text-body text-black mt-8">Connecting Compost to the Future</p>
       </div>
 
       <div className="flex items-center justify-center mt-20">
@@ -34,14 +34,14 @@ export default function Home() {
           full
           onClick={() => router.push("/auth/signup")}
         >
-          join compy
+          Become a comper
         </MButton>
         <MButton
           variant="secondary"
           full
           onClick={() => router.push("/auth/signin")}
         >
-          already a comper
+          Already a comper
         </MButton>
       </div>
     </Base>
