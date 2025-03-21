@@ -2,156 +2,132 @@
 
 import Base from "@/components/shared/base-layout";
 import { useParams, useRouter } from "next/navigation";
-import { rewardData } from "@/utils/mockData";
-import { useEffect, useState } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
-import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 import MButton from "@/components/m-ui/m-button";
-import MInputPhoneNumber, { phoneNumberValidation } from "@/components/m-ui/m-phone-input";
-import MFormInput from "@/components/m-ui/m-input";
 import { Stack } from "@chakra-ui/react";
 import QRGenerator from "@/components/shared/qr-generator";
 import { useQrShare } from "@/hooks/use-share-qr";
+import {
+  useRewardQuery,
+  useRewardRedeemMutation,
+} from "@/redux/slices/dataSlice";
+import { RedemptionStatus } from "@/redux/slices/data.types";
+import toast from "react-hot-toast";
+import { RedemptionStatusEnum } from "@/redux/slices/data.enum";
+import Image from "next/image";
 
-const formSchema = z.object({
-  phoneNumber: phoneNumberValidation,
-  firstName: z.string().min(1, { message: "First name is required" }).max(25, { message: "First name must be less than 25 characters" }),
-  lastName: z.string().min(1, { message: "Last name is required" }).max(25, { message: "Last name must be less than 25 characters" }),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
-interface RewardFormProps {
-  onSubmit: (data: FormValues) => void;
-}
-
-const RewardForm = ({ onSubmit }: RewardFormProps) => {
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      phoneNumber: "",
-      firstName: "",
-      lastName: "",
-    },
-  });
-
-  const {
-    register,
-    handleSubmit,
-    formState: {
-      errors,
-    },
-  } = form;
-
-  return (
-    <FormProvider {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-base p-base h-screen">
-        <Stack>
-          <MFormInput
-            label="First Name"
-            placeholder="Your first name"
-            {...register("firstName")}
-          />
-        </Stack>
-
-        <Stack>
-          <MFormInput
-            label="Last Name"
-            placeholder="Your last name"
-            {...register("lastName")}
-          />
-        </Stack>
-
-        <Stack>
-          <MInputPhoneNumber
-            label="Phone Number"
-            onChange={(value) => {
-              register("phoneNumber").onChange({
-                target: {
-                  name: "phoneNumber",
-                  value: value
-                }
-              });
-            }}
-          />
-        </Stack>
-
-        <Stack className="absolute bottom-base right-base left-base">
-          <MButton variant="primary" full className="text-white" type="submit">
-            Confirm
-          </MButton>
-        </Stack>
-      </form>
-    </FormProvider>
-  )
-
+interface Redemption {
+  rewardId: number;
+  status: RedemptionStatus;
+  pointSpent: number;
 }
 
 const RewardPage = () => {
   const { id } = useParams();
-  const [reward, setReward] = useState<any | null>(null);
+  const rewardId = Number(id);
   const router = useRouter();
   const [confirm, setConfirm] = useState(false);
-  const [formData, setFormData] = useState<FormValues | null>(null);
   const { shareQR } = useQrShare();
+  const { data: rewards, isLoading, isError } = useRewardQuery();
+  const [rewardRedeem] = useRewardRedeemMutation();
 
-  useEffect(() => {
-    const reward = rewardData.find((reward) => reward.id === parseInt(id as string));
-    if (!reward) {
-      router.push("/reward");
+  if (isLoading) return <p>Loading...</p>;
+  if (isError || !rewards) return <p>Failed to load rewards.</p>;
+
+  // Find the specific reward by ID
+  const reward = rewards.find((r) => r.id === rewardId);
+  if (!reward) return <p>Reward not found.</p>;
+
+  console.log("Found reward:", reward);
+
+  const onConfirmRedemption = useCallback(async () => {
+    try {
+      const redemption: Redemption = {
+        status: RedemptionStatusEnum.Active,
+        rewardId: reward.id,
+        pointSpent: reward.pointRequired,
+      };
+
+      const response = await rewardRedeem(redemption);
+      console.log("Mutation response:", response);
+      toast.success("Redeem Reward successfully!");
+      setConfirm(true);
+    } catch (err) {
+      console.error("Redemption failed:", err);
+      toast.error("Failed to redeem reward. Please try again.");
     }
-    setReward(reward);
-  }, [id]);
-
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-    setFormData(data);
-    setConfirm(true);
-  }
+  }, [reward, rewardRedeem]);
 
   return (
-    <Base insideClassName="py-base" headerVariant="return-button" headerContent={{
-      pageTitle: "Reward"
-    }} hideNavigation>
+    <Base
+      insideClassName="py-base"
+      headerVariant="return-button"
+      headerContent={{ pageTitle: "Confirm Redemption" }}
+      hideNavigation
+    >
       {!confirm ? (
-        <>
-          <div className="text-title text-black flex flex-col items-center py-double mt-16">
-            <div className="text-center">Personal Information</div>
-          </div>
-          <RewardForm onSubmit={onSubmit} />
-        </>
+        <div className="flex flex-col items-center justify-center h-[50vh] gap-6 text-center">
+          <h1 className="text-xl text-black font-bold">
+            Are you sure you want to exchange{" "}
+            <span className="text-primary">{reward.title}</span> for{" "}
+            <span className="text-primary">{reward.pointRequired} points</span>?
+          </h1>
+          <Stack gap={4} direction="row">
+            <MButton
+              variant="secondary"
+              className="text-black"
+              onClick={() => router.back()}
+            >
+              No
+            </MButton>
+            <MButton
+              variant="primary"
+              className="text-white"
+              onClick={onConfirmRedemption}
+            >
+              Yes
+            </MButton>
+          </Stack>
+        </div>
       ) : (
         <div className="flex flex-col items-center justify-center h-[50vh] gap-4">
-          <div className="text-xl text-black flex flex-col items-center py-double mt-16">
-            <div className="text-center">Your QR Confirmation</div>
-          </div>
-          <QRGenerator
-            personalInfo={{
-              firstName: formData?.firstName || "",
-              lastName: formData?.lastName || "",
-              phoneNumber: formData?.phoneNumber || "",
-              id: reward?.id?.toString()
-            }}
+          <h1 className="text-xl text-black font-bold text-center">
+            Redeem Successful
+          </h1>
+          {/* <QRGenerator data={String(reward.id)} /> */}
+          <Image
+            src="/assets/congrats.png"
+            alt="Congratulations Logo"
+            width={250}
+            height={250}
+            className="object-contain mt-6"
           />
+          <p className="text-primary text-lg">Terms and Conditions</p>
+          <p className="text-primary text-lg">
+            1. You must collect the reward from CompostLink HQ on the map
+          </p>
+          <p className="text-primary text-lg">
+            2. Show the QR-code ticket to CompostLink agent to claim your reward
+          </p>
+          <h1 className="text-xl text-black font-bold text-center">
+            Your QR ticket is Your Reward Ticket Page
+          </h1>
           <MButton
             variant="primary"
             full
             className="text-white mt-4"
             onClick={() => {
-              shareQR()
               setTimeout(() => {
                 router.push("/home");
               }, 3000);
             }}
           >
-            Download Qr Code
+            Complete
           </MButton>
         </div>
       )}
     </Base>
-  )
-}
+  );
+};
 
 export default RewardPage;

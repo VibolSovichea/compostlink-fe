@@ -6,11 +6,11 @@ import QrModal from "../qr-modal";
 import { useState } from "react";
 
 interface UserHomePageProps {
-  userData: User
+  userData: User;
 }
 
 const UserHomePage = ({ userData }: UserHomePageProps) => {
-  const [open, setOpen] = useState(false);  
+  const [open, setOpen] = useState(false);
   return (
     <>
       <ProfilePreviewCard points={userData.totalPoint} />
@@ -24,9 +24,14 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
       </MButton>
       <NewsCard />
       <NewsCard />
-      <QrModal open={open} onOpenChange={setOpen} userId={userData.id} />
+      <QrModal
+        open={open}
+        onOpenChange={setOpen}
+        id={userData.id}
+        type="wastedonation"
+      />
     </>
-  )
-}
+  );
+};
 
 export default UserHomePage;
