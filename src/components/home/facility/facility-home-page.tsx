@@ -9,12 +9,12 @@ interface FacilityHomePageProps {
 }
 
 const FacilityHomePage = ({ userData }: FacilityHomePageProps) => {
+  const url = window.location.origin;
   return (
     <>
       <ProfilePreviewCard points={userData.totalPoint} variant="facility" />
-      <NewsCard />
-      <div className="flex flex-col gap-base absolute bottom-base right-0 left-0 px-base">
-        <MButton variant="primary" className="text-white" full onClick={() => { window.location.href = "http://localhost:4000/location/register"; }}>Add Drop-off Location</MButton>
+      <div className="flex flex-col gap-base absolute bottom-8 right-0 left-0 px-base">
+        <MButton variant="primary" className="text-white" full onClick={() => { window.location.href = `${url}/location/register`; }}>Add Drop-off Location</MButton>
         <ScanQRButton />
       </div >
     </>

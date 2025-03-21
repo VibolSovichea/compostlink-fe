@@ -28,7 +28,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="flex flex-col gap-base w-full absolute bottom-base right-0 left-0 px-base">
+      <div className="flex flex-col gap-base w-full absolute bottom-8 right-0 left-0 px-base">
         <MButton
           variant="primary"
           full

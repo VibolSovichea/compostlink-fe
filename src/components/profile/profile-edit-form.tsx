@@ -68,7 +68,7 @@ const ProfileEditForm = ({ profile }: ProfileEditFormProps) => {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-base">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-base px-base">
         <Stack>
           <MFormInput
             label="Name"
@@ -87,9 +87,16 @@ const ProfileEditForm = ({ profile }: ProfileEditFormProps) => {
           />
         </Stack>
 
-        <MButton type="submit" full variant="primary" loading={isLoading}>
-          Update Profile
-        </MButton>
+        <Stack className="text-sm text-gray-500 text-center mt-base">
+          <p>By updating your profile, you are agreeing to our</p>
+          <p>Terms and Conditions</p>
+        </Stack>
+
+        <div className="absolute bottom-8 left-base right-base">
+          <MButton type="submit" full variant="primary" loading={isLoading} >
+            Update Profile
+          </MButton>
+        </div>
 
       </form>
     </FormProvider>

@@ -1,11 +1,7 @@
-import { Home, Award, MapPin, User, QrCode } from "lucide-react";
+import { Home, Award, MapPin, User } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
-interface MBottomNavigationProps {
-  onQrClick: () => void;
-}
-
-const MBottomNavigation = ({ onQrClick }: MBottomNavigationProps) => {
+const MBottomNavigation = () => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -23,10 +19,6 @@ const MBottomNavigation = ({ onQrClick }: MBottomNavigationProps) => {
       path: "/reward",
     },
     {
-      icon: QrCode,
-      label: "Qr",
-    },
-    {
       icon: MapPin,
       isActive: pathname === "/location",
       label: "Location",
@@ -42,7 +34,7 @@ const MBottomNavigation = ({ onQrClick }: MBottomNavigationProps) => {
 
   return (
     <div
-      className="fixed sm:absolute bottom-base left-base right-base bg-primary h-14 rounded-xl"
+      className="fixed sm:absolute bottom-8 left-base right-base bg-primary h-14 rounded-xl"
     >
       <div className="flex items-center h-full">
         {navigationItems.map((item) => (
@@ -50,11 +42,7 @@ const MBottomNavigation = ({ onQrClick }: MBottomNavigationProps) => {
           className="w-full cursor-pointer" 
           key={item.label}
           onClick={() => {
-            if (item.label === "Qr") {
-              onQrClick();
-            } else {
-              router.push(item.path || "/home");
-            }
+            router.push(item.path || "/home");
           }}
           >
             {item.label === "Qr" ? (

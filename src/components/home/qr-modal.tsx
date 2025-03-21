@@ -9,7 +9,6 @@ import {
 import QRGenerator from "../shared/qr-generator";
 import MButton from "../m-ui/m-button";
 import { useQrShare } from "@/hooks/use-share-qr";
-
 interface QrModalProp {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -19,9 +18,10 @@ interface QrModalProp {
 
 const QrModal = ({ open, onOpenChange, id, type }: QrModalProp) => {
   const { shareQR } = useQrShare();
+  const url = window.location.origin;
 
   // Dynamically set the QR code URL based on type
-  const qrUrl = `http://localhost:4000/${type}/${id}`;
+  const qrUrl = `${url}/${type}/${id}`;
 
   return (
     <Drawer.Root

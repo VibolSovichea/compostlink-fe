@@ -13,7 +13,7 @@ interface MButtonProps {
 const MButton = forwardRef<HTMLButtonElement, HTMLChakraProps<"button"> & MButtonProps>(({ className, variant, loading, full, ...props }, ref) => {
 
   const variants = {
-    primary: "bg-primary text-black rounded-md h-12 p-2",
+    primary: "bg-primary text-white rounded-md h-12 p-2",
     secondary: "bg-muted text-black rounded-md active:[transform:translate3d(0,1.5px,0)] h-12 p-2",
     destructive: "bg-red-500 text-white rounded-md active:[transform:translate3d(0,1.5px,0)] h-12 p-2"
   }

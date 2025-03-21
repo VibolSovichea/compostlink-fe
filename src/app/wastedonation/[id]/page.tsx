@@ -5,6 +5,7 @@ import WasteDonationForm from "@/components/shared/waste-donation-form";
 import { useParams } from "next/navigation";
 import Cookies from "js-cookie";
 
+// Please use this
 const WasteDonationPage = () => {
   const id = useParams<{ id: string }>();
   const facilityId = Cookies.get("user_id");

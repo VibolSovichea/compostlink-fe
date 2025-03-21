@@ -16,6 +16,7 @@ interface WasteDonationFormProps {
   generatorId: string;
 }
 
+// Please use this
 const formSchema = z.object({
   wasteType: z.string().min(1, {
     message: "Waste type is required",

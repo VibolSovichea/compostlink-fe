@@ -83,7 +83,7 @@ export default function CompostLinkMap({
 
         {isPopupOpen && (
           <div
-            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white p-3 rounded-lg shadow-lg max-w-xs w-4/5"
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-white p-3 rounded-lg shadow-lg max-w-xs w-4/5"
             style={{ zIndex: 1000 }}
           >
             <button
