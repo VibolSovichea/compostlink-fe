@@ -21,7 +21,6 @@ export default function ProfilePage() {
   const menuItems = [
     { title: "Edit Profile", href: "/profile/edit" },
     { title: "Point History", href: "/profile/points" },
-    { title: "Language", href: "/language" },
     {
       title: "Log Out",
       href: "#",
