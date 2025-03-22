@@ -34,7 +34,7 @@ const MBottomNavigation = () => {
 
   return (
     <div
-      className="fixed sm:absolute bottom-8 left-base right-base bg-primary h-14 rounded-xl"
+      className="fixed sm:absolute bottom-base left-base right-base bg-primary h-14 rounded-xl"
     >
       <div className="flex items-center h-full">
         {navigationItems.map((item) => (

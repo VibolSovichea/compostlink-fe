@@ -92,7 +92,7 @@ const ProfileEditForm = ({ profile }: ProfileEditFormProps) => {
           <p>Terms and Conditions</p>
         </Stack>
 
-        <div className="absolute bottom-8 left-base right-base">
+        <div className="absolute bottom-base left-base right-base">
           <MButton type="submit" full variant="primary" loading={isLoading} >
             Update Profile
           </MButton>

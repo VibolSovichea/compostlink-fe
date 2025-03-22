@@ -23,6 +23,9 @@ const MDialog = React.forwardRef<HTMLDialogElement, MDialogProps>(({ content, tr
         <Dialog.Backdrop />
         <Dialog.Positioner >
           <Dialog.Content className="w-full max-w-[92%] sm:max-w-[400px] bg-secondary rounded-lg text-black shadow-none" autoFocus={false}>
+            <Dialog.CloseTrigger className="absolute top-2 right-2 text-black/30">
+              <X className="size-5" />
+            </Dialog.CloseTrigger>
             {header && (
               <Dialog.Header>
                 <Dialog.Title className="text-lg font-bold">{header.title}</Dialog.Title>

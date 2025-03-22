@@ -18,12 +18,12 @@ const ProfilePreviewCard = ({ points, sticky = false, variant = "user" }: Profil
       <Card.Body className="flex flex-col gap-6 py-base">
         <div className="flex">
           <div className="flex flex-1 flex-col gap-2">
-            <div className="text-sm text-black capitalize">Main balance</div>
-            <div className="text-secondary font-bold text-2xl">{`${points} pts`}</div>
+            <div className="text-sm text-white capitalize">Main balance</div>
+            <div className="text-secondary font-bold text-3xl">{`${points} pts`}</div>
             {variant === "user" ? (
-              <div className="text-xs text-black">use these points to redeem rewards</div>
+              <div className="text-sm text-white">use these points to redeem rewards</div>
             ) : (
-              <div className="text-xs text-black">rewards points to our generators</div>
+              <div className="text-sm text-white">rewards points to our generators</div>
             )}
           </div>
           <Image

@@ -26,8 +26,8 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
         <p className="text-black text-sm font-bold">News</p>
         <div className="w-full h-[1px] bg-gray-300"></div>
       </span>
-      <NewsCard data="https://www.youtube.com/embed/oFlsjRXbnSk?si=65HpkjACmfiVLduF" />
-      <NewsCard data="https://www.youtube.com/embed/pi-vsJOaduk?si=im4Fy46vqGwaTQE3" />
+      {/* <NewsCard data="https://www.youtube.com/embed/oFlsjRXbnSk?si=65HpkjACmfiVLduF" />
+      <NewsCard data="https://www.youtube.com/embed/pi-vsJOaduk?si=im4Fy46vqGwaTQE3" /> */}
       <QrModal
         open={open}
         onOpenChange={setOpen}

@@ -50,3 +50,12 @@ export interface PointHistory {
   points: number;
   createdAt: string;
 }
+
+export interface Reward {
+  id: number,
+  title: string,
+  description: string,
+  imageUrl: string,
+  pointRequired: number,
+  stockQuantity: number,
+}
