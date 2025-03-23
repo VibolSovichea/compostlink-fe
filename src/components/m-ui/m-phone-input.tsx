@@ -23,14 +23,14 @@ const MInputPhoneNumber = ({
 }: MPhoneNumberProps) => {
   return (
     <>
-      {props.label && <p className="text-sm text-label mb-1 text-black">{props.label}</p>}
+      {props.label && <p className="text-sm text-label mb-1 text-text_dark">{props.label}</p>}
       <div className="flex items-center border-0 border-b-2 ">
         <PhoneInput
           value={props.value}
           country="kh"
           buttonClass="!rounded-lg !shadow-sm !border-0 !bg-gray-50 !w-[40px] !h-[46px]"
           containerClass="!border-none w-full"
-          inputClass="!w-full !h-[46px] !border-none !text-base !pl-[56px] !bg-transparent focus:!ring-0 !text-black"
+          inputClass="!w-full !h-[46px] !border-none !text-base !pl-[56px] !bg-transparent focus:!ring-0 !text-text_dark"
           dropdownClass="!rounded-lg !border !border-gray-200 !shadow-lg"
           inputStyle={{
             backgroundColor: "transparent",

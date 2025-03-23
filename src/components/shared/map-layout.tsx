@@ -95,7 +95,7 @@ export default function CompostLinkMap({
             >
               <X className="w-4 h-4" />
             </button>
-            <div className="text-sm text-black">
+            <div className="text-sm text-text_dark">
               <p>
                 📍 <strong>Lat:</strong> {position[0]} <br />
                 📍 <strong>Lng:</strong> {position[1]} <br />

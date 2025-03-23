@@ -17,7 +17,7 @@ const FailedDialog = ({ open, description, onOpenChange }: FailedDialogProps) =>
           <CircleX className="size-16 text-red-500" />
           <div className="flex flex-col items-center justify-center">
             <p className="text-lg font-bold">Failed</p>
-            <p className="text-sm text-black">{description}</p>
+            <p className="text-sm text-text_dark">{description}</p>
           </div>
         </div>
       }

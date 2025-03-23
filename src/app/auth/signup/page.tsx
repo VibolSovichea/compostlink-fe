@@ -11,7 +11,7 @@ export default function SignUpPage() {
   const router = useRouter();
   return (
     <Base insideClassName="gap-base" hideNavigation={true} headerVariant="return-button" headerContent={{pageTitle: "Sign Up"}}>
-      <div className="text-title text-black flex flex-col items-center py-double mt-16">
+      <div className="text-title text-text_dark flex flex-col items-center py-double mt-16">
         <div className="text-center">Welcome Aboard</div>
       </div>
       <SignUpForm />

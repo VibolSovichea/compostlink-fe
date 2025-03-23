@@ -11,13 +11,13 @@ interface FacilityHomePageProps {
 const FacilityHomePage = ({ userData }: FacilityHomePageProps) => {
   const url = window.location.origin;
   return (
-    <>
+    <div className="flex flex-col gap-base mt-base">
       <ProfilePreviewCard points={userData.totalPoint} variant="facility" />
       <div className="flex flex-col gap-base absolute bottom-base right-0 left-0 px-base">
         <MButton variant="primary" className="text-white" full onClick={() => { window.location.href = `${url}/location/register`; }}>Add Drop-off Location</MButton>
         <ScanQRButton />
       </div >
-    </>
+    </div>
   )
 }
 

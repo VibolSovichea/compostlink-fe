@@ -1,14 +1,28 @@
 import { Card } from "@chakra-ui/react"
+import { Flower, LeafyGreen, Salad } from "lucide-react";
 
 interface NewsCardProps {
-  data: string;
+  data?: {
+    title: string;
+    description: string;
+  };
+  onClick?: () => void;
+  icon?: "Flower" | "LeafyGreen" | "Salad";
 }
 
-const NewsCard = ({ data }: NewsCardProps) => {
+const NewsCard = ({ data, onClick, icon = "Flower" }: NewsCardProps) => {
   return (
-    <Card.Root className="w-full bg-white shadow-xl h-52">
-      <Card.Body className="flex flex-col justify-center items-center h-full aspect-video p-0">
-        <iframe width="100%" height="100%" src={data} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className="rounded-lg"></iframe>
+    <Card.Root className="bg-white shadow-lg w-full h-32"
+      onClick={onClick}
+    >
+      <Card.Body className="flex items-center h-full aspect-video relative overflow-hidden">
+        {icon === "Flower" && <Flower className="text-primary/20 size-44 rotate-5 absolute right-[-50px]" />}
+        {icon === "LeafyGreen" && <LeafyGreen className="text-primary/20 size-44 rotate-5 absolute right-[-50px]" />}
+        {icon === "Salad" && <Salad className="text-primary/20 size-44 rotate-5 absolute right-[-50px]" />}
+        <div className="flex flex-col gap-2">
+          <p className="text-text_dark text-lg font-bold">{data?.title}</p>
+          <p className="text-text_dark text-sm line-clamp-2">{data?.description}</p>
+        </div>
       </Card.Body>
     </Card.Root>
   )

@@ -51,10 +51,10 @@ const LocationList = ({ locations, onSelect }: LocationListProps) => {
                 <Building2 className="size-full text-primary" />
               </div>
               <div className="flex flex-col justify-evenly">
-                <p className="text-sm text-black font-semibold">
+                <p className="text-sm text-text_dark font-semibold">
                   {"Facility Name"}
                 </p>
-                <p className="text-xs text-black">
+                <p className="text-xs text-text_dark">
                   {extractMainAddress(location.address)}
                 </p>
               </div>

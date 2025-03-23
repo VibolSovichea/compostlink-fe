@@ -39,7 +39,7 @@ export default function ProfileEditPage() {
                 className="size-full"
               />
             </div>
-            <p className="text-lg text-black">{profile?.name}</p>
+            <p className="text-lg text-text_dark">{profile?.name}</p>
           </div>
           <ProfileEditForm profile={profile} />
         </>

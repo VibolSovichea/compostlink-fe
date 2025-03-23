@@ -10,11 +10,11 @@ export default function Home() {
   const router = useRouter();
   return (
     <Base hideNavigation={true}>
-      <div className="text-title text-black flex flex-col items-center mt-16">
+      <div className="text-title text-text_dark flex flex-col items-center mt-16">
         <div className="text-center leading-12">
           Welcome to <br></br><span className="font-bold text-primary">CompostLink</span>
         </div>
-        <p className="text-body text-black mt-8">Connecting Compost to the Future</p>
+        <p className="text-body text-text_dark mt-8">Connecting Compost to the Future</p>
       </div>
 
       <div className="flex items-center justify-center mt-20">

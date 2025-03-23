@@ -17,7 +17,7 @@ const SuccessDialog = ({ open, description, onOpenChange }: SuccessDialogProps) 
           <CircleCheck className="size-16 text-primary" />
           <div className="flex flex-col items-center justify-center">
             <p className="text-lg font-bold">Success</p>
-            <p className="text-sm text-black">{description}</p>
+            <p className="text-sm text-text_dark">{description}</p>
           </div>
         </div>
       }

@@ -32,7 +32,7 @@ export default function RoleSelectionPage() {
 
   return (
     <Base insideClassName="items-center gap-base" hideNavigation={true}>
-      <div className="text-title text-black flex flex-col items-center py-double mt-16">
+      <div className="text-title text-text_dark flex flex-col items-center py-double mt-16">
         <div className="text-center">What is your role?</div>
         <div className="text-center text-body text-gray-600 lowercase">
           You are both our hero!
@@ -56,7 +56,7 @@ export default function RoleSelectionPage() {
               className="object-contain"
               priority
             />
-            <div className="text-center text-body text-black">Generator</div>
+            <div className="text-center text-body text-text_dark">Generator</div>
           </div>
 
           {/* Facility Role Card */}
@@ -74,7 +74,7 @@ export default function RoleSelectionPage() {
               className="object-contain"
               priority
             />
-            <div className="text-center text-body text-black">Facility</div>
+            <div className="text-center text-body text-text_dark">Facility</div>
           </div>
         </div>
 

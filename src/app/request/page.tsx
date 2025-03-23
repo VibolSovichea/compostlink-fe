@@ -67,7 +67,7 @@ export default function RewardPage() {
         <div className="flex flex-col items-center p-4 gap-4 w-full pt-20"> {/* Prevent overlap */}
           
           {/* User Info Card */}
-          <div className="bg-white text-black p-4 rounded-2xl shadow-md w-80 ">
+          <div className="bg-white text-text_dark p-4 rounded-2xl shadow-md w-80 ">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm">Hello, John</p>
@@ -114,7 +114,7 @@ export default function RewardPage() {
 
                 {/* Content (Title, Description, Date) */}
                 <div className="flex-1">
-                  <p className="text-lg text-black font-semibold">{rewards.title}</p>
+                  <p className="text-lg text-text_dark font-semibold">{rewards.title}</p>
                   <p className="text-sm text-gray-600">{rewards.description}</p>
                   <p className="text-xs text-gray-500 mt-1">Date: {rewards.date}</p>
                 </div>

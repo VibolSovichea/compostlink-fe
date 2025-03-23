@@ -22,8 +22,8 @@ const MDialog = React.forwardRef<HTMLDialogElement, MDialogProps>(({ content, tr
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner >
-          <Dialog.Content className="w-full max-w-[92%] sm:max-w-[400px] bg-secondary rounded-lg text-black shadow-none" autoFocus={false}>
-            <Dialog.CloseTrigger className="absolute top-2 right-2 text-black/30">
+          <Dialog.Content className="w-full max-w-[92%] sm:max-w-[400px] bg-secondary rounded-lg text-text_dark shadow-none" autoFocus={false}>
+            <Dialog.CloseTrigger className="absolute top-2 right-2 text-text_dark/30">
               <X className="size-5" />
             </Dialog.CloseTrigger>
             {header && (

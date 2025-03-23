@@ -53,7 +53,7 @@ export default function LocationRegisterPage() {
       hideNavigation
     >
       <div className="flex flex-col gap-4 mt-16">
-        <div className="text-2xl font-bold text-black">Location Register</div>
+        <div className="text-2xl font-bold text-text_dark">Location Register</div>
         <div className="text-sm text-gray-500">
           Please fill in the following details to register your location
         </div>

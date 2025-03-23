@@ -9,6 +9,7 @@ import {
 import QRGenerator from "../shared/qr-generator";
 import MButton from "../m-ui/m-button";
 import { useQrShare } from "@/hooks/use-share-qr";
+
 interface QrModalProp {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -33,10 +34,10 @@ const QrModal = ({ open, onOpenChange, id, type }: QrModalProp) => {
       <Drawer.Positioner className="flex justify-center">
         <Drawer.Content className="w-[430px] rounded-t-lg bg-secondary shadow-none p-base">
           <DrawerHeader>
-            <DrawerTitle className="text-2xl font-bold text-black text-center">
+            <DrawerTitle className="text-2xl font-bold text-text_dark text-center">
               QR Code
             </DrawerTitle>
-            <DrawerDescription className="text-black text-center">
+            <DrawerDescription className="text-text_dark text-center">
               {type === "wastedonation"
                 ? "Show this QR code to the facility to earn your points"
                 : "Show this QR code to confirm your redemption"}

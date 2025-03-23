@@ -39,7 +39,7 @@ export default function PointHistory() {
             <div key={item.id} className="py-4">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="font-bold text-black">{item.points}</p>
+                  <p className="font-bold text-text_dark">{item.points}</p>
                   <p className="text-sm text-gray-500">
                     {new Date(item.createdAt).toLocaleDateString()}
                   </p>

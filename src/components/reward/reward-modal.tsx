@@ -11,6 +11,33 @@ interface RewardModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const mockData = [
+  {
+    id: 1,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2000,
+    stockQuantity: 58,
+  },
+  {
+    id: 2,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2000,
+    stockQuantity: 58,
+  },
+  {
+    id: 3,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2000,
+    stockQuantity: 58,
+  },
+];
+
 const RewardModal = ({
   rewardId,
   onSuccess,
@@ -26,11 +53,11 @@ const RewardModal = ({
   const { data: rewardData } = useRewardQuery();
 
   useEffect(() => {
-    if (rewardData) {
-      const reward = rewardData.find((item: any) => item.id === rewardId);
+    if (mockData) {
+      const reward = mockData.find((item: any) => item.id === rewardId);
       setReward(reward);
     }
-  }, [rewardId, rewardData]);
+  }, [rewardId, rewardData, mockData]);
 
   return (
     <Drawer.Root
@@ -57,15 +84,15 @@ const RewardModal = ({
 
               <div className="flex flex-col gap-base">
                 <div className="flex flex-col gap-1 flex-1">
-                  <h1 className="text-xl text-black">{reward?.title}</h1>
+                  <h1 className="text-xl text-text_dark">{reward?.title}</h1>
                   <p className="text-sm font-bold text-primary">
                     {reward?.pointRequired} points
                   </p>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <p className="text-sm text-black">Description</p>
-                  <p className="text-sm text-black">{reward?.description}</p>
+                  <p className="text-sm text-text_dark">Description</p>
+                  <p className="text-sm text-text_dark">{reward?.description}</p>
                 </div>
               </div>
             </div>

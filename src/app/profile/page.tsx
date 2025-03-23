@@ -49,7 +49,7 @@ export default function ProfilePage() {
               className="size-full"
             />
           </div>
-          <p className="text-lg text-black">{profile?.name}</p>
+          <p className="text-lg text-text_dark">{profile?.name}</p>
         </div>
         <div className="flex flex-col gap-4 p-4">
           {menuItems.map((item, index) => (
@@ -59,13 +59,13 @@ export default function ProfilePage() {
                   className="w-full py-4 flex justify-between items-center border-b border-gray-100"
                   onClick={item.onClick}
                 >
-                  <span className="text-black">{item.title}</span>
+                  <span className="text-text_dark">{item.title}</span>
                   <FiChevronRight className="w-6 h-6 text-gray-400" />
                 </button>
               ) : (
                 <Link href={item.href}>
                   <div className="w-full py-4 flex justify-between items-center border-b border-gray-100">
-                    <span className="text-black">{item.title}</span>
+                    <span className="text-text_dark">{item.title}</span>
                     <FiChevronRight className="w-6 h-6 text-gray-400" />
                   </div>
                 </Link>

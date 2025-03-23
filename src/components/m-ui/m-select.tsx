@@ -32,8 +32,8 @@ const MSelect = forwardRef<HTMLDivElement, MSelectProps>(
         required={required}
         {...props}
       >
-        {label && <SelectLabel className="text-black">{label}</SelectLabel>}
-        <SelectTrigger className="bg-background h-12 p-2 text-black">
+        {label && <SelectLabel className="text-text_dark">{label}</SelectLabel>}
+        <SelectTrigger className="bg-background h-12 p-2 text-text_dark">
           <SelectValueText placeholder={placeholder || options[0]} />
         </SelectTrigger>
         <SelectContent>
@@ -44,7 +44,7 @@ const MSelect = forwardRef<HTMLDivElement, MSelectProps>(
           ))}
         </SelectContent>
         <Field.Root>
-          <Field.HelperText className="text-sm text-black">{helperText}</Field.HelperText>
+          <Field.HelperText className="text-sm text-text_dark">{helperText}</Field.HelperText>
         </Field.Root>
       </SelectRoot>
     );

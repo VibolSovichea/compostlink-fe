@@ -35,7 +35,7 @@ const MFormInput = React.forwardRef<HTMLInputElement, MFormInputProp>((props, re
 
   return (
     <Field.Root required={required}>
-      <Field.Label className="text-sm text-black">
+      <Field.Label className="text-sm text-text_dark">
         {label}
         {required && <Field.RequiredIndicator />}
       </Field.Label>
@@ -48,16 +48,16 @@ const MFormInput = React.forwardRef<HTMLInputElement, MFormInputProp>((props, re
               ref={ref}
               placeholder={placeholder}
               type={showPassword ? "text" : "password"}
-              className={clsx("rounded-md p-2 bg-background text-black active:bg-white h-12", className)}
+              className={clsx("rounded-md p-2 bg-background text-text_dark active:bg-white h-12", className)}
               onChange={onChange}
             />
             {
               showPassword ? (
-                <div className="absolute top-[40px] right-2 text-black" onClick={() => setShowPassword(!showPassword)}>
+                <div className="absolute top-[40px] right-2 text-text_dark" onClick={() => setShowPassword(!showPassword)}>
                   <Eye size={20} />
                 </div>
               ) : (
-                <div className="absolute top-[40px] right-2 text-black" onClick={() => setShowPassword(!showPassword)}>
+                <div className="absolute top-[40px] right-2 text-text_dark" onClick={() => setShowPassword(!showPassword)}>
                   <EyeOff size={20} />
                 </div>
               )
@@ -70,14 +70,14 @@ const MFormInput = React.forwardRef<HTMLInputElement, MFormInputProp>((props, re
             ref={ref}
             placeholder={placeholder}
             type={type}
-            className={clsx("rounded-md p-2 bg-background text-black active:bg-white h-12", className)}
+            className={clsx("rounded-md p-2 bg-background text-text_dark active:bg-white h-12", className)}
             onChange={onChange}
           />
         )
       }
       {
         helperText && (
-          <Field.HelperText className="text-sm text-black">{helperText}</Field.HelperText>
+          <Field.HelperText className="text-sm text-text_dark">{helperText}</Field.HelperText>
         )
       }
     </Field.Root>
