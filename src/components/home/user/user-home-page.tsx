@@ -16,6 +16,7 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
   const [open, setOpen] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
   const [blogId, setBlogId] = useState<number | null>(null);
+  
   const handleBlogOpen = (blogId: number) => {
     setBlogOpen(true);
     setBlogId(blogId);

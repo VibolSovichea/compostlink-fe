@@ -2,7 +2,12 @@ import MButton from "@/components/m-ui/m-button";
 import { useState } from "react";
 import QRScannerComponent from "@/components/shared/qr-scanner";
 
-const ScanQRButton = () => {
+interface ScanQRButtonProps {
+  className?: string;
+  icon: React.ReactNode;
+}
+
+const ScanQRButton = ({ className, icon }: ScanQRButtonProps) => {
   const [isScanning, setIsScanning] = useState(false);
 
   const handleScanResult = (result: string) => {
@@ -26,11 +31,10 @@ const ScanQRButton = () => {
   return (
     <>
       <MButton
-        variant="primary"
         onClick={() => setIsScanning(true)}
-        className="text-white"
+        className={className}
       >
-        Scan QR Code
+        {icon}
       </MButton>
 
       <QRScannerComponent

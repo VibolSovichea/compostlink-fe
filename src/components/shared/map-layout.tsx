@@ -105,14 +105,20 @@ export default function CompostLinkMap({
           </div>
         )}
       </div>
+      
+      <span className="text-text_dark text-xs text-center">
+        <p>By confirming the registration, you are agreeing to the <br /> Terms and Conditions of CompostLink.</p>
+      </span>
 
-      <MButton
-        variant="primary"
-        full
-        onClick={() => onConfirm(position[0], position[1], address)}
-      >
-        Confirm Location
-      </MButton>
+      <div className="absolute bottom-base left-0 right-0 px-base">
+        <MButton
+          variant="primary"
+          full
+          onClick={() => onConfirm(position[0], position[1], address)}
+        >
+          Confirm Location
+        </MButton>
+      </div>
     </div>
   );
 }

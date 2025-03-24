@@ -14,7 +14,7 @@ const ReturnButton = ({ pageTitle }: HeaderProps) => {
   const router = useRouter();
 
   return (
-    <div className="sticky top-0 h-14 bg-primary rounded-b-[2rem] shadow-lg">
+    <div className="sticky top-0 h-14 bg-primary shadow-lg">
       <div className="relative h-14 px-4 flex items-center">
         <button className="text-white absolute left-base" onClick={() => router.back()}>
           <ArrowLeft />
