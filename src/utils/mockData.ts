@@ -1,3 +1,5 @@
+import { Redemption, Reward } from "@/redux/slices/data.types";
+
 export const rewardData = [
   {
     id: 1,
@@ -113,3 +115,87 @@ export const blogs = [
     paragraph_6: "Whether you are an individual, a business, or part of a community, adopting composting practices can make a meaningful impact. Simple steps, such as setting up a compost bin at home or participating in a community composting program, help reduce waste and promote sustainability. Large-scale efforts, such as composting initiatives in urban centers and regenerative farming techniques, can drive significant environmental change. Every composting effort, no matter how small, contributes to a healthier planet. By making composting a daily habit, we take a step toward a future where waste is minimized, soil is revitalized, and food production is sustainable for all."
   }
 ];
+
+export const redemptionMockData = [
+  {
+    id: 1,
+    userId: 1,
+    rewardId: 1,
+    pointSpent: 150,
+    status: "Inactive"
+  },
+  {
+    id: 2,
+    userId: 1,
+    rewardId: 2,
+    pointSpent: 100,
+    status: "Active"
+  },
+  {
+    id: 3,
+    userId: 1,
+    rewardId: 3,
+    pointSpent: 500,
+    status: "Active"
+  },
+] as Redemption[];
+
+export const rewardMockData = [
+  {
+    id: 1,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2,
+    stockQuantity: 58,
+  },
+  {
+    id: 2,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2000,
+    stockQuantity: 58,
+  },
+  {
+    id: 3,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2000,
+    stockQuantity: 58,
+  },
+  {
+    id: 4,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2000,
+    stockQuantity: 58,
+  },
+  {
+    id: 5,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2000,
+    stockQuantity: 58,
+  },
+  {
+    id: 6,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2000,
+    stockQuantity: 58,
+  },
+  {
+    id: 7,
+    title: "templr",
+    description: "eco-freindly templr made from recycle part of dying star.",
+    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+    pointRequired: 2000,
+    stockQuantity: 58,
+  },
+
+] as Reward[];

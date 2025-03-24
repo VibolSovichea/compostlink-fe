@@ -3,6 +3,7 @@ import MButton from "@/components/m-ui/m-button";
 import { rewardData } from "@/utils/mockData";
 import { Drawer, DrawerBody, DrawerFooter } from "@chakra-ui/react";
 import { useRewardQuery } from "@/redux/slices/dataSlice";
+import Image from "next/image";
 
 interface RewardModalProps {
   rewardId: number;
@@ -72,10 +73,12 @@ const RewardModal = ({
             <div className="flex flex-col gap-base h-full">
               <div className="aspect-video bg-white w-full">
                 {reward ? (
-                  <img
+                  <Image
                     src={reward.imageUrl}
-                    alt={reward.title} // Add an alt attribute for accessibility
-                    className="size-full rounded-lg"
+                    alt=""
+                    width={200}
+                    height={200}
+                    className="size-full object-cover"
                   />
                 ) : (
                   <div className="bg-gray-200 size-full rounded-lg animate-pulse"></div> // Placeholder while loading

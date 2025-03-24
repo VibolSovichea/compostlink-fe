@@ -10,30 +10,47 @@ import {
   useRewardRedemptionQuery,
 } from "@/redux/slices/dataSlice";
 import Cookies from "js-cookie";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { CircleX, Loader2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { redemptionMockData, rewardMockData } from "@/utils/mockData";
+import { Redemption, RedemptionStatus } from "@/redux/slices/data.types";
+import { Reward } from "@/redux/slices/data.types";
+import Image from "next/image";
 
 interface RewardContentProps {
   reward: any;
+  status: RedemptionStatus;
   onRedeem: (id: number) => void;
 }
 
-const RewardContent = ({ reward, onRedeem }: RewardContentProps) => {
+const RewardContent = ({ reward, onRedeem, status }: RewardContentProps) => {
   return (
-    <div className="rounded-lg p-base w-full h-24 flex gap-base shadow-lg border border-primary bg-primary">
+    <div
+      className="rounded-lg p-base w-full h-24 flex gap-base shadow-lg border border-gray-100 items-center"
+    >
       <div className="aspect-square size-16">
-        <img
+        <Image
           src={reward.imageUrl}
-          alt="Example Image"
-          className="size-full rounded-lg"
+          alt=""
+          className="size-full rounded-lg object-cover"
+          width={100}
+          height={100}
         />
       </div>
       <div className="flex flex-col gap-1 flex-1">
-        <p className="text-md font-bold text-white">{reward.title}</p>
-        <p className="text-sm font-bold text-white">
+        <p className="text-md font-bold text-text_dark">{reward.title}</p>
+        <p className="text-sm font-bold text-primary">
           {reward.pointRequired} points
         </p>
       </div>
+
+      <MButton
+        variant={`${status === "Active" ? "primary" : "secondary"}`}
+        className="text-sm w-20 text-white font-normal h-10"
+        onClick={() => onRedeem(reward.id)}
+      >
+        {status === "Active" ? "Ticket" : "Claimed"}
+      </MButton>
     </div>
   );
 };
@@ -44,65 +61,62 @@ export default function RedemptionsPage() {
   const { data: userData } = useProfileQuery(userId || "");
   const { data: rewardRedemption, isLoading } = useRewardRedemptionQuery();
   const { data: rewardData } = useRewardQuery();
+  const [redemptionReward, setRedemptionReward] = useState<Reward[] | null>(null);
 
-  if (isLoading) {
-    return (
-      <div className="h-[80vh] flex flex-col items-center justify-center">
-        <Loader2 className="size-10 animate-spin text-primary" />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!rewardRedemption || !rewardData) return;
+    const rewards = rewardRedemption.map((redemption: Redemption) => {
+      return rewardData?.find((reward: Reward) => reward.id === redemption.rewardId);
+    })
+    setRedemptionReward(rewards)
+  }, [rewardRedemption, rewardData])
 
-  if (!rewardRedemption || rewardRedemption.length === 0) {
-    return (
-      <div className="h-[80vh] flex flex-col items-center justify-center">
-        <p className="text-primary text-sm">No redemptions found</p>
-      </div>
-    );
-  }
+  // useEffect(() => {
+  //   if (!redemptionMockData || !rewardMockData) return;
+  //   const rewards = redemptionMockData.map((redemption) => {
+  //     return rewardMockData?.find((reward) => reward.id === redemption.rewardId);
+  //   })
+  //   setRedemptionReward(rewards as Reward[]);
+  // }, [rewardMockData, redemptionMockData])
 
-  return (
+  return useMemo(() => (
     <Base
       insideClassName="flex flex-col gap-base"
-      headerVariant="default"
-      headerContent={{ username: userData?.name }}
+      hideNavigation
+      headerVariant="return-button"
+      headerContent={{
+        pageTitle: "Redemptions"
+      }}
     >
-      <div className="sticky top-0 z-10">
+      <div className="mt-base sticky top-0 z-10">
         <ProfilePreviewCard points={userData?.totalPoint || 0} />
       </div>
+      {redemptionReward && redemptionReward?.length > 0 ? (
 
-      <ul className="flex flex-col gap-base">
-        {rewardRedemption.map((redemption) => {
-          const reward = rewardData?.find((r) => r.id === redemption.rewardId);
-          if (!reward) return null;
+        <div className="flex flex-col gap-base">
+          {redemptionReward?.map((reward) => (
+            <RewardContent key={reward.id} reward={reward} onRedeem={setActiveRedemption} status={rewardRedemption?.find((redemption: Redemption) => {
+              return redemption.rewardId === reward.id
+            })?.status as RedemptionStatus}/>
+          ))}
+        </div>
+      ) : isLoading ? (
+        <div className="h-[60vh] flex flex-col items-center justify-center">
+          <Loader2 className="size-10 animate-spin text-primary" />
+        </div>
+      ) : (
+        <div className="h-[60vh] flex flex-col items-center justify-center gap-2">
+          <CircleX className="size-16 text-red-500" />
+          <p className="text-text_dark text-sm">No redemptions found</p>
+        </div>
+      )}
 
-          return (
-            <li key={redemption.id} className="list-none">
-              <RewardContent
-                reward={reward}
-                onRedeem={(id) => console.log("Redeem:", id)}
-              />
-              <MButton
-                variant="secondary"
-                className="text-sm w-20 text-primary font-normal h-10"
-                onClick={() =>
-                  redemption.id !== undefined &&
-                  setActiveRedemption(redemption.id)
-                }
-              >
-                Ticket
-              </MButton>
-
-              <QrModal
-                open={activeRedemption === redemption.id} // Direct number comparison
-                onOpenChange={() => setActiveRedemption(null)}
-                id={redemption.id ? String(redemption.id) : ""}
-                type="redemption"
-              />
-            </li>
-          );
-        })}
-      </ul>
+      <QrModal
+        open={activeRedemption !== null}
+        onOpenChange={() => setActiveRedemption(null)}
+        id={activeRedemption ? String(activeRedemption) : ""}
+        type="redemption"
+      />
     </Base>
-  );
+  ), [redemptionReward, userData, activeRedemption, isLoading, rewardRedemption])
 }

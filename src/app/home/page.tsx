@@ -31,7 +31,7 @@ export default function HomePage() {
       </Base>
     ) : (
       <Base hideNavigation={true}>
-        <div className="h-[80vh] flex flex-col items-center justify-center">
+        <div className="h-[60vh] flex flex-col items-center justify-center">
           <Loader2 className="size-10 animate-spin text-primary" />
         </div>
       </Base>

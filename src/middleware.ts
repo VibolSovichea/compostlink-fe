@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (pathname.match(/^\/wastedonation\/\d+/)) {
+  if (pathname.match(/^\/wastedonation\/\d+/) || pathname.match(/^\/redemption\/\d+/)) {
     if (role !== "Facility") {
       return NextResponse.redirect(new URL("/", request.url));
     }

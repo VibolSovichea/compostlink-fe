@@ -36,6 +36,7 @@ export interface Reward {
 }
 
 export type RedemptionStatus = "Active" | "Inactive";
+
 export interface Redemption {
   id?: number;
   userId?: number;
