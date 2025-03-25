@@ -17,7 +17,9 @@ const dataSlice = createApi({
     "dropOffLocation",
     "reward",
     "redemption",
-  , "pointHistory", "User"],
+    "pointHistory",
+    "User",
+  ],
   endpoints: (builder) => ({
     profile: builder.query<User, string>({
       query: (id) => ({
@@ -116,6 +118,14 @@ const dataSlice = createApi({
       }),
       providesTags: ["pointHistory"],
     }),
+
+    getWasteDonationByUserId: builder.query<WasteDonation, string>({
+      query: (userId) => ({
+        url: `/waste-donations/user/${userId}`,
+        method: "GET",
+      }),
+      providesTags: ["wasteDonation"],
+    }),
   }),
 });
 
@@ -137,4 +147,5 @@ export const {
   useUpdateUserMutation,
   useGetUserPointHistoryQuery,
   useLazyGetUserPointHistoryQuery,
+  useGetWasteDonationByUserIdQuery,
 } = dataSlice;

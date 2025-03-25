@@ -14,6 +14,8 @@ export interface WasteDonation {
   wasteType: string;
   weight: number;
   pointsAwarded: number;
+  donationCount?: number;
+  totalWeight?: number;
 }
 
 export interface Location {
@@ -59,4 +61,5 @@ export interface Reward {
   imageUrl: string,
   pointRequired: number,
   stockQuantity: number,
+  redemptionId: number,
 }

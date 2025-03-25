@@ -31,7 +31,7 @@ const FacilityHomePage = ({ userData }: FacilityHomePageProps) => {
         <p className="text-text_dark text-sm font-bold">Statistic</p>
         <div className="w-full h-[1px] bg-gray-300"></div>
       </span>
-      <StatisticCard />
+      <StatisticCard userId={userData.id.toString()} />
       <span className="flex items-center gap-2">
         <p className="text-text_dark text-sm font-bold">Blogs</p>
         <div className="w-full h-[1px] bg-gray-300"></div>

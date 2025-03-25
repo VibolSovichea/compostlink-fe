@@ -1,10 +1,31 @@
+"use client"
+
 import { Card } from "@chakra-ui/react"
 import RollingNumber from "@/animation/rolling-number"
-import { Circle, Flower2, Trash } from "lucide-react";
+import { Circle } from "lucide-react";
 import { getDailyCompostQuote } from "@/utils/random-quotes";
+import { useGetWasteDonationByUserIdQuery } from "@/redux/slices/dataSlice";
+import { useEffect, useMemo, useState } from "react";
+import { WasteDonation } from "@/redux/slices/data.types";
 
-const StatisticCard = () => {
-  return (
+interface StatisticCardProps {
+  userId: string;
+}
+
+const StatisticCard = ({ userId }: StatisticCardProps) => {
+  const { data: wasteDonation } = useGetWasteDonationByUserIdQuery(userId ?? "");
+  const [totalWasteDonation, setTotalWasteDonation] = useState(0);
+
+  useEffect(() => {
+    console.log(wasteDonation);
+    console.log(userId);
+    if (wasteDonation) {
+      console.log(wasteDonation);
+      setTotalWasteDonation(wasteDonation.donationCount ?? 0);
+    }
+  }, [wasteDonation]);
+
+  return useMemo(() => (
     <Card.Root className="bg-primary  shadow-lg w-full h-32">
       <Card.Body className="flex flex-row items-center size-full">
         <div className="flex flex-col gap-1 flex-1">
@@ -14,12 +35,12 @@ const StatisticCard = () => {
         <div className="flex flex-col gap-2 items-center justify-center size-24 relative">
           <Circle className="text-text_light absolute opacity-15 size-28" />
           <span className="text-4xl font-bold text-text_light">
-            <RollingNumber value={20} />
+            <RollingNumber value={totalWasteDonation} />
           </span>
         </div>
       </Card.Body>
     </Card.Root>
-  )
+  ), [totalWasteDonation])
 }
 
 export default StatisticCard;

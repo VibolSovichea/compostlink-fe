@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import MButton from "@/components/m-ui/m-button";
-import { rewardData } from "@/utils/mockData";
+// import { rewardData } from "@/utils/mockData";
 import { Drawer, DrawerBody, DrawerFooter } from "@chakra-ui/react";
 import { useRewardQuery } from "@/redux/slices/dataSlice";
 import Image from "next/image";
+import { Reward } from "@/redux/slices/data.types";
 
 interface RewardModalProps {
+  data: Reward[];
   rewardId: number;
   onSuccess: () => void;
   open: boolean;
@@ -40,6 +42,7 @@ const mockData = [
 ];
 
 const RewardModal = ({
+  data,
   rewardId,
   onSuccess,
   open,
@@ -54,11 +57,11 @@ const RewardModal = ({
   const { data: rewardData } = useRewardQuery();
 
   useEffect(() => {
-    if (mockData) {
-      const reward = mockData.find((item: any) => item.id === rewardId);
+    if (data) {
+      const reward = data.find((item: any) => item.id === rewardId);
       setReward(reward);
     }
-  }, [rewardId, rewardData, mockData]);
+  }, [rewardId, data]);
 
   return (
     <Drawer.Root

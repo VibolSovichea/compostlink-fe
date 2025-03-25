@@ -23,69 +23,69 @@ interface RewardContentProps {
   onRedeem: (reward: Reward) => void;
 }
 
-const mockData = [
-  {
-    id: 1,
-    title: "templr",
-    description: "eco-freindly templr made from recycle part of dying star.",
-    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
-    pointRequired: 2,
-    stockQuantity: 58,
-  },
-  {
-    id: 2,
-    title: "templr",
-    description: "eco-freindly templr made from recycle part of dying star.",
-    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
-    pointRequired: 2000,
-    stockQuantity: 58,
-  },
-  {
-    id: 3,
-    title: "templr",
-    description: "eco-freindly templr made from recycle part of dying star.",
-    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
-    pointRequired: 2000,
-    stockQuantity: 58,
-  },
-  {
-    id: 4,
-    title: "templr",
-    description: "eco-freindly templr made from recycle part of dying star.",
-    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
-    pointRequired: 2000,
-    stockQuantity: 58,
-  },
-  {
-    id: 5,
-    title: "templr",
-    description: "eco-freindly templr made from recycle part of dying star.",
-    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
-    pointRequired: 2000,
-    stockQuantity: 58,
-  },
-  {
-    id: 6,
-    title: "templr",
-    description: "eco-freindly templr made from recycle part of dying star.",
-    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
-    pointRequired: 2000,
-    stockQuantity: 58,
-  },
-  {
-    id: 7,
-    title: "templr",
-    description: "eco-freindly templr made from recycle part of dying star.",
-    imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
-    pointRequired: 2000,
-    stockQuantity: 58,
-  },
+// const mockData = [
+//   {
+//     id: 1,
+//     title: "templr",
+//     description: "eco-freindly templr made from recycle part of dying star.",
+//     imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+//     pointRequired: 2,
+//     stockQuantity: 58,
+//   },
+//   {
+//     id: 2,
+//     title: "templr",
+//     description: "eco-freindly templr made from recycle part of dying star.",
+//     imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+//     pointRequired: 2000,
+//     stockQuantity: 58,
+//   },
+//   {
+//     id: 3,
+//     title: "templr",
+//     description: "eco-freindly templr made from recycle part of dying star.",
+//     imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+//     pointRequired: 2000,
+//     stockQuantity: 58,
+//   },
+//   {
+//     id: 4,
+//     title: "templr",
+//     description: "eco-freindly templr made from recycle part of dying star.",
+//     imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+//     pointRequired: 2000,
+//     stockQuantity: 58,
+//   },
+//   {
+//     id: 5,
+//     title: "templr",
+//     description: "eco-freindly templr made from recycle part of dying star.",
+//     imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+//     pointRequired: 2000,
+//     stockQuantity: 58,
+//   },
+//   {
+//     id: 6,
+//     title: "templr",
+//     description: "eco-freindly templr made from recycle part of dying star.",
+//     imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+//     pointRequired: 2000,
+//     stockQuantity: 58,
+//   },
+//   {
+//     id: 7,
+//     title: "templr",
+//     description: "eco-freindly templr made from recycle part of dying star.",
+//     imageUrl: "https://i.ibb.co/q3pLrvFs/51u-BSV9-Ugb-L.jpg",
+//     pointRequired: 2000,
+//     stockQuantity: 58,
+//   },
 
-] as Reward[];
+// ] as Reward[];
 
 const RewardContent = ({ data, onRedeem }: RewardContentProps) => {
   const router = useRouter();
-  // const { data: rewardData } = useRewardQuery();
+  const { data: rewardData } = useRewardQuery();
 
   return (
     <div className="flex flex-col gap-base">
@@ -142,6 +142,7 @@ const RewardPage = () => {
   }, [data]);
 
   const handleRedeem = (reward: Reward) => {
+    console.log("reward", reward);
     setSelectedReward(reward);
     setOpen(true);
   };
@@ -153,7 +154,7 @@ const RewardPage = () => {
 
   const onConfirmRedemption = useCallback(async () => {
     if (!selectedReward) return;
-    const selectedRewardData = mockData?.find((reward: Reward) => reward.id === selectedReward.id);
+    const selectedRewardData = rewardData?.find((reward: Reward) => reward.id === selectedReward.id);
 
     if (selectedRewardData && points < selectedRewardData.pointRequired) {
       setFailedDialogOpen(true);
@@ -196,9 +197,10 @@ const RewardPage = () => {
         </MButton>
       </div>
 
-      <RewardContent data={mockData} onRedeem={handleRedeem} />
+      <RewardContent data={rewardData || []} onRedeem={handleRedeem} />
 
       <RewardModal
+        data={rewardData || []}
         rewardId={selectedReward?.id ?? 0}
         open={open}
         onOpenChange={setOpen}

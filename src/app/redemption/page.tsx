@@ -47,7 +47,7 @@ const RewardContent = ({ reward, onRedeem, status }: RewardContentProps) => {
       <MButton
         variant={`${status === "Active" ? "primary" : "secondary"}`}
         className="text-sm w-20 text-white font-normal h-10"
-        onClick={() => onRedeem(reward.id)}
+        onClick={() => onRedeem(reward.redemptionId)}
       >
         {status === "Active" ? "Ticket" : "Claimed"}
       </MButton>
@@ -66,9 +66,10 @@ export default function RedemptionsPage() {
   useEffect(() => {
     if (!rewardRedemption || !rewardData) return;
     const rewards = rewardRedemption.map((redemption: Redemption) => {
-      return rewardData?.find((reward: Reward) => reward.id === redemption.rewardId);
-    })
-    setRedemptionReward(rewards)
+      const reward = rewardData?.find((reward: Reward) => reward.id === redemption.rewardId);
+      return reward ? { ...reward, redemptionId: redemption.id } : null;
+    }).filter(Boolean);
+    setRedemptionReward(rewards as Reward[]);
   }, [rewardRedemption, rewardData])
 
   // useEffect(() => {

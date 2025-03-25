@@ -10,7 +10,7 @@ import { CircleX, Gift, Loader2 } from "lucide-react";
 import UserIcon from "@/../public/assets/icons/avatar-icon.svg";
 
 import { useParams, useRouter } from "next/navigation";
-// import { rewardMockData, redemptionMockData } from "@/utils/mockData";
+import { rewardMockData, redemptionMockData } from "@/utils/mockData";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Redemption } from "@/redux/slices/data.types";
 import { Reward } from "@/redux/slices/data.types";
@@ -34,11 +34,11 @@ export default function RedemptionsPage() {
   useEffect(() => {
     if (!redemptionData) return;
     setRedemption(redemptionData as Redemption);
-    setRewardId(redemptionData?.rewardId);
+    setRewardId(redemptionData?.rewardId ?? null);
   }, [redemptionData])
 
   // Fetch reward data only if rewardId is available
-  const { data: rewardData } = useRewardByIdQuery(rewardId, {
+  const { data: rewardData } = useRewardByIdQuery(rewardId ?? 0, {
     skip: !rewardId, // Prevents calling API with undefined rewardId
   });
 
@@ -55,10 +55,6 @@ export default function RedemptionsPage() {
   //   setRedemption(redemption as Redemption);
   //   setReward(reward as Reward);
   // }, [redemptionId])
-
-  // const handleConfirmRedeem = async () => {
-  //   await inactivateRedemption(redemptionId);
-  // };
 
   const handleConfirmRedeem = useCallback(async () => {
     try {
