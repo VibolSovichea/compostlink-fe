@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import ProfilePreviewCard from "@/components/home/profile-preview-card";
 import Cookies from "js-cookie";
+import getCurrentLocation from "@/utils/getCurrentLocation";
 
 export default function LocationPage() {
   const userId = Cookies.get("user_id");
@@ -17,6 +18,27 @@ export default function LocationPage() {
   const { data: locations, isLoading } = useDropOffLocationQuery();
   const [open, setOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [currentLocation, setCurrentLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+
+  useEffect(() => {
+    getCurrentLocation().then(location => {
+      if (location) {
+        setCurrentLocation(location);
+      }
+    });
+  }, []);
+
+  const nearestLocation = useMemo(() => {
+    if(!currentLocation || !locations) return null;
+
+    const distance = (location: Location) => {
+      const dx = currentLocation.latitude - location.latitude;
+      const dy = currentLocation.longitude - location.longitude;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    return [...locations].sort((a, b) => distance(a) - distance(b));
+  }, [currentLocation, locations]);
 
   const onChooseLocation = () => {
     window.open(
@@ -30,6 +52,7 @@ export default function LocationPage() {
     setOpen(true);
   };
 
+  // Order base on the nearest location
   return useMemo(() => (
     <Base insideClassName="flex" headerVariant="default" headerContent={{ username: userData?.name }}>
       {locations ? (
@@ -37,7 +60,7 @@ export default function LocationPage() {
           <div className="sticky top-0 z-10">
             <ProfilePreviewCard points={userData?.totalPoint || 0} />
           </div>
-          <LocationList locations={locations} onSelect={handleLocationSelect} />
+          <LocationList locations={nearestLocation || []} onSelect={handleLocationSelect} />
         </>
       ) : isLoading ? (
         <div className="h-[80vh] flex flex-col items-center justify-center">
@@ -77,5 +100,5 @@ export default function LocationPage() {
         />
       )}
     </Base>
-  ), [locations, selectedLocation, userData]);
+  ), [locations, selectedLocation, userData, currentLocation]);
 }

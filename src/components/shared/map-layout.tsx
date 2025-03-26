@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useCallback } from "react";
 import {
   MapContainer,
   Popup,
@@ -11,6 +12,7 @@ import "leaflet/dist/leaflet.css";
 import MButton from "../m-ui/m-button";
 import { getFullAddressFromCoords } from "@/utils/getAddress";
 import { X } from "lucide-react";
+import getCurrentLocation from "@/utils/getCurrentLocation";
 
 // Custom component to track center position
 function CenterPositionTracker({ setPosition }: { setPosition: (position: [number, number]) => void }) {
@@ -35,11 +37,29 @@ export default function CompostLinkMap({
 }: {
   onConfirm: (lat: number, lng: number, address: string) => void;
 }) {
+  const [address, setAddress] = useState<string>("Fetching address...");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [position, setPosition] = useState<[number, number]>([
     11.5564, 104.9282,
   ]); // Default: Phnom Penh
-  const [address, setAddress] = useState<string>("Fetching address...");
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [key, setKey] = useState(0); // Key to force MapContainer re-render
+
+  const updateLocation = useCallback(async () => {
+    try {
+      const location = await getCurrentLocation();
+      if (location) {
+        setPosition([location.latitude, location.longitude]);
+        // I use this to force MapContainer to re-render so that the map is centered on the current location
+        setKey(prevKey => prevKey + 1);
+      }
+    } catch (error) {
+      console.error("Error getting current location:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    updateLocation();
+  }, [updateLocation]);
 
   // Fetch address when position changes
   useEffect(() => {
@@ -58,6 +78,7 @@ export default function CompostLinkMap({
       <div className="relative aspect-square w-full">
         <div className="absolute inset-0">
           <MapContainer
+            key={key} // Use key to force re-render
             center={position}
             zoom={12}
             className="h-full w-full rounded-lg shadow-md"
