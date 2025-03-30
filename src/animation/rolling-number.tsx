@@ -1,8 +1,14 @@
-import { motion, AnimatePresence, animate, useMotionValue, useTransform } from "motion/react"
+import {
+  motion,
+  AnimatePresence,
+  animate,
+  useMotionValue,
+  useTransform,
+} from "motion/react";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const numberConversion = (value: number) => {
+export const numberConversion = (value: number) => {
   if (value >= 1000000) {
     return `${(value / 1000000).toFixed(1)}M`;
   } else if (value >= 1000) {

@@ -29,13 +29,14 @@ export default function RedemptionsPage() {
     useRedemptionInactivateMutation();
 
   // Fetch redemption data
-  const { data: redemptionData, isLoading } = useRewardRedemptionByIdQuery(redemptionId);
+  const { data: redemptionData, isLoading } =
+    useRewardRedemptionByIdQuery(redemptionId);
 
   useEffect(() => {
     if (!redemptionData) return;
     setRedemption(redemptionData as Redemption);
     setRewardId(redemptionData?.rewardId ?? null);
-  }, [redemptionData])
+  }, [redemptionData]);
 
   // Fetch reward data only if rewardId is available
   const { data: rewardData } = useRewardByIdQuery(rewardId ?? 0, {
@@ -45,7 +46,7 @@ export default function RedemptionsPage() {
   useEffect(() => {
     if (!rewardData) return;
     setReward(rewardData);
-  }, [rewardData])
+  }, [rewardData]);
 
   // using mock data as test
   // useEffect(() => {
@@ -60,61 +61,84 @@ export default function RedemptionsPage() {
     try {
       const result = await inactivateRedemption(redemptionId);
       toast.success("Redemption confirmed");
-      router.push("/redemption");
+      router.push("/home");
     } catch (error) {
       console.error(error);
       toast.error("Failed to confirm redemption");
     }
-  }, [inactivateRedemption, redemptionId, router])
+  }, [inactivateRedemption, redemptionId, router]);
 
-  return useMemo(() => (
-    <Base hideNavigation headerVariant="return-button" headerContent={{
-      pageTitle: "Redemption"
-    }}>
-      {reward ? (
-        <div className="flex flex-col gap-16 mt-[25vh]">
-          <div className="text-2xl font-bold text-text_dark text-center">Confirm Redeem Reward</div>
-          <div className="flex items-center">
-            <div className="aspect-square mx-auto size-24  border-2 border-gray-100 rounded-lg shadow-lg p-base">
-              <Image
-                src={UserIcon}
-                alt=""
-                width={100}
-                height={100}
-                className="size-full object-cover"
-              />
+  return useMemo(
+    () => (
+      <Base
+        hideNavigation
+        headerVariant="return-button"
+        headerContent={{
+          pageTitle: "Redemption",
+        }}
+      >
+        {reward ? (
+          <div className="flex flex-col gap-16 mt-[25vh]">
+            <div className="text-2xl font-bold text-text_dark text-center">
+              Confirm Redeem Reward
             </div>
-            <Gift className="size-10 text-gray-300" />
-            <div className="aspect-square mx-auto size-24 border-2 border-gray-100 rounded-lg shadow-lg p-base">
-              <Image src={reward?.imageUrl} alt="" className="size-full rounded-lg object-cover" width={100} height={100} />
+            <div className="flex items-center">
+              <div className="aspect-square mx-auto size-24  border-2 border-gray-100 rounded-lg shadow-lg p-base">
+                <Image
+                  src={UserIcon}
+                  alt=""
+                  width={100}
+                  height={100}
+                  className="size-full object-cover"
+                />
+              </div>
+              <Gift className="size-10 text-gray-300" />
+              <div className="aspect-square mx-auto size-24 border-2 border-gray-100 rounded-lg shadow-lg p-base">
+                <Image
+                  src={reward?.imageUrl}
+                  alt=""
+                  className="size-full rounded-lg object-cover"
+                  width={100}
+                  height={100}
+                />
+              </div>
+            </div>
+
+            <p className="text-text_dark text-center">
+              Composter is looking to redeem{" "}
+              <span className="font-bold capitalize">{reward?.title}</span>
+            </p>
+
+            <div className="flex flex-col gap-4 absolute bottom-0 left-0 right-0 p-base">
+              <p className="text-text_dark text-center text-sm">
+                Before confirming please ensure that the reward is correct and
+                the composter's reward ticket is valid.
+              </p>
+              <MButton
+                variant="primary"
+                full
+                onClick={handleConfirmRedeem}
+                disabled={redemption?.status === "Inactive"}
+                loading={isUpdating}
+              >
+                {redemption?.status === "Active"
+                  ? "Confirm Redeem"
+                  : "Redeemed"}
+              </MButton>
             </div>
           </div>
-
-          <p className="text-text_dark text-center">Composter is looking to redeem <span className="font-bold capitalize">{reward?.title}</span></p>
-
-          <div className="flex flex-col gap-4 absolute bottom-0 left-0 right-0 p-base">
-            <p className="text-text_dark text-center text-sm">Before confirming please ensure that the reward is correct and the composter's reward ticket is valid.</p>
-            <MButton
-              variant="primary"
-              full
-              onClick={handleConfirmRedeem}
-              disabled={redemption?.status === "Inactive"}
-              loading={isUpdating}
-            >
-              {redemption?.status === "Active" ? "Confirm Redeem" : "Redeemed"}
-            </MButton>
+        ) : isLoading ? (
+          <div className="h-[80vh] flex flex-col items-center justify-center">
+            <Loader2 className="size-10 animate-spin text-primary" />
           </div>
-        </div>
-      ) : isLoading ? (
-        <div className="h-[80vh] flex flex-col items-center justify-center">
-          <Loader2 className="size-10 animate-spin text-primary" />
-        </div>
-      ) : (
-        <div className="h-[80vh] flex flex-col items-center justify-center gap-2">
-          <CircleX className="size-16 text-red-500" />
-          <p className="text-text_dark text-sm">No redemptions found</p>
-        </div>
-      )}
-    </Base>
-  ), [redemption, reward, isUpdating, isLoading]);
+        ) : (
+          <div className="h-[80vh] flex flex-col items-center justify-center gap-2">
+            <CircleX className="size-16 text-red-500" />
+            <p className="text-text_dark text-sm">No redemptions found</p>
+          </div>
+        )}
+      </Base>
+    ),
+    [redemption, reward, isUpdating, isLoading]
+  );
 }
