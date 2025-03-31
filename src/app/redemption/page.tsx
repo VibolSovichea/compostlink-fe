@@ -95,7 +95,7 @@ export default function RedemptionsPage() {
       {redemptionReward && redemptionReward?.length > 0 ? (
 
         <div className="flex flex-col gap-base">
-          {redemptionReward?.map((reward) => (
+          {[...redemptionReward].sort((a,b) => a.id - b.id)?.map((reward) => (
             <RewardContent key={reward.id} reward={reward} onRedeem={setActiveRedemption} status={rewardRedemption?.find((redemption: Redemption) => {
               return redemption.rewardId === reward.id
             })?.status as RedemptionStatus}/>

@@ -84,8 +84,6 @@ interface RewardContentProps {
 // ] as Reward[];
 
 const RewardContent = ({ data, onRedeem }: RewardContentProps) => {
-  const router = useRouter();
-  const { data: rewardData } = useRewardQuery();
 
   return (
     <div className="flex flex-col gap-base">
@@ -129,13 +127,20 @@ const RewardPage = () => {
   const { data } = useProfileQuery(userId || "");
   const [points, setPoints] = useState(0);
   const [open, setOpen] = useState(false);
-  const { data: rewardData } = useRewardQuery();
+  const { data: rewards } = useRewardQuery();
   const [redeemReward, { isLoading }] = useRewardRedeemMutation();
   const router = useRouter();
   const [selectedReward, setSelectedReward] = useState<Reward | null>(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [failedDialogOpen, setFailedDialogOpen] = useState(false);
+  const [rewardData, setRewardData] = useState<Reward[]>([]);
+
+  useEffect(() => {
+    if (!rewards) return;
+    const sortedData = [...rewards].sort((a,b) => a.id - b.id);
+    setRewardData(sortedData);
+  }, [rewards])
 
   useEffect(() => {
     if (data) setPoints(data.totalPoint);
