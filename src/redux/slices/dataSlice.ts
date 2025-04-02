@@ -126,6 +126,14 @@ const dataSlice = createApi({
       }),
       providesTags: ["wasteDonation"],
     }),
+
+    getWasteDonationByFacilityId: builder.query<WasteDonation, string>({
+      query: (userId) => ({
+        url: `/waste-donations/facility/${userId}`,
+        method: "GET",
+      }),
+      providesTags: ["wasteDonation"],
+    }),
   }),
 });
 
@@ -148,4 +156,5 @@ export const {
   useGetUserPointHistoryQuery,
   useLazyGetUserPointHistoryQuery,
   useGetWasteDonationByUserIdQuery,
+  useGetWasteDonationByFacilityIdQuery,
 } = dataSlice;

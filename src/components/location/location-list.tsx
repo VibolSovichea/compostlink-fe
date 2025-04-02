@@ -52,7 +52,7 @@ const LocationList = ({ locations, onSelect }: LocationListProps) => {
               </div>
               <div className="flex flex-col justify-evenly">
                 <p className="text-sm text-text_dark font-semibold">
-                  {"Facility Name"}
+                  Compost Facility
                 </p>
                 <p className="text-xs text-text_dark">
                   {extractMainAddress(location.address)}

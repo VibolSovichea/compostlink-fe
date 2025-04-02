@@ -4,26 +4,31 @@ import { Card } from "@chakra-ui/react"
 import RollingNumber from "@/animation/rolling-number"
 import { Circle } from "lucide-react";
 import { getDailyCompostQuote } from "@/utils/random-quotes";
-import { useGetWasteDonationByUserIdQuery } from "@/redux/slices/dataSlice";
+import { useGetWasteDonationByFacilityIdQuery, useGetWasteDonationByUserIdQuery } from "@/redux/slices/dataSlice";
 import { useEffect, useMemo, useState } from "react";
 import { WasteDonation } from "@/redux/slices/data.types";
 
 interface StatisticCardProps {
   userId: string;
+  role: "user" | "facility";
 }
 
-const StatisticCard = ({ userId }: StatisticCardProps) => {
+const StatisticCard = ({ userId, role }: StatisticCardProps) => {
   const { data: wasteDonation } = useGetWasteDonationByUserIdQuery(userId ?? "");
+  const { data : wasteRecieved } = useGetWasteDonationByFacilityIdQuery(userId ?? "");
   const [totalWasteDonation, setTotalWasteDonation] = useState(0);
 
   useEffect(() => {
     console.log(wasteDonation);
     console.log(userId);
-    if (wasteDonation) {
-      console.log(wasteDonation);
+    if (!wasteDonation) return;
+
+    if (role === "user") {
       setTotalWasteDonation(wasteDonation.donationCount ?? 0);
+    } else {
+      setTotalWasteDonation(wasteRecieved?.donationCount ?? 0);
     }
-  }, [wasteDonation]);
+  }, [wasteDonation, wasteRecieved]);
 
   return useMemo(() => (
     <Card.Root className="bg-primary  shadow-lg w-full h-32">

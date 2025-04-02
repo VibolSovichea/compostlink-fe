@@ -2,7 +2,7 @@ import { motion, AnimatePresence, animate, useMotionValue, useTransform } from "
 import { useState } from "react";
 import { useEffect } from "react";
 
-const numberConversion = (value: number) => {
+export const numberConversion = (value: number) => {
   if (value >= 1000000) {
     return `${(value / 1000000).toFixed(1)}M`;
   } else if (value >= 1000) {
@@ -15,7 +15,7 @@ const RollingNumber = ({ value }: { value: number }) => {
   const [isFirstRender, setIsFirstRender] = useState(true);
   const motionValue = useMotionValue(0);
   const rounded = useTransform(motionValue, (latest) => {
-    return numberConversion(Math.round(latest));
+    return Math.round(latest);
   });
 
   useEffect(() => {
