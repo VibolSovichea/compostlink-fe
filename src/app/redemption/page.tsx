@@ -70,6 +70,7 @@ export default function RedemptionsPage() {
       return reward ? { ...reward, redemptionId: redemption.id } : null;
     }).filter(Boolean);
     setRedemptionReward(rewards as Reward[]);
+    console.log(rewards);
   }, [rewardRedemption, rewardData])
 
   // useEffect(() => {
@@ -96,8 +97,8 @@ export default function RedemptionsPage() {
 
         <div className="flex flex-col gap-base">
           {[...redemptionReward].sort((a,b) => a.id - b.id)?.map((reward) => (
-            <RewardContent key={reward.id} reward={reward} onRedeem={setActiveRedemption} status={rewardRedemption?.find((redemption: Redemption) => {
-              return redemption.rewardId === reward.id
+            <RewardContent key={reward.redemptionId} reward={reward} onRedeem={setActiveRedemption} status={rewardRedemption?.find((redemption: Redemption) => {
+              return redemption.id === reward.redemptionId
             })?.status as RedemptionStatus}/>
           ))}
         </div>
