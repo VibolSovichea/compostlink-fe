@@ -3,24 +3,64 @@ import NewsCard from "@/components/home/news-card";
 import { User } from "@/redux/slices/data.types";
 import MButton from "@/components/m-ui/m-button";
 import QrModal from "../qr-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StatisticCard from "../statistc-card";
 import BlogModal from "../blog-modal";
 import { blogs } from "@/utils/mockData";
+import AchievementDialog from "@/components/shared/achievement-dialog";
+import { useGetWasteDonationByUserIdQuery } from "@/redux/slices/dataSlice";
 
 interface UserHomePageProps {
   userData: User;
+}
+
+interface AchievementStatus {
+  lastConfirmedWeight: number;
+  lastConfirmedAt: string;
 }
 
 const UserHomePage = ({ userData }: UserHomePageProps) => {
   const [open, setOpen] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
   const [blogId, setBlogId] = useState<number | null>(null);
+  const [achievementOpen, setAchievementOpen] = useState(false);
+  const { data: wasteDonation } = useGetWasteDonationByUserIdQuery(userData.id.toString());
+
+  const handleConfirmAchievement = () => {
+    if (!wasteDonation?.totalWeight) return;
+    
+    const newStatus: AchievementStatus = {
+      lastConfirmedWeight: wasteDonation.totalWeight,
+      lastConfirmedAt: new Date().toISOString()
+    };
+
+    localStorage.setItem("achievementStatus", JSON.stringify(newStatus));
+    setAchievementOpen(false);
+  }
   
   const handleBlogOpen = (blogId: number) => {
     setBlogOpen(true);
     setBlogId(blogId);
   }
+
+  useEffect(() => {
+    if (!wasteDonation?.totalWeight) return;
+
+    const storedStatus = localStorage.getItem("achievementStatus");
+    const achievementStatus: AchievementStatus = storedStatus 
+      ? JSON.parse(storedStatus)
+      : { lastConfirmedWeight: 0, lastConfirmedAt: "" };
+
+    const currentWeight = wasteDonation.totalWeight;
+    const thresholds = [10, 5000, 10000, 25000, 50000, 100000];
+    
+    const lastThreshold = thresholds.find(t => achievementStatus.lastConfirmedWeight >= t) || 0;
+    const nextThreshold = thresholds.find(t => currentWeight >= t && t > lastThreshold);
+
+    if (nextThreshold && currentWeight >= nextThreshold) {
+      setAchievementOpen(true);
+    }
+  }, [wasteDonation]);
 
   return (
     <div className="flex flex-col gap-base mt-base">
@@ -66,6 +106,18 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
         onOpenChange={setOpen}
         id={userData.id.toString()}
         type="wastedonation"
+      />
+
+      <AchievementDialog
+        open={achievementOpen}
+        onClose={(confirmed) => {
+          if (confirmed) {
+            handleConfirmAchievement();
+          } else {
+            setAchievementOpen(false);
+          }
+        }}
+        wasteProgress={wasteDonation?.totalWeight ?? 0}
       />
     </div>
   );
