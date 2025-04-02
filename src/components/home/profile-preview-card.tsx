@@ -25,7 +25,7 @@ const ProfilePreviewCard = ({ points, sticky = false, variant = "user" }: Profil
         </div>
         <div className="flex">
           <div className="flex flex-1 flex-col gap-2">
-            <div className="text-sm text-white capitalize">Main balance</div>
+            <div className="text-sm text-white capitalize">Rewards points</div>
             <div className="text-secondary font-bold text-3xl">
               <RollingNumber value={points} />
             </div>

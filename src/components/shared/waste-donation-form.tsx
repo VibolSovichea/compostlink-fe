@@ -10,10 +10,12 @@ import MButton from "@/components/m-ui/m-button";
 import MSelect from "@/components/m-ui/m-select";
 import MFormInput from "@/components/m-ui/m-input";
 import { useWasteDonationMutation } from "@/redux/slices/dataSlice";
+import { numberConversion } from "@/animation/rolling-number";
 
 interface WasteDonationFormProps {
   facilityId: string;
   generatorId: string;
+  onSuccess: () => void;
 }
 
 // Please use this
@@ -31,7 +33,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const WasteDonationForm = ({facilityId, generatorId}: WasteDonationFormProps) => {
+const WasteDonationForm = ({facilityId, generatorId, onSuccess}: WasteDonationFormProps) => {
   const [wasteDonation, {isLoading: isWasteDonationLoading}] = useWasteDonationMutation();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -70,8 +72,7 @@ const WasteDonationForm = ({facilityId, generatorId}: WasteDonationFormProps) =>
       }).unwrap();
 
       toast.success("Waste donation successful");
-      window.location.href = "/home";
-
+      onSuccess();
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -87,7 +88,7 @@ const WasteDonationForm = ({facilityId, generatorId}: WasteDonationFormProps) =>
 
         <div className="text-center text-primary ">
           <p>Reward Points</p>
-          <p className="text-[500%] font-bold">{Number(form.watch("weight"))/10 * 1}</p>
+          <p className="text-[500%] font-bold">{numberConversion(Number(form.watch("weight"))/10 * 1)}</p>
         </div>
 
         <Stack>
