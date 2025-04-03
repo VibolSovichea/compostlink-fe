@@ -3,35 +3,40 @@ import NewsCard from "@/components/home/news-card";
 import { User } from "@/redux/slices/data.types";
 import MButton from "@/components/m-ui/m-button";
 import QrModal from "../qr-modal";
-import { FaArrowRight } from "react-icons/fa";
 import { useState } from "react";
 
 interface UserHomePageProps {
-  userData: User
+  userData: User;
 }
 
 const UserHomePage = ({ userData }: UserHomePageProps) => {
-  const [open, setOpen] = useState(false);  
+  const [open, setOpen] = useState(false);
   return (
-    <>
+    <div className="flex flex-col gap-base">
       <ProfilePreviewCard points={userData.totalPoint} />
-      <div className="flex justify-center">
-        <MButton
-          variant="primary"
-          className="flex items-center w-48 justify-center py-2 rounded-xl bg-primary text-white shadow-lg mt-2"
-          onClick={() => setOpen(true)}
-        >
-          <span className="text-lg font-medium"> Get QR Code</span>
-          <span className="w-7 h-7 bg-white rounded-full flex items-center justify-center">
-            <FaArrowRight className="text-green-500 w-4 h-4" />
-          </span>
-        </MButton>
-      </div>
-
-      <NewsCard />
-      <QrModal open={open} onOpenChange={setOpen} userId={userData.id.toString()} />
-    </>
-  )
-}
+      <MButton
+        variant="primary"
+        full
+        className="text-white"
+        onClick={() => setOpen(true)}
+      >
+        Share your QR
+      </MButton>
+      <span className="flex items-center gap-2">
+        <p className="text-black text-sm font-bold">News</p>
+        <div className="w-full h-[1px] bg-gray-300"></div>
+      </span>
+      <NewsCard data="https://www.youtube.com/embed/oFlsjRXbnSk?si=65HpkjACmfiVLduF" />
+      <NewsCard data="https://www.youtube.com/embed/pi-vsJOaduk?si=im4Fy46vqGwaTQE3" />
+      <NewsCard data="https://www.youtube.com/embed/eO4HdrIXnVU?si=uGuh9SZxl9Qi9kAg" />
+      <QrModal
+        open={open}
+        onOpenChange={setOpen}
+        id={userData.id.toString()}
+        type="wastedonation"
+      />
+    </div>
+  );
+};
 
 export default UserHomePage;
