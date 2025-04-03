@@ -16,6 +16,17 @@ export interface WasteDonation {
   pointsAwarded: number;
   donationCount?: number;
   totalWeight?: number;
+  donations?: Donation[];
+}
+
+export interface Donation {
+  donatedAt: string;
+  facilityName: string;
+  id: number;
+  pointsAwarded: number;
+  status: string;
+  wasteType: string;
+  weight: number;
 }
 
 export interface Location {
