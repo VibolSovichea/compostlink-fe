@@ -17,6 +17,7 @@ import { Reward } from "@/redux/slices/data.types";
 import Image from "next/image";
 import MButton from "@/components/m-ui/m-button";
 import toast from "react-hot-toast";
+import Loading from "@/components/shared/loading";
 
 export default function RedemptionsPage() {
   const { id } = useParams();
@@ -106,9 +107,7 @@ export default function RedemptionsPage() {
           </div>
         </div>
       ) : isLoading ? (
-        <div className="h-[80vh] flex flex-col items-center justify-center">
-          <Loader2 className="size-10 animate-spin text-primary" />
-        </div>
+        <Loading />
       ) : (
         <div className="h-[80vh] flex flex-col items-center justify-center gap-2">
           <CircleX className="size-16 text-red-500" />

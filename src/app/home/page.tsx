@@ -9,7 +9,7 @@ import Base from "@/components/shared/base-layout";
 import { useProfileQuery } from "@/redux/slices/dataSlice";
 import UserHomePage from "@/components/home/user/user-home-page";
 import FacilityHomePage from "@/components/home/facility/facility-home-page";
-import { Loader2 } from "lucide-react";
+import Loading from "@/components/shared/loading";
 export default function HomePage() {
   const { userRole } = useAuth();
   const userId = Cookies.get('user_id');
@@ -31,9 +31,7 @@ export default function HomePage() {
       </Base>
     ) : (
       <Base hideNavigation={true}>
-        <div className="h-[60vh] flex flex-col items-center justify-center">
-          <Loader2 className="size-10 animate-spin text-primary" />
-        </div>
+        <Loading />
       </Base>
     )
   ), [userRole, userData]);

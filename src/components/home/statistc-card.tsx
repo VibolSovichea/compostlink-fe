@@ -7,6 +7,7 @@ import { getDailyCompostQuote } from "@/utils/random-quotes";
 import { useGetWasteDonationByFacilityIdQuery, useGetWasteDonationByUserIdQuery } from "@/redux/slices/dataSlice";
 import { useEffect, useMemo, useState } from "react";
 import { WasteDonation } from "@/redux/slices/data.types";
+import { useRouter } from "next/navigation";
 
 interface StatisticCardProps {
   userId: string;
@@ -14,6 +15,7 @@ interface StatisticCardProps {
 }
 
 const StatisticCard = ({ userId, role }: StatisticCardProps) => {
+  const router = useRouter();
   const { data: wasteDonation } = useGetWasteDonationByUserIdQuery(userId ?? "");
   const { data : wasteRecieved } = useGetWasteDonationByFacilityIdQuery(userId ?? "");
   const [totalWasteDonation, setTotalWasteDonation] = useState(0);
@@ -31,7 +33,7 @@ const StatisticCard = ({ userId, role }: StatisticCardProps) => {
   }, [wasteDonation, wasteRecieved]);
 
   return useMemo(() => (
-    <Card.Root className="bg-primary  shadow-lg w-full h-32">
+    <Card.Root className="bg-primary  shadow-lg w-full h-32" onClick={() => router.push("/statistic")}>
       <Card.Body className="flex flex-row items-center size-full">
         <div className="flex flex-col gap-1 flex-1">
           <p className="text-md font-semibold text-text_light tracking-tight">{getDailyCompostQuote()}</p>

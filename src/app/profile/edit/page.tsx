@@ -9,6 +9,7 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { useEffect, useMemo, useState } from "react";
 import { User } from "@/redux/slices/data.types";
+import Loading from "@/components/shared/loading";
 
 export default function ProfileEditPage() {
   const userId = Cookies.get("user_id");
@@ -44,9 +45,7 @@ export default function ProfileEditPage() {
           <ProfileEditForm profile={profile} />
         </>
       ) : (
-        <div className="h-[80vh] flex flex-col items-center justify-center">
-          <Loader2 className="size-10 animate-spin text-primary" />
-        </div>
+        <Loading />
       )}
     </Base>
   ), [profile]);

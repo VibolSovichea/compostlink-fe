@@ -36,6 +36,16 @@ export default {
         "subtitle" : "32px",
         "label" : "16px",
         "body" : "14px",
+      },
+      keyframes: {
+        "pulse-dot": {
+          "0%": { transform: "scale(1)", opacity: "1" },
+          "50%": { transform: "scale(1.5)", opacity: "0.5" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        }
+      },
+      animation: {
+        "pulse-dot": "pulse-dot 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       }
     },
   },

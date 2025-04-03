@@ -9,7 +9,7 @@ interface AchievementLevel {
   badge: string;
 }
 
-const ACHIEVEMENT_LEVELS: AchievementLevel[] = [
+export const ACHIEVEMENT_LEVELS: AchievementLevel[] = [
   { threshold: 100000, badge: badges.hundred },
   { threshold: 50000, badge: badges.fifty },
   { threshold: 25000, badge: badges.twentyFive },
@@ -22,28 +22,14 @@ interface AchievementDialogProps {
   wasteProgress: number;
   open: boolean;
   onClose: (confirmed?: boolean) => void;
+  achievement: AchievementLevel | null;
 }
 
-const AchievementDialog = ({ wasteProgress, open, onClose }: AchievementDialogProps) => {
-  const [achievement, setAchievement] = useState<string>(badges.one);
-  
-  useEffect(() => {
-    if (!wasteProgress) return;
-    
-    const currentLevel = ACHIEVEMENT_LEVELS.find(level => wasteProgress >= level.threshold);
-    if (currentLevel) {
-      setAchievement(currentLevel.badge);
-    }
-  }, [open, wasteProgress]);
-
-  const handleClose = () => {
-    onClose(true);
-  }
-
+const AchievementDialog = ({ wasteProgress, open, onClose, achievement }: AchievementDialogProps) => {
   return useMemo(() => (
     <MDialog
       open={open}
-      onOpenChange={handleClose}
+      onOpenChange={() => onClose(false)}
       closeTrigger={false}
       closeOnInteractOutside={false}
       closeOnEscape={false}
@@ -54,9 +40,15 @@ const AchievementDialog = ({ wasteProgress, open, onClose }: AchievementDialogPr
             <p className="text-text_dark text-sm">You have earned a new achievement</p>
           </div>
           <div className="aspect-square size-40">
-            <Image src={achievement} alt="" width={150} height={150} className="object-cover" />
+            <Image 
+              src={achievement?.badge ?? badges.one} 
+              alt="" 
+              width={150} 
+              height={150} 
+              className="object-cover" 
+            />
           </div>
-          <MButton full variant="primary" onClick={handleClose}>
+          <MButton full variant="primary" onClick={() => onClose(true)}>
             Confirm Achievement
           </MButton>
         </div>

@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { useEffect, useMemo, useState } from "react";
 import { User } from "@/redux/slices/data.types";
 import { Loader2 } from "lucide-react";
+import Loading from "@/components/shared/loading";
 
 export default function ProfilePage() {
   const userId = Cookies.get("user_id");
@@ -76,9 +77,7 @@ export default function ProfilePage() {
       </Base>
     ) : (
       <Base hideNavigation={true}>
-        <div className="h-[80vh] flex flex-col items-center justify-center">
-          <Loader2 className="size-10 animate-spin text-primary" />
-        </div>
+        <Loading />
       </Base>
     )
   ), [profile]);

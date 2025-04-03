@@ -1,4 +1,4 @@
-import { Home, Award, MapPin, User } from "lucide-react";
+import { Home, Award, MapPin, User, Trophy } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
 const MBottomNavigation = () => {
@@ -17,6 +17,12 @@ const MBottomNavigation = () => {
       isActive: pathname === "/reward",
       label: "Reward",
       path: "/reward",
+    },
+    {
+      icon: Trophy,
+      isActive: pathname === "/achievement",
+      label: "Achievement",
+      path: "/achievement",
     },
     {
       icon: MapPin,

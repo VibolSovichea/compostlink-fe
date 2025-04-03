@@ -16,6 +16,7 @@ import { redemptionMockData, rewardMockData } from "@/utils/mockData";
 import { Redemption, RedemptionStatus } from "@/redux/slices/data.types";
 import { Reward } from "@/redux/slices/data.types";
 import Image from "next/image";
+import Loading from "@/components/shared/loading";
 
 interface RewardContentProps {
   reward: any;
@@ -103,9 +104,7 @@ export default function RedemptionsPage() {
           ))}
         </div>
       ) : isLoading ? (
-        <div className="h-[60vh] flex flex-col items-center justify-center">
-          <Loader2 className="size-10 animate-spin text-primary" />
-        </div>
+        <Loading />
       ) : (
         <div className="h-[60vh] flex flex-col items-center justify-center gap-2">
           <CircleX className="size-16 text-red-500" />

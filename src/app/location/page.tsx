@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import ProfilePreviewCard from "@/components/home/profile-preview-card";
 import Cookies from "js-cookie";
+import Loading from "@/components/shared/loading";
 
 export default function LocationPage() {
   const userId = Cookies.get("user_id");
@@ -40,9 +41,7 @@ export default function LocationPage() {
           <LocationList locations={locations} onSelect={handleLocationSelect} />
         </>
       ) : isLoading ? (
-        <div className="h-[80vh] flex flex-col items-center justify-center">
-          <Loader2 className="size-10 animate-spin text-primary" />
-        </div>
+        <Loading />
       ) : (
         <div className="h-[80vh] flex flex-col items-center justify-center">
           <p className="text-primary text-sm">No locations found</p>

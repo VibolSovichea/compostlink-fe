@@ -5,6 +5,13 @@ import badgeTwentyFive from "@/../public/assets/badge/badge-25.png";
 import badgeFifty from "@/../public/assets/badge/badge-50.png";
 import badgeHundred from "@/../public/assets/badge/badge-100.png";
 
+import treeOne from "@/../public/assets/lotties/tree-good.json";
+import treeTwo from "@/../public/assets/lotties/tree-medium.json";
+import treeThree from "@/../public/assets/lotties/tree-bad.json";
+import treeFour from "@/../public/assets/lotties/tree-worse.json";
+import birds from "@/../public/assets/lotties/birds-animation.json";
+import recycleSuccess from "@/../public/assets/lotties/recycle-success.json";
+
 export const badges = {
   one: badgeOne.src,
   five: badgeFive.src,
@@ -12,4 +19,13 @@ export const badges = {
   twentyFive: badgeTwentyFive.src,
   fifty: badgeFifty.src,
   hundred: badgeHundred.src,
+};
+
+export const animations = {
+  treeOne,
+  treeTwo,
+  treeThree,
+  treeFour,
+  birds,
+  recycleSuccess,
 };

@@ -7,14 +7,22 @@ import { useEffect, useState } from "react";
 import StatisticCard from "../statistc-card";
 import BlogModal from "../blog-modal";
 import { blogs } from "@/utils/mockData";
-import AchievementDialog from "@/components/shared/achievement-dialog";
+import AchievementDialog, { ACHIEVEMENT_LEVELS } from "@/components/shared/achievement-dialog";
 import { useGetWasteDonationByUserIdQuery } from "@/redux/slices/dataSlice";
+import Loading from "@/components/shared/loading";
 
 interface UserHomePageProps {
   userData: User;
 }
 
+interface Achievement {
+  threshold: number;
+  badge: string;
+  confirmedAt: string;
+}
+
 interface AchievementStatus {
+  achievements: Achievement[];
   lastConfirmedWeight: number;
   lastConfirmedAt: string;
 }
@@ -24,18 +32,39 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
   const [blogOpen, setBlogOpen] = useState(false);
   const [blogId, setBlogId] = useState<number | null>(null);
   const [achievementOpen, setAchievementOpen] = useState(false);
+  const [currentAchievement, setCurrentAchievement] = useState<Achievement | null>(null);
   const { data: wasteDonation } = useGetWasteDonationByUserIdQuery(userData.id.toString());
 
   const handleConfirmAchievement = () => {
-    if (!wasteDonation?.totalWeight) return;
+    if (!wasteDonation?.totalWeight || !currentAchievement) return;
+    
+    const storedStatus = localStorage.getItem("achievementStatus");
+    const achievementStatus: AchievementStatus = storedStatus 
+      ? JSON.parse(storedStatus)
+      : { 
+          achievements: [], 
+          lastConfirmedWeight: 0, 
+          lastConfirmedAt: "" 
+        };
+
+    const now = new Date().toISOString();
     
     const newStatus: AchievementStatus = {
+      achievements: [
+        ...achievementStatus.achievements,
+        {
+          threshold: currentAchievement.threshold,
+          badge: currentAchievement.badge,
+          confirmedAt: now
+        }
+      ],
       lastConfirmedWeight: wasteDonation.totalWeight,
-      lastConfirmedAt: new Date().toISOString()
+      lastConfirmedAt: now
     };
 
     localStorage.setItem("achievementStatus", JSON.stringify(newStatus));
     setAchievementOpen(false);
+    setCurrentAchievement(null);
   }
   
   const handleBlogOpen = (blogId: number) => {
@@ -49,15 +78,24 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
     const storedStatus = localStorage.getItem("achievementStatus");
     const achievementStatus: AchievementStatus = storedStatus 
       ? JSON.parse(storedStatus)
-      : { lastConfirmedWeight: 0, lastConfirmedAt: "" };
+      : { 
+          achievements: [], 
+          lastConfirmedWeight: 0, 
+          lastConfirmedAt: "" 
+        };
 
     const currentWeight = wasteDonation.totalWeight;
-    const thresholds = [10, 5000, 10000, 25000, 50000, 100000];
     
-    const lastThreshold = thresholds.find(t => achievementStatus.lastConfirmedWeight >= t) || 0;
-    const nextThreshold = thresholds.find(t => currentWeight >= t && t > lastThreshold);
+    const nextAchievement = ACHIEVEMENT_LEVELS.find(level => {
+      const isHighEnough = currentWeight >= level.threshold;
+      const notYetAchieved = !achievementStatus.achievements.some(
+        a => a.threshold === level.threshold
+      );
+      return isHighEnough && notYetAchieved;
+    });
 
-    if (nextThreshold && currentWeight >= nextThreshold) {
+    if (nextAchievement) {
+      setCurrentAchievement(nextAchievement as Achievement);
       setAchievementOpen(true);
     }
   }, [wasteDonation]);
@@ -86,14 +124,14 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
         title: blogs[0].title,
         description: blogs[0].paragraph_1,
       }} onClick={() => handleBlogOpen(blogs[0].id)} />
-      <NewsCard icon="LeafyGreen" data={{
+      {/* <NewsCard icon="LeafyGreen" data={{
         title: blogs[1].title,
         description: blogs[1].paragraph_1,
       }} onClick={() => handleBlogOpen(blogs[1].id)} />
       <NewsCard icon="Salad" data={{
         title: blogs[2].title,
         description: blogs[2].paragraph_1,
-      }} onClick={() => handleBlogOpen(blogs[2].id)} />
+      }} onClick={() => handleBlogOpen(blogs[2].id)} /> */}
 
       <BlogModal
         open={blogOpen}
@@ -115,9 +153,11 @@ const UserHomePage = ({ userData }: UserHomePageProps) => {
             handleConfirmAchievement();
           } else {
             setAchievementOpen(false);
+            setCurrentAchievement(null);
           }
         }}
         wasteProgress={wasteDonation?.totalWeight ?? 0}
+        achievement={currentAchievement}
       />
     </div>
   );
