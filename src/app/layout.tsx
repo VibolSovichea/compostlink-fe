@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Provider as ChakraProvider } from "@/components/ui/provider";
 import { AuthProvider } from "@/provider/authProvider";
+import ReduxProvider from "@/provider/reduxProvider";
+import Cookies from "js-cookie";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "CompostLink",
   description: "Save the planet, compost your food waste",
+  icons: {
+    icon: "/assets/favicon.ico",
+  }
 };
 
 export default function RootLayout({
@@ -31,7 +37,10 @@ export default function RootLayout({
       >
         <ChakraProvider>
           <AuthProvider>
-            {children}
+            <ReduxProvider token={Cookies.get("access_token") || ""}>
+              {children}
+              <Toaster />
+            </ReduxProvider>
           </AuthProvider>
         </ChakraProvider>
       </body>

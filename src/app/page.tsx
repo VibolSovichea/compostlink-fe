@@ -9,15 +9,15 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   return (
-    <Base insideClassName="items-center gap-half" hideNavigation={true}>
-      <div className="text-title text-black flex flex-col items-center py-double mt-16">
-        <div className="text-center">
-          Welcome to <span className="font-bold text-primary">compy</span>
+    <Base hideNavigation={true}>
+      <div className="text-title text-text_dark flex flex-col items-center mt-16">
+        <div className="text-center leading-12">
+          Welcome to <br></br><span className="font-bold text-primary">CompostLink</span>
         </div>
-        <p className="text-body text-black">Connecting Compost to the Future</p>
+        <p className="text-body text-text_dark mt-8">Connecting Compost to the Future</p>
       </div>
 
-      <div className="flex-1 flex items-center">
+      <div className="flex items-center justify-center mt-20">
         <Image
           src={logo}
           alt="CompostLink Logo"
@@ -28,18 +28,22 @@ export default function Home() {
         />
       </div>
 
-      <div className="flex flex-col gap-medium w-full">
+      <div className="flex flex-col gap-base w-full absolute bottom-base right-0 left-0 px-base">
         <MButton
           variant="primary"
           full
           onClick={() => router.push("/auth/signup")}
-        >join compy</MButton>
+        >
+          Become a comper
+        </MButton>
         <MButton
           variant="secondary"
           full
           onClick={() => router.push("/auth/signin")}
-        >already a comper</MButton>
+        >
+          Already a comper
+        </MButton>
       </div>
     </Base>
-  )
+  );
 }

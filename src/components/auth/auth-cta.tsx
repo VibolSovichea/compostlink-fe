@@ -12,7 +12,7 @@ interface AuthCTAProps {
 const AuthCTA:React.FC<AuthCTAProps> = ({title, label, onClick}) => {
 
   return (
-    <div className="text-center text-black">
+    <div className="text-center text-text_dark">
       <p>{title}</p>
       <MButton 
         className="bg-inherit shadow-none hover:bg-inherit text-base text-primary font-bold"

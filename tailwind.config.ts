@@ -9,11 +9,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#3BDA34",
-        secondary: "#FEFFF4",
+        primary: "#01963a",
+        secondary: "#FFFFFF",
+        text_light: "#FFFFFF",
+        text_dark: "#000000",
         muted: "#D9D9D9",
         dark: "#1A1A1A",
         light: "#F2F2F2",
+        background: "#F5F5F5",
       },
       spacing: {
 				'xs': '4px',
@@ -24,18 +27,25 @@ export default {
 				'2xl': '40px',
 				'3xl': '48px',
 
-        "small": "0.5rem",
-				"quarter": "0.75rem",
-        "medium": "1rem",
-				"half": "1.5rem",
-        "large": "2rem",
-				"base": "3rem",
+        "half" : "0.5rem",
+        "base" : "1rem",
+        "large" : "2rem"
 			},
       fontSize: {
         "title" : "36px",
         "subtitle" : "32px",
         "label" : "16px",
         "body" : "14px",
+      },
+      keyframes: {
+        "pulse-dot": {
+          "0%": { transform: "scale(1)", opacity: "1" },
+          "50%": { transform: "scale(1.5)", opacity: "0.5" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        }
+      },
+      animation: {
+        "pulse-dot": "pulse-dot 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       }
     },
   },
