@@ -77,9 +77,6 @@ const WasteDonationForm = ({facilityId, generatorId, onSuccess}: WasteDonationFo
     } catch (error) {
       console.log(error);
     }
-    
-    console.log(updatedData);
-    console.log(facilityId, generatorId);
   };
 
   return (
@@ -93,7 +90,7 @@ const WasteDonationForm = ({facilityId, generatorId, onSuccess}: WasteDonationFo
 
         <Stack>
           <MSelect
-            options={["Mixed Waste", "Agricultural Waste", "Food Waste"]}
+            options={["Food Waste", "Vegetable Scraps"]}
             placeholder="Select Waste Type"
             onChange={(value) => form.setValue("wasteType", value)}
             label="Waste Type"
