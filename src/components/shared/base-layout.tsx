@@ -13,6 +13,7 @@ interface BaseProps {
   headerContent?: {
     username?: string;
     pageTitle?: string;
+    role?: "Facility" | "User";
   }
 }
 
@@ -51,6 +52,7 @@ const Base: React.FC<BaseProps> = ({
             username={headerContent?.username} 
             pageTitle={headerContent?.pageTitle} 
             onClick={handleHeaderClick}
+            role={headerContent?.role}
           />
         }
         <div className="flex-1 overflow-y-auto">
