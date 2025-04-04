@@ -19,6 +19,7 @@ const StatisticCard = ({ userId, role }: StatisticCardProps) => {
   const { data: wasteDonation } = useGetWasteDonationByUserIdQuery(userId ?? "");
   const { data : wasteRecieved } = useGetWasteDonationByFacilityIdQuery(userId ?? "");
   const [totalWasteDonation, setTotalWasteDonation] = useState(0);
+  const [donationTimeLine, setDonationTimeLine] = useState<string | null>(null);
 
   const lastDonation = useMemo(() => {
     if (!wasteDonation?.donations || wasteDonation.donations.length === 0) return null;
@@ -29,11 +30,14 @@ const StatisticCard = ({ userId, role }: StatisticCardProps) => {
 
   useEffect(() => {
     if (!wasteDonation) return;
+    const lastDonationDate = lastDonation?.donatedAt ? new Date(lastDonation?.donatedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : null;
 
     if (role === "user") {
       setTotalWasteDonation(wasteDonation.donationCount ?? 0);
+      setDonationTimeLine(lastDonationDate);
     } else {
       setTotalWasteDonation(wasteRecieved?.donationCount ?? 0);
+      setDonationTimeLine("April 1, 2025");
     }
   }, [wasteDonation, wasteRecieved]);
 
@@ -42,7 +46,7 @@ const StatisticCard = ({ userId, role }: StatisticCardProps) => {
       <Card.Body className="flex flex-row items-center size-full">
         <div className="flex flex-col gap-1 flex-1">
           <p className="text-md font-semibold text-text_light tracking-tight">{getDailyCompostQuote()}</p>
-          <p className="text-xs text-text_light tracking-tight">last compost: {lastDonation?.donatedAt ? new Date(lastDonation?.donatedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "N/A"}</p>
+          <p className="text-xs text-text_light tracking-tight">last compost: {donationTimeLine}</p>
         </div>
         <div className="flex flex-col gap-2 items-center justify-center size-24 relative">
           <Circle className="text-text_light absolute opacity-15 size-28" />

@@ -22,7 +22,7 @@ export default function HomePage() {
 
   return useMemo(() => (
     userData ? (
-      <Base hideNavigation={userRole === "User" ? false : true} headerVariant="default" headerContent={{ username: userData?.name }}>
+      <Base hideNavigation={userRole === "User" ? false : true} headerVariant="default" headerContent={{ username: userData?.name, role: userRole as "User" | "Facility" }}>
         {userRole === "User" ? (
           userData ? <UserHomePage userData={userData} /> : null
         ) : (
