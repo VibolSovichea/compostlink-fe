@@ -154,7 +154,7 @@ export default function StatisticPage() {
       <Base hideNavigation headerVariant="return-button" headerContent={{
         pageTitle: "Profile Statistics"
       }}>
-        <div className="relative space-y-base p-base">
+        <div className="relative space-y-base p-base no-scrollbar">
           <div className="flex flex-col items-center mt-base p-base gap-base rounded-lg">
             <div className="aspect-square size-24">
               <Image
@@ -211,7 +211,6 @@ export default function StatisticPage() {
           </div>
   
           <div className="flex items-center mt-base p-base gap-8 rounded-lg w-full">
-            {/* <p className="text-primary font-bold">Total Donations</p> */}
             <div className="flex flex-col gap-2 items-center justify-center size-24 relative">
               <Circle className="text-primary absolute opacity-15 size-28" />
               <span className="text-4xl font-bold text-primary">

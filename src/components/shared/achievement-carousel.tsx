@@ -24,7 +24,7 @@ const AchievementCarousel = () => {
   }, []);
 
   return (
-      <div className="flex gap-base p-base justify-items-center">
+      <div className="flex gap-base p-base justify-items-center no-scrollbar">
         {[...Array(achievements.length)].map((_, index) => {
           const achievement = achievements[index];
           return (
