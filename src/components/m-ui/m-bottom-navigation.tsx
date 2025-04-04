@@ -1,4 +1,4 @@
-import { Home, Award, MapPin, User, Trophy } from "lucide-react";
+import { Home, Award, MapPin, User } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
 const MBottomNavigation = () => {
@@ -17,12 +17,6 @@ const MBottomNavigation = () => {
       isActive: pathname === "/reward",
       label: "Reward",
       path: "/reward",
-    },
-    {
-      icon: Trophy,
-      isActive: pathname === "/achievement",
-      label: "Achievement",
-      path: "/achievement",
     },
     {
       icon: MapPin,
@@ -53,9 +47,9 @@ const MBottomNavigation = () => {
                 router.push(item.path || "/home");
               }}
             >
-              {item.label === "Qr" ? (
+              {item.label === "Achievement" ? (
                 <div className="flex justify-center items-center">
-                  <item.icon size={64} className="bg-white rounded-full p-3 mt-[-40px] text-primary shadow-xl" />
+                  <item.icon size={24} className={`${item.isActive ? "fill-white text-white" : "text-white"}`} />
                 </div>
               ) : (
                 <div className="flex-1 flex flex-col items-center gap-1">

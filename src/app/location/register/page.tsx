@@ -2,7 +2,6 @@
 
 import Base from "@/components/shared/base-layout";
 import { useRegisterLocationMutation } from "@/redux/slices/dataSlice";
-import ProfilePreviewCard from "@/components/home/profile-preview-card";
 import CompostLinkMap from "@/components/shared/map-layout";
 import Cookies from "js-cookie";
 import MDialog from "@/components/m-ui/m-dailog";
@@ -96,18 +95,9 @@ export default function LocationRegisterPage() {
             />
             <div className="flex flex-row gap-2 justify-end">
               <MButton
-                variant="destructive"
-                onClick={() => {
-                  setIsPopupOpen(false);
-                }}
-              >
-                Cancel
-              </MButton>
-              <MButton
-                className="text-white"
+                full
                 variant="primary"
                 onClick={() => {
-                  console.log("Location", location);
                   onConfirmLocation();
                   setIsPopupOpen(false);
                 }}

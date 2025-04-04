@@ -12,6 +12,9 @@ import treeFour from "@/../public/assets/lotties/tree-worse.json";
 import birds from "@/../public/assets/lotties/birds-animation.json";
 import recycleSuccess from "@/../public/assets/lotties/recycle-success.json";
 
+import composterOne from "@/../public/assets/images/user-1.png";
+import composterTwo from "@/../public/assets/images/user-2.png";
+
 export const badges = {
   one: badgeOne.src,
   five: badgeFive.src,
@@ -19,6 +22,11 @@ export const badges = {
   twentyFive: badgeTwentyFive.src,
   fifty: badgeFifty.src,
   hundred: badgeHundred.src,
+};
+
+export const avatars = {
+  composterOne,
+  composterTwo
 };
 
 export const animations = {

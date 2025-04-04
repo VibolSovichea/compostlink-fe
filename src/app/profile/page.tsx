@@ -4,14 +4,13 @@ import Base from "@/components/shared/base-layout";
 import { useAuth } from "@/provider/authProvider";
 import Link from "next/link";
 import { FiChevronRight } from "react-icons/fi";
-import UserIcon from "@/../public/assets/icons/avatar-icon.svg";
 import Image from "next/image";
 import { useProfileQuery } from "@/redux/slices/dataSlice";
 import Cookies from "js-cookie";
 import { useEffect, useMemo, useState } from "react";
 import { User } from "@/redux/slices/data.types";
-import { Loader2 } from "lucide-react";
 import Loading from "@/components/shared/loading";
+import { avatars } from "@/utils/assets";
 
 export default function ProfilePage() {
   const userId = Cookies.get("user_id");
@@ -43,11 +42,11 @@ export default function ProfilePage() {
         <div className="flex justify-center my-10 flex-col items-center gap-base">
           <div className="aspect-square size-20">
             <Image
-              src={UserIcon}
+              src={profile?.role === "Facility" ? avatars.composterTwo : avatars.composterOne}
               alt=""
               width={100}
               height={100}
-              className="size-full"
+              className="size-full rounded-full"
             />
           </div>
           <p className="text-lg text-text_dark">{profile?.name}</p>

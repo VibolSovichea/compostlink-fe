@@ -1,10 +1,12 @@
-import UserIcon from "@/../public/assets/icons/avatar-icon.svg";
+
 import Image from "next/image";
 import { ArrowLeft, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { avatars } from "@/utils/assets";
 
 interface HeaderProps {
   username?: string;
+  role?: "Facility" | "User";
   pageTitle?: string;
   variant?: "default" | "return-button";
   onClick?: () => void;
@@ -25,7 +27,7 @@ const ReturnButton = ({ pageTitle }: HeaderProps) => {
   )
 }
 
-const Header = ({ username, pageTitle, variant = "default", onClick }: HeaderProps) => {
+const Header = ({ username, role, pageTitle, variant = "default", onClick }: HeaderProps) => {
   return (
     <>
       {variant === "return-button" ? (
@@ -34,11 +36,11 @@ const Header = ({ username, pageTitle, variant = "default", onClick }: HeaderPro
         <div className="flex h-14 bg-inherit items-center sticky top-0 z-10 bg-secondary gap-base px-base">
           <div className="flex items-center gap-2 flex-1" onClick={onClick}>
             <Image
-              src={UserIcon}
+              src={role === "Facility" ? avatars.composterTwo : avatars.composterOne}
               alt=""
               width={100}
               height={100}
-              className="size-10"
+              className="size-10 rounded-full"
             />
             <p className="text-primary text-sm">Welcome, <span className="font-bold">{username}</span></p>
           </div>
