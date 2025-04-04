@@ -7,7 +7,6 @@ import {
   useRewardRedemptionByIdQuery,
 } from "@/redux/slices/dataSlice";
 import { CircleX, Gift, Loader2 } from "lucide-react";
-import UserIcon from "@/../public/assets/icons/avatar-icon.svg";
 
 import { useParams, useRouter } from "next/navigation";
 import { rewardMockData, redemptionMockData } from "@/utils/mockData";
@@ -18,6 +17,7 @@ import Image from "next/image";
 import MButton from "@/components/m-ui/m-button";
 import toast from "react-hot-toast";
 import Loading from "@/components/shared/loading";
+import { avatars } from "@/utils/assets";
 
 export default function RedemptionsPage() {
   const { id } = useParams();
@@ -61,7 +61,7 @@ export default function RedemptionsPage() {
     try {
       const result = await inactivateRedemption(redemptionId);
       toast.success("Redemption confirmed");
-      router.push("/redemption");
+      router.push("/home");
     } catch (error) {
       console.error(error);
       toast.error("Failed to confirm redemption");
@@ -78,7 +78,7 @@ export default function RedemptionsPage() {
           <div className="flex items-center">
             <div className="aspect-square mx-auto size-24  border-2 border-gray-100 rounded-lg shadow-lg p-base">
               <Image
-                src={UserIcon}
+                src={avatars.composterOne}
                 alt=""
                 width={100}
                 height={100}

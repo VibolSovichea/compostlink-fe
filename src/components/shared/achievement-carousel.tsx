@@ -1,6 +1,5 @@
 "use client";
 
-import Base from "@/components/shared/base-layout";
 import { Trophy } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -13,21 +12,20 @@ interface Achievement {
 
 const TOTAL_SLOTS = 24;
 
-export default function AchievementPage() {
+const AchievementCarousel = () => {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
 
   useEffect(() => {
     const storedData = localStorage.getItem("achievementStatus");
     if (storedData) {
       const { achievements } = JSON.parse(storedData);
-      setAchievements(achievements);
+      setAchievements(achievements.sort((a: Achievement, b: Achievement) => a.threshold - b.threshold));
     }
   }, []);
 
   return (
-    <Base>
-      <div className="grid grid-cols-3 gap-base p-base justify-items-center">
-        {[...Array(TOTAL_SLOTS)].map((_, index) => {
+      <div className="flex gap-base p-base justify-items-center">
+        {[...Array(achievements.length)].map((_, index) => {
           const achievement = achievements[index];
           return (
             <div 
@@ -49,6 +47,7 @@ export default function AchievementPage() {
           );
         })}
       </div>
-    </Base>
   );
 } 
+
+export default AchievementCarousel;
